@@ -1,9 +1,0 @@
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\bin\Debug\FleetManagement.dacpac
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\bin\Debug\FleetManagement.dll
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\bin\Debug\FleetManagement.pdb
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\obj\Debug\FleetManagement.dll
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\obj\Debug\FleetManagement.pdb
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\obj\Debug\Model.xml
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\obj\Debug\refactor.xml
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\obj\Debug\postdeploy.sql
-c:\users\monika\documents\visual studio 2015\Projects\FleetManagement\FleetManagement\obj\Debug\predeploy.sql
