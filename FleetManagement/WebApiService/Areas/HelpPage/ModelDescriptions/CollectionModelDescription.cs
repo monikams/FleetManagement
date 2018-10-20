@@ -1,4 +1,4 @@
-namespace DataAccessService.Areas.HelpPage.ModelDescriptions
+namespace WebApiService.Areas.HelpPage.ModelDescriptions
 {
     public class CollectionModelDescription : ModelDescription
     {

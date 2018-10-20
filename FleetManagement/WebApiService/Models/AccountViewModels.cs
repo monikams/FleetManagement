@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccessService.Models
+namespace WebApiService.Models
 {
     // Models returned by AccountController actions.
 

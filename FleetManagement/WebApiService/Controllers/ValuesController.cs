@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace DataAccessService.Controllers
+namespace WebApiService.Controllers
 {
     [Authorize]
     public class ValuesController : ApiController

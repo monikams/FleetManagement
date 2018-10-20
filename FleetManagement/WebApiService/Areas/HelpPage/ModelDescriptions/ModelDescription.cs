@@ -1,6 +1,6 @@
 using System;
 
-namespace DataAccessService.Areas.HelpPage.ModelDescriptions
+namespace WebApiService.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

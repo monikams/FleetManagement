@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace DataAccessService.Areas.HelpPage.ModelDescriptions
+namespace WebApiService.Areas.HelpPage.ModelDescriptions
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace DataAccessService
+namespace WebApiService
 {
     public class BundleConfig
     {

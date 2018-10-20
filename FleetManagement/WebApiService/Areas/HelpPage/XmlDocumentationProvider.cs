@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using DataAccessService.Areas.HelpPage.ModelDescriptions;
+using WebApiService.Areas.HelpPage.ModelDescriptions;
 
-namespace DataAccessService.Areas.HelpPage
+namespace WebApiService.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

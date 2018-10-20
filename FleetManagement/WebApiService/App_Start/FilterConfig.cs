@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace DataAccessService
+namespace WebApiService
 {
     public class FilterConfig
     {

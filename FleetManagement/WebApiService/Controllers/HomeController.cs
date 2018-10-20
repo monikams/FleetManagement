@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace DataAccessService.Controllers
+namespace WebApiService.Controllers
 {
     public class HomeController : Controller
     {

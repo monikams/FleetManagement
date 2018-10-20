@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using DataAccessService.Areas.HelpPage.ModelDescriptions;
-using DataAccessService.Areas.HelpPage.Models;
+using WebApiService.Areas.HelpPage.ModelDescriptions;
+using WebApiService.Areas.HelpPage.Models;
 
-namespace DataAccessService.Areas.HelpPage.Controllers
+namespace WebApiService.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.
