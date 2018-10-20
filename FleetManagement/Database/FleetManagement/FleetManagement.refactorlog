@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="9da24111-774f-42c1-ae64-35fea52bdc45" ChangeDateTime="10/20/2018 09:43:16">
+    <Property Name="ElementName" Value="[dbo].[Company].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Company]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CurrentSpeed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d28ac52f-69b7-444e-b562-273db05022c1" ChangeDateTime="10/20/2018 09:46:26">
+    <Property Name="ElementName" Value="[dbo].[Company].[Address]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Company]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FuelLevel" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="daaf88b4-3863-433f-a484-0a042262ec7c" ChangeDateTime="10/20/2018 09:46:43">
+    <Property Name="ElementName" Value="[dbo].[Company].[Bulstat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Company]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FuelUsed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f2220bd2-5768-495b-bb0d-6f3720fcaf71" ChangeDateTime="10/20/2018 09:47:20">
+    <Property Name="ElementName" Value="[dbo].[Company].[Email]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Company]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Location" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c483f0ac-aa8e-4878-a120-b75c563542f6" ChangeDateTime="10/20/2018 09:48:36">
+    <Property Name="ElementName" Value="[dbo].[Company].[Location]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Company]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Longitude" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e6ece001-b702-417b-b7be-d3ff39cc131b" ChangeDateTime="10/20/2018 09:48:41">
+    <Property Name="ElementName" Value="[dbo].[Company].[Telephone]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Company]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Latitude" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="27a27704-7b0a-4ecf-bfd5-d99025fb5d2d" ChangeDateTime="10/20/2018 11:35:20">
+    <Property Name="ElementName" Value="[dbo].[TelematicsData].[isBeltUsedByDriver]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TelematicsData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SeatBelt" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="46263302-791f-410e-840e-c47a504fb66c" ChangeDateTime="10/20/2018 11:54:06">
+    <Property Name="ElementName" Value="[dbo].[TelematicsData].[HardAccelaration]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TelematicsData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HarshAccelaration" />
+  </Operation>
+</Operations>
