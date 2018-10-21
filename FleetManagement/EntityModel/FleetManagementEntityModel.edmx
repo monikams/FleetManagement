@@ -5,12 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="FleetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__RefactorLog">
-          <Key>
-            <PropertyRef Name="OperationKey" />
-          </Key>
-          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
@@ -135,7 +129,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FleetManagementModelStoreContainer">
-          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TelematicsData" EntityType="Self.TelematicsData" Schema="dbo" store:Type="Tables" />
@@ -164,7 +157,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="FleetManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="FleetManagementContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__RefactorLog" EntityType="FleetManagementModel.C__RefactorLog" />
           <EntitySet Name="Company" EntityType="FleetManagementModel.Company" />
           <EntitySet Name="Driver" EntityType="FleetManagementModel.Driver" />
           <EntitySet Name="TelematicsData" EntityType="FleetManagementModel.TelematicsData" />
@@ -188,12 +180,6 @@
             <End Role="UserCompany" EntitySet="UserCompany" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="C__RefactorLog">
-          <Key>
-            <PropertyRef Name="OperationKey" />
-          </Key>
-          <Property Name="OperationKey" Type="Guid" Nullable="false" />
-        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
@@ -251,7 +237,6 @@
           <Property Name="Email" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserCompany" Relationship="FleetManagementModel.FK__UserCompa__User___5165187F" FromRole="User" ToRole="UserCompany" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UserCompany">
           <Key>
@@ -296,13 +281,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FleetManagementModelStoreContainer" CdmEntityContainer="FleetManagementContext">
-          <EntitySetMapping Name="C__RefactorLog">
-            <EntityTypeMapping TypeName="FleetManagementModel.C__RefactorLog">
-              <MappingFragment StoreEntitySet="__RefactorLog">
-                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Company">
             <EntityTypeMapping TypeName="FleetManagementModel.Company">
               <MappingFragment StoreEntitySet="Company">
@@ -354,7 +332,7 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="FleetManagementModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Username" ColumnName="UserName" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

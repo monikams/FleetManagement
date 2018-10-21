@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="37c2f43be557410f94e4d88f96d5c91c" Name="Diagram1">
-        <EntityTypeShape EntityType="FleetManagementModel.C__RefactorLog" Width="1.5" PointX="5.75" PointY="2.25" />
         <EntityTypeShape EntityType="FleetManagementModel.Company" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="FleetManagementModel.Driver" Width="1.5" PointX="0.75" PointY="8" />
         <EntityTypeShape EntityType="FleetManagementModel.TelematicsData" Width="1.5" PointX="5.75" PointY="4.25" />
