@@ -11,13 +11,8 @@ namespace EntityModel
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    using Microsoft.AspNet.Identity;
-
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    public partial class User : IUser
+    
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
@@ -26,16 +21,11 @@ namespace EntityModel
         }
     
         public System.Guid Id { get; set; }
-
-        public string UserName { get; set; }
-    
+        public string Username { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserCompany> UserCompany { get; set; }
-
-        [NotMapped]
-        string IUser<string>.Id => this.Id.ToString();
     }
 }
