@@ -25,11 +25,11 @@ namespace EntityModel
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Company> Company { get; set; }
-        public virtual DbSet<Driver> Driver { get; set; }
-        public virtual DbSet<TelematicsData> TelematicsData { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserCompany> UserCompany { get; set; }
-        public virtual DbSet<Vehicle> Vehicle { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<Driver> Drivers { get; set; }
+        public virtual DbSet<TelematicsData> TelematicsDatas { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserCompany> UserCompanies { get; set; }
+        public virtual DbSet<Vehicle> Vehicles { get; set; }
     }
 }

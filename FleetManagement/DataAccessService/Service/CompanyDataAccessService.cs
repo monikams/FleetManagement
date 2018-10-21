@@ -16,7 +16,7 @@ namespace DataAccessService.Service
 
         public IQueryable<Models.Company> GetCompanies()
         {
-            var a = _context.Company;
+            var a = _context.Companies;
             return null;
         }
     }

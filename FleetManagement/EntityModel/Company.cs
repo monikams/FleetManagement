@@ -17,8 +17,8 @@ namespace EntityModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Company()
         {
-            this.UserCompany = new HashSet<UserCompany>();
-            this.Vehicle = new HashSet<Vehicle>();
+            this.UserCompanies = new HashSet<UserCompany>();
+            this.Vehicles = new HashSet<Vehicle>();
         }
     
         public System.Guid Id { get; set; }
@@ -29,8 +29,8 @@ namespace EntityModel
         public string Telephone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserCompany> UserCompany { get; set; }
+        public virtual ICollection<UserCompany> UserCompanies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vehicle> Vehicle { get; set; }
+        public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 }
