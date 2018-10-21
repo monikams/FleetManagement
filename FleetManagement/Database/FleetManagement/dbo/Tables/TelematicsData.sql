@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[TelematicsData] (
     [Id] UNIQUEIDENTIFIER PRIMARY KEY CONSTRAINT [DF_TelematicsData_Id] DEFAULT (newsequentialid()) NOT NULL,
-	[VIN] UNIQUEIDENTIFIER NOT NULL,
+	[VIN] NVARCHAR(256) NOT NULL,
 	[CurrentSpeed] INT NULL,
     [FuelLevel]   INT NULL,
     [FuelUsed] INT  NULL, 

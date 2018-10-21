@@ -63,6 +63,9 @@
     <Compile Include="Company.cs">
       <DependentUpon>FleetManagementEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="C__RefactorLog.cs">
+      <DependentUpon>FleetManagementEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Driver.cs">
       <DependentUpon>FleetManagementEntityModel.tt</DependentUpon>
     </Compile>

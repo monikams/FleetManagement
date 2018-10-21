@@ -15,7 +15,7 @@ namespace EntityModel
     public partial class TelematicsData
     {
         public System.Guid Id { get; set; }
-        public System.Guid VIN { get; set; }
+        public string VIN { get; set; }
         public Nullable<int> CurrentSpeed { get; set; }
         public Nullable<int> FuelLevel { get; set; }
         public Nullable<int> FuelUsed { get; set; }
