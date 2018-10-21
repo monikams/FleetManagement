@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[User]
+(
+	[Id] UNIQUEIDENTIFIER PRIMARY KEY CONSTRAINT [DF_User_Id] DEFAULT (newsequentialid()) NOT NULL, 
+    [UserName] NVARCHAR(128) NOT NULL, 
+    [Email] NVARCHAR(128) NOT NULL, 
+    [PasswordHash] NVARCHAR(MAX) NOT NULL
+);

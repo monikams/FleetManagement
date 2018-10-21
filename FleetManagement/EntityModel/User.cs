@@ -12,25 +12,20 @@ namespace EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Company
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Company()
+        public User()
         {
             this.UserCompany = new HashSet<UserCompany>();
-            this.Vehicle = new HashSet<Vehicle>();
         }
     
         public System.Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Bulstat { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
-        public string Telephone { get; set; }
+        public string PasswordHash { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserCompany> UserCompany { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vehicle> Vehicle { get; set; }
     }
 }

@@ -5,11 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="FleetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Bulstat" Type="nvarchar" MaxLength="16" Nullable="false" />
@@ -20,7 +26,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="16" Nullable="false" />
@@ -30,8 +36,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Vehicle_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VIN" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CurrentSpeed" Type="int" />
           <Property Name="FuelLevel" Type="int" />
           <Property Name="FuelUsed" Type="int" />
@@ -50,11 +56,28 @@
           <Property Name="HarshCornering" Type="bit" />
           <Property Name="TailGating" Type="bit" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="User_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Company_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="Vehicle">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Driver_Id" Type="uniqueidentifier" />
           <Property Name="Company_Id" Type="uniqueidentifier" />
           <Property Name="VIN" Type="nvarchar" MaxLength="256" Nullable="false" />
@@ -63,19 +86,31 @@
           <Property Name="Brand" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__Telematic__Vehic__2D27B809">
-          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
-          <End Role="TelematicsData" Type="Self.TelematicsData" Multiplicity="*" />
+        <Association Name="FK__UserCompa__Compa__5070F446">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="UserCompany" Type="Self.UserCompany" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Vehicle">
+            <Principal Role="Company">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TelematicsData">
-              <PropertyRef Name="Vehicle_Id" />
+            <Dependent Role="UserCompany">
+              <PropertyRef Name="Company_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Vehicle__Company__2E1BDC42">
+        <Association Name="FK__UserCompa__User___5165187F">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserCompany" Type="Self.UserCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserCompany">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vehicle__Company__4316F928">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -87,7 +122,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Vehicle__Driver___31EC6D26">
+        <Association Name="FK__Vehicle__Driver___4222D4EF">
           <End Role="Driver" Type="Self.Driver" Multiplicity="0..1" />
           <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -100,19 +135,26 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FleetManagementModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TelematicsData" EntityType="Self.TelematicsData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCompany" EntityType="Self.UserCompany" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Telematic__Vehic__2D27B809" Association="Self.FK__Telematic__Vehic__2D27B809">
-            <End Role="Vehicle" EntitySet="Vehicle" />
-            <End Role="TelematicsData" EntitySet="TelematicsData" />
+          <AssociationSet Name="FK__UserCompa__Compa__5070F446" Association="Self.FK__UserCompa__Compa__5070F446">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="UserCompany" EntitySet="UserCompany" />
           </AssociationSet>
-          <AssociationSet Name="FK__Vehicle__Company__2E1BDC42" Association="Self.FK__Vehicle__Company__2E1BDC42">
+          <AssociationSet Name="FK__UserCompa__User___5165187F" Association="Self.FK__UserCompa__User___5165187F">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserCompany" EntitySet="UserCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vehicle__Company__4316F928" Association="Self.FK__Vehicle__Company__4316F928">
             <End Role="Company" EntitySet="Company" />
             <End Role="Vehicle" EntitySet="Vehicle" />
           </AssociationSet>
-          <AssociationSet Name="FK__Vehicle__Driver___31EC6D26" Association="Self.FK__Vehicle__Driver___31EC6D26">
+          <AssociationSet Name="FK__Vehicle__Driver___4222D4EF" Association="Self.FK__Vehicle__Driver___4222D4EF">
             <End Role="Driver" EntitySet="Driver" />
             <End Role="Vehicle" EntitySet="Vehicle" />
           </AssociationSet>
@@ -122,51 +164,66 @@
     <edmx:ConceptualModels>
       <Schema Namespace="FleetManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="FleetManagementContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="FleetManagementModel.C__RefactorLog" />
           <EntitySet Name="Company" EntityType="FleetManagementModel.Company" />
           <EntitySet Name="Driver" EntityType="FleetManagementModel.Driver" />
           <EntitySet Name="TelematicsData" EntityType="FleetManagementModel.TelematicsData" />
+          <EntitySet Name="User" EntityType="FleetManagementModel.User" />
+          <EntitySet Name="UserCompany" EntityType="FleetManagementModel.UserCompany" />
           <EntitySet Name="Vehicle" EntityType="FleetManagementModel.Vehicle" />
-          <AssociationSet Name="FK__Vehicle__Company__2E1BDC42" Association="FleetManagementModel.FK__Vehicle__Company__2E1BDC42">
+          <AssociationSet Name="FK__UserCompa__Compa__5070F446" Association="FleetManagementModel.FK__UserCompa__Compa__5070F446">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="UserCompany" EntitySet="UserCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vehicle__Company__4316F928" Association="FleetManagementModel.FK__Vehicle__Company__4316F928">
             <End Role="Company" EntitySet="Company" />
             <End Role="Vehicle" EntitySet="Vehicle" />
           </AssociationSet>
-          <AssociationSet Name="FK__Vehicle__Driver___31EC6D26" Association="FleetManagementModel.FK__Vehicle__Driver___31EC6D26">
+          <AssociationSet Name="FK__Vehicle__Driver___4222D4EF" Association="FleetManagementModel.FK__Vehicle__Driver___4222D4EF">
             <End Role="Driver" EntitySet="Driver" />
             <End Role="Vehicle" EntitySet="Vehicle" />
           </AssociationSet>
-          <AssociationSet Name="FK__Telematic__Vehic__2D27B809" Association="FleetManagementModel.FK__Telematic__Vehic__2D27B809">
-            <End Role="Vehicle" EntitySet="Vehicle" />
-            <End Role="TelematicsData" EntitySet="TelematicsData" />
+          <AssociationSet Name="FK__UserCompa__User___5165187F" Association="FleetManagementModel.FK__UserCompa__User___5165187F">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserCompany" EntitySet="UserCompany" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Bulstat" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Vehicle" Relationship="FleetManagementModel.FK__Vehicle__Company__2E1BDC42" FromRole="Company" ToRole="Vehicle" />
+          <NavigationProperty Name="UserCompany" Relationship="FleetManagementModel.FK__UserCompa__Compa__5070F446" FromRole="Company" ToRole="UserCompany" />
+          <NavigationProperty Name="Vehicle" Relationship="FleetManagementModel.FK__Vehicle__Company__4316F928" FromRole="Company" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="Driver">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Vehicle" Relationship="FleetManagementModel.FK__Vehicle__Driver___31EC6D26" FromRole="Driver" ToRole="Vehicle" />
+          <NavigationProperty Name="Vehicle" Relationship="FleetManagementModel.FK__Vehicle__Driver___4222D4EF" FromRole="Driver" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="TelematicsData">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="VIN" Type="Guid" Nullable="false" />
           <Property Name="CurrentSpeed" Type="Int32" />
           <Property Name="FuelLevel" Type="Int32" />
           <Property Name="FuelUsed" Type="Int32" />
@@ -184,33 +241,53 @@
           <Property Name="HarshBraking" Type="Boolean" />
           <Property Name="HarshCornering" Type="Boolean" />
           <Property Name="TailGating" Type="Boolean" />
-          <NavigationProperty Name="Vehicle" Relationship="FleetManagementModel.FK__Telematic__Vehic__2D27B809" FromRole="TelematicsData" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserCompany" Relationship="FleetManagementModel.FK__UserCompa__User___5165187F" FromRole="User" ToRole="UserCompany" />
+        </EntityType>
+        <EntityType Name="UserCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="FleetManagementModel.FK__UserCompa__Compa__5070F446" FromRole="UserCompany" ToRole="Company" />
+          <NavigationProperty Name="User" Relationship="FleetManagementModel.FK__UserCompa__User___5165187F" FromRole="UserCompany" ToRole="User" />
         </EntityType>
         <EntityType Name="Vehicle">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="VIN" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="PlateNumber" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Company" Relationship="FleetManagementModel.FK__Vehicle__Company__2E1BDC42" FromRole="Vehicle" ToRole="Company" />
-          <NavigationProperty Name="Driver" Relationship="FleetManagementModel.FK__Vehicle__Driver___31EC6D26" FromRole="Vehicle" ToRole="Driver" />
-          <NavigationProperty Name="TelematicsData" Relationship="FleetManagementModel.FK__Telematic__Vehic__2D27B809" FromRole="Vehicle" ToRole="TelematicsData" />
+          <NavigationProperty Name="Company" Relationship="FleetManagementModel.FK__Vehicle__Company__4316F928" FromRole="Vehicle" ToRole="Company" />
+          <NavigationProperty Name="Driver" Relationship="FleetManagementModel.FK__Vehicle__Driver___4222D4EF" FromRole="Vehicle" ToRole="Driver" />
         </EntityType>
-        <Association Name="FK__Vehicle__Company__2E1BDC42">
+        <Association Name="FK__UserCompa__Compa__5070F446">
+          <End Type="FleetManagementModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="FleetManagementModel.UserCompany" Role="UserCompany" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Vehicle__Company__4316F928">
           <End Type="FleetManagementModel.Company" Role="Company" Multiplicity="0..1" />
           <End Type="FleetManagementModel.Vehicle" Role="Vehicle" Multiplicity="*" />
         </Association>
-        <Association Name="FK__Vehicle__Driver___31EC6D26">
+        <Association Name="FK__Vehicle__Driver___4222D4EF">
           <End Type="FleetManagementModel.Driver" Role="Driver" Multiplicity="0..1" />
           <End Type="FleetManagementModel.Vehicle" Role="Vehicle" Multiplicity="*" />
         </Association>
-        <Association Name="FK__Telematic__Vehic__2D27B809">
-          <End Type="FleetManagementModel.Vehicle" Role="Vehicle" Multiplicity="1" />
-          <End Type="FleetManagementModel.TelematicsData" Role="TelematicsData" Multiplicity="*" />
+        <Association Name="FK__UserCompa__User___5165187F">
+          <End Type="FleetManagementModel.User" Role="User" Multiplicity="1" />
+          <End Type="FleetManagementModel.UserCompany" Role="UserCompany" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -218,6 +295,13 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FleetManagementModelStoreContainer" CdmEntityContainer="FleetManagementContext">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="FleetManagementModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Company">
             <EntityTypeMapping TypeName="FleetManagementModel.Company">
               <MappingFragment StoreEntitySet="Company">
@@ -261,6 +345,24 @@
                 <ScalarProperty Name="FuelUsed" ColumnName="FuelUsed" />
                 <ScalarProperty Name="FuelLevel" ColumnName="FuelLevel" />
                 <ScalarProperty Name="CurrentSpeed" ColumnName="CurrentSpeed" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="FleetManagementModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCompany">
+            <EntityTypeMapping TypeName="FleetManagementModel.UserCompany">
+              <MappingFragment StoreEntitySet="UserCompany">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -277,7 +379,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="FK__Vehicle__Company__2E1BDC42" TypeName="FleetManagementModel.FK__Vehicle__Company__2E1BDC42" StoreEntitySet="Vehicle">
+          <AssociationSetMapping Name="FK__UserCompa__Compa__5070F446" TypeName="FleetManagementModel.FK__UserCompa__Compa__5070F446" StoreEntitySet="UserCompany">
+            <EndProperty Name="UserCompany">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Company">
+              <ScalarProperty Name="Id" ColumnName="Company_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Vehicle__Company__4316F928" TypeName="FleetManagementModel.FK__Vehicle__Company__4316F928" StoreEntitySet="Vehicle">
             <EndProperty Name="Vehicle">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
@@ -286,7 +396,7 @@
             </EndProperty>
             <Condition ColumnName="Company_Id" IsNull="false" />
           </AssociationSetMapping>
-          <AssociationSetMapping Name="FK__Vehicle__Driver___31EC6D26" TypeName="FleetManagementModel.FK__Vehicle__Driver___31EC6D26" StoreEntitySet="Vehicle">
+          <AssociationSetMapping Name="FK__Vehicle__Driver___4222D4EF" TypeName="FleetManagementModel.FK__Vehicle__Driver___4222D4EF" StoreEntitySet="Vehicle">
             <EndProperty Name="Vehicle">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
@@ -295,12 +405,12 @@
             </EndProperty>
             <Condition ColumnName="Driver_Id" IsNull="false" />
           </AssociationSetMapping>
-          <AssociationSetMapping Name="FK__Telematic__Vehic__2D27B809" TypeName="FleetManagementModel.FK__Telematic__Vehic__2D27B809" StoreEntitySet="TelematicsData">
-            <EndProperty Name="TelematicsData">
+          <AssociationSetMapping Name="FK__UserCompa__User___5165187F" TypeName="FleetManagementModel.FK__UserCompa__User___5165187F" StoreEntitySet="UserCompany">
+            <EndProperty Name="UserCompany">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
-            <EndProperty Name="Vehicle">
-              <ScalarProperty Name="Id" ColumnName="Vehicle_Id" />
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="User_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
