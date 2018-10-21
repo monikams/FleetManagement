@@ -12,16 +12,11 @@ namespace EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Vehicle
+    public partial class UserCompany
     {
-        public System.Guid Id { get; set; }
-        public string VIN { get; set; }
-        public string PlateNumber { get; set; }
-        public int Type { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
+        public int Id { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual Driver Driver { get; set; }
+        public virtual User User { get; set; }
     }
 }

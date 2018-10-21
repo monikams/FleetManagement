@@ -25,9 +25,12 @@ namespace EntityModel
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Driver> Driver { get; set; }
         public virtual DbSet<TelematicsData> TelematicsData { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserCompany> UserCompany { get; set; }
         public virtual DbSet<Vehicle> Vehicle { get; set; }
     }
 }

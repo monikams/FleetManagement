@@ -5,13 +5,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="37c2f43be557410f94e4d88f96d5c91c" Name="Diagram1">
-        <EntityTypeShape EntityType="FleetManagementModel.Company" Width="1.5" PointX="0.75" PointY="2.25" />
-        <EntityTypeShape EntityType="FleetManagementModel.Driver" Width="1.5" PointX="0.75" PointY="7.25" />
-        <EntityTypeShape EntityType="FleetManagementModel.TelematicsData" Width="1.5" PointX="5.25" PointY="1" />
-        <EntityTypeShape EntityType="FleetManagementModel.Vehicle" Width="1.5" PointX="3" PointY="2" />
-        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Company__2E1BDC42" />
-        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Driver___31EC6D26" />
-        <AssociationConnector Association="FleetManagementModel.FK__Telematic__Vehic__2D27B809" />
+        <EntityTypeShape EntityType="FleetManagementModel.C__RefactorLog" Width="1.5" PointX="5.75" PointY="2.25" />
+        <EntityTypeShape EntityType="FleetManagementModel.Company" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="FleetManagementModel.Driver" Width="1.5" PointX="0.75" PointY="8" />
+        <EntityTypeShape EntityType="FleetManagementModel.TelematicsData" Width="1.5" PointX="5.75" PointY="4.25" />
+        <EntityTypeShape EntityType="FleetManagementModel.User" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="FleetManagementModel.UserCompany" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="FleetManagementModel.Vehicle" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="FleetManagementModel.FK__UserCompa__Compa__5070F446" />
+        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Company__4316F928" />
+        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Driver___4222D4EF" />
+        <AssociationConnector Association="FleetManagementModel.FK__UserCompa__User___5165187F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
