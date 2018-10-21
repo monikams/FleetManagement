@@ -1,4 +1,5 @@
 ﻿using DataAccessService.Models;
+using EntityModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,12 @@ namespace DataAccessService.Service
 {
     public class CompanyDataAccessService : IDataAccessService
     {
-        //private readonly Context _context = new Context();
+        private readonly FleetManagementContext _context = new FleetManagementContext();
 
-        //public IQueryable<Company> GetCompanies()
-        //{
-        //    var a = _context.
-        //}
+        public IQueryable<Models.Company> GetCompanies()
+        {
+            var a = _context.Company;
+            return null;
+        }
     }
 }
