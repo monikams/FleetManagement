@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DriverBusinessService.cs" />
     <Compile Include="Service\CompanyBusinessService.cs" />
+    <Compile Include="Service\IBusinessService.cs" />
     <Compile Include="Service\TelematicsDataBusinessService.cs" />
     <Compile Include="Service\VehicleBusinessService.cs" />
   </ItemGroup>
