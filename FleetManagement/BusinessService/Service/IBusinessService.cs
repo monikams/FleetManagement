@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace BusinessService.Service
 {
-    public interface IBusinessService
+    public interface IBusinessService<T, Key> where T : class
     {
-        IQueryable<Company> GetCompanies();
+        Task<IQueryable<T>> GetAll();
+
+        Task<T> PostItem(T item);
     }
 }

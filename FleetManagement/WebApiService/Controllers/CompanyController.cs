@@ -1,14 +1,50 @@
-﻿using System;
+﻿using System.Web.Http;
+using AutoMapper;
+using WebApiService.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Threading.Tasks;
+using BusinessService.Service;
 
 namespace WebApiService.Controllers
 {
+    [RoutePrefix("api")]
     public class CompanyController : ApiController
     {
-      // private readonly 
+        private readonly IBusinessService<BusinessService.Models.Company, Guid> _companyBusinessService;
+        private readonly MapperConfiguration _config;
+        private readonly IMapper _mapper;
+
+        public CompanyController(IBusinessService<BusinessService.Models.Company, Guid> companyBusinessService)
+        {
+            _companyBusinessService = companyBusinessService;         
+            _config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<Models.Company, BusinessService.Models.Company>().ReverseMap();              
+            });
+            _mapper = new Mapper(_config);
+        }
+
+        [Route("companies")]
+        [HttpGet]
+        public async Task<IEnumerable<Company>> GetCompanies()
+        {
+            var companies = await _companyBusinessService.GetAll();
+            var mappedCompanies = _mapper.Map<IEnumerable<BusinessService.Models.Company>, IEnumerable<Company>>(companies);
+            return mappedCompanies;
+        }
+
+        [Route("companies/create")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostCompany([FromBody]Company company)
+        {
+            if (!ModelState.IsValid)
+                return this.BadRequest(ModelState);
+
+            var apiCompany = _mapper.Map<Company, BusinessService.Models.Company>(company);
+            var businessServiceCompany = await _companyBusinessService.PostItem(apiCompany);
+            var mappedCompany = _mapper.Map<BusinessService.Models.Company, Company>(businessServiceCompany);
+            return Ok(mappedCompany);
+        }
+
     }
 }

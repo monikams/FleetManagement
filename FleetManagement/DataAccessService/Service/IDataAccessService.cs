@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessService
+namespace DataAccessService.Service
 {
-    public interface IDataAccessService
+    public interface IDataAccessService<T, Key> where T : class
     {
-        IQueryable<Company> GetCompanies();
-    }
+        Task<IQueryable<T>> GetAll();
+
+        Task<T> PostItem(T item);
+    }  
 }
