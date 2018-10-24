@@ -33,6 +33,15 @@ namespace WebApiService.Controllers
             return mappedCompanies;
         }
 
+        [Route("companies/{companyId}")]
+        [HttpGet]
+        public async Task<Company> GetCompanyById([FromUri] string companyId)
+        {
+            var company = await _companyBusinessService.GetById(new Guid(companyId));
+            var mappedCompany = _mapper.Map<BusinessService.Models.Company, Company>(company);
+            return mappedCompany;
+        }
+
         [Route("companies/create")]
         [HttpPost]
         public async Task<IHttpActionResult> PostCompany([FromBody]Company company)

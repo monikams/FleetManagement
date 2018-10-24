@@ -35,6 +35,15 @@ namespace DataAccessService.Service
             return await Task.Run(() => mappedCompanies.AsQueryable());
         }
 
+        public async Task<Models.Company> GetById(Guid companyId)
+        {
+            var company = await _context.Companies.FindAsync(companyId);
+
+            var mappedCompany = _mapper.Map<EntityModel.Company, Models.Company>(company);
+
+            return await Task.Run(() => mappedCompany);
+        }
+
         public async Task<Models.Company> PostItem(Models.Company company)
         {
             var newCompany = new EntityModel.Company

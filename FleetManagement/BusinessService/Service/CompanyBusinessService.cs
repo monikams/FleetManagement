@@ -31,6 +31,13 @@ namespace BusinessService.Service
             return mappedCompanies;
         }
 
+        public async Task<Company> GetById(Guid companyId)
+        {
+            var company = await _companyDataAccesService.GetById(companyId);
+            var mappedCompany = _mapper.Map<DataAccessService.Models.Company,Company>(company);
+            return mappedCompany;
+        }
+
         public async Task<Company> PostItem(Company company)
         {
             var dataAccessCompany = _mapper.Map<Company, DataAccessService.Models.Company>(company);

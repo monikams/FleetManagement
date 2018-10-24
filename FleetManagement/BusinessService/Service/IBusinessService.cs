@@ -12,5 +12,7 @@ namespace BusinessService.Service
         Task<IQueryable<T>> GetAll();
 
         Task<T> PostItem(T item);
+
+        Task<T> GetById(Key item);
     }
 }
