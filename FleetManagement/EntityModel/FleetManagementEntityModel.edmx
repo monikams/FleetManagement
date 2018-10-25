@@ -76,7 +76,6 @@
           <Property Name="Company_Id" Type="uniqueidentifier" />
           <Property Name="VIN" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="PlateNumber" Type="nvarchar" MaxLength="16" Nullable="false" />
-          <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Brand" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -253,7 +252,6 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="VIN" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="PlateNumber" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Company" Relationship="FleetManagementModel.FK__Vehicle__Company__2E1BDC42" FromRole="Vehicle" ToRole="Company" />
@@ -351,7 +349,6 @@
               <MappingFragment StoreEntitySet="Vehicle">
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="PlateNumber" ColumnName="PlateNumber" />
                 <ScalarProperty Name="VIN" ColumnName="VIN" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
