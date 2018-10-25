@@ -24,7 +24,7 @@ namespace WebApiService.Controllers
             _mapper = new Mapper(_config);
         }
 
-        [Route("companies/{companyId}/vehicles/{vehicleId}")]
+        [Route("companies/{companyId}/vehicles}")]
         [HttpGet]
         public async Task<IEnumerable<Vehicle>> GetVehicles([FromUri] Guid companyId)
         {
@@ -33,14 +33,14 @@ namespace WebApiService.Controllers
             return mappedVehicles;
         }
 
-        //[Route("vehicles/{VehicleId}")]
-        //[HttpGet]
-        //public async Task<Vehicle> GetVehicleById([FromUri] string VehicleId)
-        //{
-        //    var Vehicle = await _VehicleBusinessService.GetById(new Guid(VehicleId));
-        //    var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(Vehicle);
-        //    return mappedVehicle;
-        //}
+        [Route("companies/{companyId}/vehicles/{vehicleId}")]
+        [HttpGet]
+        public async Task<Vehicle> GetVehicleById([FromUri] string companyId, [FromUri] string vehicleId)
+        {
+            var vehicle = await _vehicleBusinessService.GetVehicleById(new Guid(companyId),new Guid(vehicleId));
+            var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(vehicle);
+            return mappedVehicle;
+        }
 
         //[Route("vehicles/create")]
         //[HttpPost]
