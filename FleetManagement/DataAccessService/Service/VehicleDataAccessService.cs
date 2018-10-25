@@ -35,14 +35,14 @@ namespace DataAccessService.Service
             return await Task.Run(() => mappedVehicles.AsQueryable());
         }
 
-        //public async Task<Models.Company> GetById(Guid companyId)
-        //{
-        //    var company = await _context.Companies.FindAsync(companyId);
+        public async Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId)
+        {
+            var vehicle =  _context.Vehicles.FirstOrDefault(v => v.Id == vehicleId && v.Company.Id == companyId);
 
-        //    var mappedCompany = _mapper.Map<EntityModel.Company, Models.Company>(company);
+            var mappedVehicle = _mapper.Map<EntityModel.Vehicle, Models.Vehicle>(vehicle);
 
-        //    return await Task.Run(() => mappedCompany);
-        //}
+            return await Task.Run(() => mappedVehicle);
+        }
 
         //public async Task<Models.Company> PostItem(Models.Company company)
         //{

@@ -31,6 +31,13 @@ namespace BusinessService.Service
             return mappedVehicles;
         }
 
+        public async Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId)
+        {
+            var vehicle = await _vehicleDataAccesService.GetVehicleById(companyId, vehicleId);
+            var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(vehicle);
+            return mappedVehicle;
+        }
+
         //public async Task<Vehicle> GetById(Guid VehicleId)
         //{
         //    var Vehicle = await _VehicleDataAccesService.GetById(VehicleId);

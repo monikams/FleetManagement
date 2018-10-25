@@ -19,5 +19,7 @@ namespace DataAccessService.Service
     public interface IVehicleDataAccessService<Vehicle, Guid>
     {
         Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(Guid companyId);
+
+        Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId);
     }
 }
