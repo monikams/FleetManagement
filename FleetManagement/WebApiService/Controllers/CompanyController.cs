@@ -42,7 +42,7 @@ namespace WebApiService.Controllers
             return mappedCompany;
         }
 
-        [Route("companies/create")]
+        [Route("companies")]
         [HttpPost]
         public async Task<IHttpActionResult> PostCompany([FromBody]Company company)
         {

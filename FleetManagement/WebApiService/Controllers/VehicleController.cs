@@ -42,18 +42,17 @@ namespace WebApiService.Controllers
             return mappedVehicle;
         }
 
-        //[Route("vehicles/create")]
-        //[HttpPost]
-        //public async Task<IHttpActionResult> PostVehicle([FromBody]Vehicle Vehicle)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return this.BadRequest(ModelState);
+        [Route("companies/{companyId}/vehicles")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostVehicle([FromUri] string companyId, [FromBody] Vehicle Vehicle)
+        {
+            if (!ModelState.IsValid)
+                return this.BadRequest(ModelState);
 
-        //    var apiVehicle = _mapper.Map<Vehicle, BusinessService.Models.Vehicle>(Vehicle);
-        //    var businessServiceVehicle = await _VehicleBusinessService.PostItem(apiVehicle);
-        //    var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
-        //    return Ok(mappedVehicle);
-        //}
-
+            var apiVehicle = _mapper.Map<Vehicle, BusinessService.Models.Vehicle>(Vehicle);
+            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(new Guid(companyId), apiVehicle);
+            var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
+            return Ok(mappedVehicle);
+        }
     }
 }

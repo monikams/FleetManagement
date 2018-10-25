@@ -20,5 +20,6 @@ namespace BusinessService.Service
     {
         Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(Guid companyId);
         Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId);
+        Task<Vehicle> PostVehicle(Guid companyId, Vehicle Vehicle);
     }
 }

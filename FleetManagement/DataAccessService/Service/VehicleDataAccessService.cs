@@ -44,20 +44,22 @@ namespace DataAccessService.Service
             return await Task.Run(() => mappedVehicle);
         }
 
-        //public async Task<Models.Company> PostItem(Models.Company company)
-        //{
-        //    var newCompany = new EntityModel.Company
-        //    {
-        //        Name = company.Name,
-        //        Address = company.Address,
-        //        Bulstat = company.Bulstat,
-        //        Email = company.Email,
-        //        Telephone = company.Telephone,
-        //    };
+        public async Task<Models.Vehicle> PostVehicle(Guid companyId, Models.Vehicle vehicle)
+        {
+            var company = await _context.Companies.FindAsync(companyId);
+            var newVehicle = new EntityModel.Vehicle
+            {
+                VIN = vehicle.VIN,
+                PlateNumber = vehicle.PlateNumber,                
+                Brand = vehicle.Brand,
+                Model = vehicle.Model,
+                Company = company,
+              //  Driver = TO DO                
+            };
 
-        //    var addedCompany = _context.Companies.Add(newCompany);
-        //    var mappedCompany = _mapper.Map<EntityModel.Company, Models.Company>(addedCompany);
-        //    return await Task.Run(() => mappedCompany);
-        //}
+            var addedVehicle = _context.Vehicles.Add(newVehicle);
+            var mappedVehicle = _mapper.Map<EntityModel.Vehicle, Models.Vehicle>(addedVehicle);
+            return await Task.Run(() => mappedVehicle);
+        }
     }
 }

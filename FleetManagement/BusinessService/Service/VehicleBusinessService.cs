@@ -38,20 +38,12 @@ namespace BusinessService.Service
             return mappedVehicle;
         }
 
-        //public async Task<Vehicle> GetById(Guid VehicleId)
-        //{
-        //    var Vehicle = await _VehicleDataAccesService.GetById(VehicleId);
-        //    var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(Vehicle);
-        //    return mappedVehicle;
-        //}
-
-        //public async Task<Vehicle> PostItem(Vehicle Vehicle)
-        //{
-        //    var dataAccessVehicle = _mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(Vehicle);
-        //    var businessServiceVehicle = await _VehicleDataAccesService.PostItem(dataAccessVehicle);
-        //    var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
-        //    return mappedVehicle;
-        //}
-
+        public async Task<Vehicle> PostVehicle(Guid companyId, Vehicle Vehicle)
+        {
+            var dataAccessVehicle = _mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(Vehicle);
+            var businessServiceVehicle = await _vehicleDataAccesService.PostVehicle(companyId, dataAccessVehicle);
+            var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
+            return mappedVehicle;
+        }
     }
 }
