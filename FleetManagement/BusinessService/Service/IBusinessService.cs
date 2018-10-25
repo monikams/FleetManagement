@@ -15,4 +15,9 @@ namespace BusinessService.Service
 
         Task<T> GetById(Key item);
     }
+
+    public interface IVehicleBusinessService<Vehicle, Guid>
+    {
+        Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(Guid companyId);
+    }
 }

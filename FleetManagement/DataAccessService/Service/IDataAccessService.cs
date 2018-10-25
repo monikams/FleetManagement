@@ -14,5 +14,10 @@ namespace DataAccessService.Service
         Task<T> PostItem(T item);
 
         Task<T> GetById(Key item);
-    }  
+    }
+
+    public interface IVehicleDataAccessService<Vehicle, Guid>
+    {
+        Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(Guid companyId);
+    }
 }
