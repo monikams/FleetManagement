@@ -37,20 +37,21 @@ namespace WebApiService.Controllers
         [HttpGet]
         public async Task<Vehicle> GetVehicleById([FromUri] string companyId, [FromUri] string vehicleId)
         {
-            var vehicle = await _vehicleBusinessService.GetVehicleById(new Guid(companyId),new Guid(vehicleId));
+            var vehicle = await _vehicleBusinessService.GetVehicleById(new Guid(vehicleId));
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(vehicle);
             return mappedVehicle;
         }
 
         [Route("companies/{companyId}/vehicles")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostVehicle([FromUri] string companyId, [FromBody] Vehicle Vehicle)
+        public async Task<IHttpActionResult> PostVehicle([FromUri] string companyId, [FromUri] string driverId, [FromBody] Vehicle Vehicle)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
             var apiVehicle = _mapper.Map<Vehicle, BusinessService.Models.Vehicle>(Vehicle);
-            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(new Guid(companyId), apiVehicle);
+            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(new Guid(companyId),
+                new Guid(driverId), apiVehicle);
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return Ok(mappedVehicle);
         }

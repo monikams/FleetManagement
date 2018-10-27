@@ -10,11 +10,12 @@
         <EntityTypeShape EntityType="FleetManagementModel.TelematicsData" Width="1.5" PointX="5.75" PointY="2.25" />
         <EntityTypeShape EntityType="FleetManagementModel.User" Width="1.5" PointX="0.75" PointY="11" />
         <EntityTypeShape EntityType="FleetManagementModel.UserCompany" Width="1.5" PointX="3" PointY="4.25" />
-        <EntityTypeShape EntityType="FleetManagementModel.Vehicle" Width="1.5" PointX="3" PointY="0.75" />
         <AssociationConnector Association="FleetManagementModel.FK__UserCompa__Compa__3D5E1FD2" />
-        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Company__2E1BDC42" />
-        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Driver___31EC6D26" />
         <AssociationConnector Association="FleetManagementModel.FK__UserCompa__User___3C69FB99" />
+        <AssociationConnector Association="FleetManagementModel.FK__Driver__Company___4222D4EF" />
+        <EntityTypeShape EntityType="FleetManagementModel.Vehicle" Width="1.5" PointX="3" PointY="6.875" />
+        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Company__4316F928" />
+        <AssociationConnector Association="FleetManagementModel.FK__Vehicle__Driver___412EB0B6" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

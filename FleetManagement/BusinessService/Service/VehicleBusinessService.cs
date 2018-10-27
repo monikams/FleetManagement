@@ -31,17 +31,17 @@ namespace BusinessService.Service
             return mappedVehicles;
         }
 
-        public async Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId)
+        public async Task<Models.Vehicle> GetVehicleById(Guid vehicleId)
         {
-            var vehicle = await _vehicleDataAccesService.GetVehicleById(companyId, vehicleId);
+            var vehicle = await _vehicleDataAccesService.GetVehicleById(vehicleId);
             var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(vehicle);
             return mappedVehicle;
         }
 
-        public async Task<Vehicle> PostVehicle(Guid companyId, Vehicle Vehicle)
+        public async Task<Vehicle> PostVehicle(Guid companyId, Guid driverId, Vehicle vehicle)
         {
-            var dataAccessVehicle = _mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(Vehicle);
-            var businessServiceVehicle = await _vehicleDataAccesService.PostVehicle(companyId, dataAccessVehicle);
+            var dataAccessVehicle = _mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(vehicle);
+            var businessServiceVehicle = await _vehicleDataAccesService.PostVehicle(companyId, driverId, dataAccessVehicle);
             var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return mappedVehicle;
         }

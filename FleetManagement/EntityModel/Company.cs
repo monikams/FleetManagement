@@ -18,6 +18,7 @@ namespace EntityModel
         public Company()
         {
             this.UserCompanies = new HashSet<UserCompany>();
+            this.Drivers = new HashSet<Driver>();
             this.Vehicles = new HashSet<Vehicle>();
         }
     
@@ -30,6 +31,8 @@ namespace EntityModel
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserCompany> UserCompanies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Driver> Drivers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
