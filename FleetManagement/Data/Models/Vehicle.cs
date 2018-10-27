@@ -25,6 +25,7 @@ namespace Data.Models
 
         public virtual Company Company { get; set; }
 
+        [Required]
         public string DriverId { get; set; }
 
         public virtual Driver Driver { get; set; }

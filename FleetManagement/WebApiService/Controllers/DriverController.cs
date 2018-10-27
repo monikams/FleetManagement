@@ -24,7 +24,7 @@ namespace WebApiService.Controllers
             _mapper = new Mapper(_config);
         }
 
-        [Route("companies/{companyId}/Drivers}")]
+        [Route("companies/{companyId}/Drivers")]
         [HttpGet]
         public async Task<IEnumerable<Driver>> GetDrivers([FromUri] Guid companyId)
         {

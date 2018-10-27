@@ -9,6 +9,7 @@ namespace Data.Models
         {
             this.UserCompanies = new HashSet<UserCompany>();
             this.Vehicles = new HashSet<Vehicle>();
+            this.Drivers = new HashSet<Driver>();
         }
 
         [Key]
@@ -31,5 +32,7 @@ namespace Data.Models
         public virtual ICollection<UserCompany> UserCompanies { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+
+        public virtual ICollection<Driver> Drivers { get; set; }
     }
 }
