@@ -35,10 +35,10 @@ namespace WebApiService.Controllers
 
         [Route("companies/{companyId}/Drivers/{DriverId}")]
         [HttpGet]
-        public async Task<Driver> GetDriverById([FromUri] string companyId, [FromUri] string DriverId)
+        public async Task<Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
         {
-            var Driver = await _driverBusinessService.GetDriverById(new Guid(DriverId));
-            var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(Driver);
+            var driver = await _driverBusinessService.GetDriverById(new Guid(driverId));
+            var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(driver);
             return mappedDriver;
         }
 

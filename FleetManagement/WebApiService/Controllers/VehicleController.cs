@@ -42,7 +42,7 @@ namespace WebApiService.Controllers
             return mappedVehicle;
         }
 
-        [Route("companies/{companyId}/vehicles")]
+        [Route("companies/{companyId}/drivers/{driverId}/vehicles")]
         [HttpPost]
         public async Task<IHttpActionResult> PostVehicle([FromUri] string companyId, [FromUri] string driverId, [FromBody] Vehicle Vehicle)
         {
