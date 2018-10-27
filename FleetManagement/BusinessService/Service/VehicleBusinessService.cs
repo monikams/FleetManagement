@@ -28,21 +28,21 @@ namespace BusinessService.Service
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IQueryable<Vehicle>> GetCompanyVehicles(Guid companyId)
+        public async Task<IQueryable<Vehicle>> GetCompanyVehicles(string companyId)
         {
             var vehicles = await _vehicleDataAccesService.GetCompanyVehicles(companyId);
             var mappedVehicles = _mapper.Map<IQueryable<DataAccessService.Models.Vehicle>, IQueryable<Vehicle>>(vehicles);
             return mappedVehicles;
         }
 
-        public async Task<Models.Vehicle> GetVehicleById(Guid vehicleId)
+        public async Task<Models.Vehicle> GetVehicleById(string vehicleId)
         {
             var vehicle = await _vehicleDataAccesService.GetVehicleById(vehicleId);
             var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(vehicle);
             return mappedVehicle;
         }
 
-        public async Task<Vehicle> PostVehicle(Guid companyId, Guid driverId, Vehicle vehicle)
+        public async Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle)
         {
             var dataAccessVehicle = _mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(vehicle);
             var businessServiceVehicle = await _vehicleDataAccesService.PostVehicle(companyId, driverId, dataAccessVehicle);

@@ -11,11 +11,11 @@ namespace WebApiService.Controllers
     [RoutePrefix("api")]
     public class CompanyController : ApiController
     {
-        private readonly IBusinessService<BusinessService.Models.Company, Guid> _companyBusinessService;
+        private readonly IBusinessService<BusinessService.Models.Company, string> _companyBusinessService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public CompanyController(IBusinessService<BusinessService.Models.Company, Guid> companyBusinessService)
+        public CompanyController(IBusinessService<BusinessService.Models.Company, string> companyBusinessService)
         {
             _companyBusinessService = companyBusinessService;         
             _config = new MapperConfiguration(cfg => {
@@ -37,7 +37,7 @@ namespace WebApiService.Controllers
         [HttpGet]
         public async Task<Company> GetCompanyById([FromUri] string companyId)
         {
-            var company = await _companyBusinessService.GetById(new Guid(companyId));
+            var company = await _companyBusinessService.GetById(companyId);
             var mappedCompany = _mapper.Map<BusinessService.Models.Company, Company>(company);
             return mappedCompany;
         }

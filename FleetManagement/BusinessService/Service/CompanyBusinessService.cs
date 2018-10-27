@@ -9,13 +9,13 @@ using AutoMapper;
 
 namespace BusinessService.Service
 {
-    public class CompanyBusinessService : IBusinessService<Company,Guid>
+    public class CompanyBusinessService : IBusinessService<Company,string>
     {
-        private readonly IDataAccessService<DataAccessService.Models.Company, Guid> _companyDataAccesService;
+        private readonly IDataAccessService<DataAccessService.Models.Company, string> _companyDataAccesService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public CompanyBusinessService(IDataAccessService<DataAccessService.Models.Company, Guid> companyDataAccesService)
+        public CompanyBusinessService(IDataAccessService<DataAccessService.Models.Company, string> companyDataAccesService)
         {
             _companyDataAccesService = companyDataAccesService;
             _config = new MapperConfiguration(cfg => {
@@ -31,7 +31,7 @@ namespace BusinessService.Service
             return mappedCompanies;
         }
 
-        public async Task<Company> GetById(Guid companyId)
+        public async Task<Company> GetById(string companyId)
         {
             var company = await _companyDataAccesService.GetById(companyId);
             var mappedCompany = _mapper.Map<DataAccessService.Models.Company,Company>(company);

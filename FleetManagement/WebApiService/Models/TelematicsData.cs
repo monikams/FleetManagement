@@ -7,7 +7,7 @@ namespace WebApiService.Models
 {
     public class TelematicsData
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string VIN { get; set; }
         public int? CurrentSpeed { get; set; }
         public int? FuelLevel { get; set; }
