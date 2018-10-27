@@ -27,5 +27,22 @@
         {
             return new FleetManagementDbContext();
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Vehicle>()
+                .HasRequired(s => s.Company)
+                .WithMany(s => s.Vehicles)
+                .HasForeignKey(s => s.CompanyId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Vehicle>()
+              .HasRequired(s => s.Driver)
+              .WithMany(s => s.Vehicles)
+              .HasForeignKey(s => s.DriverId)
+              .WillCascadeOnDelete(false);
+        }
     }
 }
