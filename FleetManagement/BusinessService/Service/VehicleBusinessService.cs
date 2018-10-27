@@ -9,13 +9,17 @@ using AutoMapper;
 
 namespace BusinessService.Service
 {
-    public class VehicleBusinessService : IVehicleBusinessService<Vehicle, Guid>
+    public class VehicleBusinessService : IVehicleBusinessService
     {
-        private readonly IVehicleDataAccessService<DataAccessService.Models.Vehicle, Guid> _vehicleDataAccesService;
+        private readonly IVehicleDataAccessService _vehicleDataAccesService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public VehicleBusinessService(IVehicleDataAccessService<DataAccessService.Models.Vehicle, Guid> vehicleDataAccesService)
+        public VehicleBusinessService()
+        {
+        }
+
+        public VehicleBusinessService(IVehicleDataAccessService vehicleDataAccesService)
         {
             _vehicleDataAccesService = vehicleDataAccesService;
             _config = new MapperConfiguration(cfg => {

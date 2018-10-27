@@ -11,11 +11,15 @@ using System.Web.Configuration;
 
 namespace DataAccessService.Service
 {
-    public class VehicleDataAccessService : IVehicleDataAccessService<Models.Vehicle, Guid>
+    public class VehicleDataAccessService : IVehicleDataAccessService
     {
         private readonly FleetManagementContext _context = new FleetManagementContext();
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
+
+        public VehicleDataAccessService()
+        {
+        }
 
         public VehicleDataAccessService(FleetManagementContext context)
         {

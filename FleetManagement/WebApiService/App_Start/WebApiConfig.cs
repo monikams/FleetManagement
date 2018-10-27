@@ -1,21 +1,17 @@
-﻿using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
-using System.Linq;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using WebApiService.Models;
-
-namespace FleetManagement
+﻿namespace FleetManagement
 {
+    using System.Web.Http;
+
+    using Microsoft.Owin.Security.OAuth;
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
-            // CORS Requests Configurations
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+            // Configure Web API to use only bearer token authentication.
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -23,25 +19,7 @@ namespace FleetManagement
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new
-                {
-                    id = RouteParameter.Optional
-                }
-            );
-
-            config.EnableDependencyInjection();
-
-            ODataModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Company>("companies");
-
-            config.MapODataServiceRoute(
-                 routeName: "ODataRoute",
-                 routePrefix: "api",
-                 model: builder.GetEdmModel());
-            config.AddODataQueryFilter();
-
-            config.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
-            config.EnsureInitialized();
+                defaults: new { id = RouteParameter.Optional });
         }
     }
 }

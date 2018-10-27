@@ -11,11 +11,11 @@ namespace WebApiService.Controllers
     [RoutePrefix("api")]
     public class VehicleController : ApiController
     {
-        private readonly IVehicleBusinessService<BusinessService.Models.Vehicle, Guid> _vehicleBusinessService;
+        private readonly IVehicleBusinessService _vehicleBusinessService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public VehicleController(IVehicleBusinessService<BusinessService.Models.Vehicle, Guid> vehicleBusinessService)
+        public VehicleController(IVehicleBusinessService vehicleBusinessService)
         {
             _vehicleBusinessService = vehicleBusinessService;
             _config = new MapperConfiguration(cfg => {
@@ -24,7 +24,7 @@ namespace WebApiService.Controllers
             _mapper = new Mapper(_config);
         }
 
-        [Route("companies/{companyId}/vehicles}")]
+        [Route("companies/{companyId}/vehicles")]
         [HttpGet]
         public async Task<IEnumerable<Vehicle>> GetVehicles([FromUri] Guid companyId)
         {
