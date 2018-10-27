@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WebApiService.Models
+﻿namespace WebApiService.Models
 {
+    using System.Collections.Generic;
+
     // Models returned by AccountController actions.
 
     public class ExternalLoginViewModel
