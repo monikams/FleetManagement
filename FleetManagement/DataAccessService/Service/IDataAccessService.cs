@@ -20,8 +20,17 @@ namespace DataAccessService.Service
     {
         Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(Guid companyId);
 
-        Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId);
+        Task<Models.Vehicle> GetVehicleById(Guid vehicleId);
 
-        Task<Models.Vehicle> PostVehicle(Guid companyId, Vehicle vehicle);
+        Task<Models.Vehicle> PostVehicle(Guid companyId, Guid driverId, Vehicle vehicle);
+    }
+
+    public interface IDriverDataAccessService<Driver, Guid>
+    {
+        Task<IQueryable<Models.Driver>> GetCompanyDrivers(Guid companyId);
+
+        Task<Models.Driver> GetDriverById(Guid driverId);
+
+        Task<Models.Driver> PostDriver(Guid companyId, Driver driver);
     }
 }

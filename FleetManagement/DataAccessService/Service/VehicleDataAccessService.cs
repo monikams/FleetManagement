@@ -39,18 +39,20 @@ namespace DataAccessService.Service
             return await Task.Run(() => mappedVehicles.AsQueryable());
         }
 
-        public async Task<Models.Vehicle> GetVehicleById(Guid companyId, Guid vehicleId)
+        public async Task<Models.Vehicle> GetVehicleById(Guid vehicleId)
         {
-            var vehicle =  _context.Vehicles.FirstOrDefault(v => v.Id == vehicleId && v.Company.Id == companyId);
+            var vehicle =  _context.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
 
             var mappedVehicle = _mapper.Map<EntityModel.Vehicle, Models.Vehicle>(vehicle);
 
             return await Task.Run(() => mappedVehicle);
         }
 
-        public async Task<Models.Vehicle> PostVehicle(Guid companyId, Models.Vehicle vehicle)
+        public async Task<Models.Vehicle> PostVehicle(Guid companyId, Guid driverId, Models.Vehicle vehicle)
         {
             var company = await _context.Companies.FindAsync(companyId);
+            var driver = await _context.Drivers.FindAsync(driverId);
+
             var newVehicle = new EntityModel.Vehicle
             {
                 VIN = vehicle.VIN,
@@ -58,7 +60,7 @@ namespace DataAccessService.Service
                 Brand = vehicle.Brand,
                 Model = vehicle.Model,
                 Company = company,
-              //  Driver = TO DO                
+                Driver = driver,                
             };
 
             var addedVehicle = _context.Vehicles.Add(newVehicle);
