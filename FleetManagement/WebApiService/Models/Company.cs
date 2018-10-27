@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace WebApiService.Models
+﻿namespace WebApiService.Models
 {
+    using System;
+
     public class Company
     {
         public string Id { get; set; }
         public string Name { get; set; }
+
         public string Address { get; set; }
+
         public string Bulstat { get; set; }
+
         public string Email { get; set; }
+
         public string Telephone { get; set; }
     }
 }

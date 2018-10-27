@@ -1,20 +1,12 @@
 ﻿namespace WebApiService
 {
-    using System.Configuration;
     using System.Data.Entity;
-    using System.Reflection;
     using System.Web.Http;
 
-    using Autofac;
-    using Autofac.Integration.WebApi;
-
     using Data;
-
-    using FleetManagement;
+    using Data.Migrations;
 
     using Owin;
-
-    using Configuration = Data.Migrations.Configuration;
 
     public class WebApiStartup
     {
