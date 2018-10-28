@@ -89,10 +89,6 @@
       <Project>{26F22161-4AF4-49CD-B441-5F43A3EBC8AD}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EntityModel\EntityModel.csproj">
-      <Project>{a4341258-e87b-4d59-9846-e6932c0d7b44}</Project>
-      <Name>EntityModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
