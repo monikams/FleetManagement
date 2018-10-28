@@ -20,6 +20,7 @@ namespace BusinessService.Service
     {
         Task<IEnumerable<Models.Vehicle>> GetCompanyVehicles(string companyId);
         Task<Models.Vehicle> GetVehicleById(string vehicleId);
+
         Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle Vehicle);
     }
 
@@ -34,6 +35,6 @@ namespace BusinessService.Service
 
     public interface IUserBusinessService
     {
-        Task<User> ByUsername(string username);
+        User ByUsername(string username);
     }
 }

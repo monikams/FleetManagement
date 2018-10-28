@@ -24,12 +24,12 @@
             this._mapper = new Mapper(this._config);
         }
 
-        public async Task<User> ByUsername(string username)
+        public User ByUsername(string username)
         {
-            var user = await this._userDataAccessService.ByUsername(username);
+            var user = this._userDataAccessService.ByUsername(username);
             var mappedUser = this._mapper.Map<DataAccessService.Models.User, User>(user);
 
-            return await Task.Run(() => mappedUser);
+            return mappedUser;
         }
     }
 }

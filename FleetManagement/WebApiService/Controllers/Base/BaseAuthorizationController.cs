@@ -28,15 +28,15 @@
 
         protected User CurrentUser { get; private set; }
 
-        private async void SetCurrentUser()
+        private void SetCurrentUser()
         {
             var username = this.User.Identity.Name;
-            if (username == null)
+            if (string.IsNullOrWhiteSpace(username))
             {
                 return;
             }
 
-            var user = await this.UsersService.ByUsername(username);
+            var user = this.UsersService.ByUsername(username);
             if (user == null)
             {
                 return;
