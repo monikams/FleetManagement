@@ -29,12 +29,12 @@
             this._mapper = new Mapper(this._config);
         }
 
-        public async Task<User> ByUsername(string username)
+        public User ByUsername(string username)
         {
-            var user = await this._context.Users.Where(u => u.UserName == username).FirstOrDefaultAsync();
+            var user = this._context.Users.FirstOrDefault(u => u.UserName == username);
             var mappedUser = this._mapper.Map<Data.Models.User, User>(user);
 
-            return await Task.Run(() => mappedUser);
+            return mappedUser;
         }
     }
 }

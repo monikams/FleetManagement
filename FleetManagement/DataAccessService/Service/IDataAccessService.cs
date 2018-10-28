@@ -36,6 +36,6 @@ namespace DataAccessService.Service
 
     public interface IUserDataAccessService
     {
-        Task<User> ByUsername(string username);
+        User ByUsername(string username);
     }
 }
