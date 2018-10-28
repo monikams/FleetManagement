@@ -28,7 +28,7 @@
 
         [Route("companies/{companyId}/vehicles")]
         [HttpGet]
-        public async Task<IEnumerable<Vehicle>> GetVehicles([FromUri] Guid companyId)
+        public async Task<IEnumerable<Vehicle>> GetVehicles([FromUri] string companyId)
         {
             var vehicles = await _vehicleBusinessService.GetCompanyVehicles(companyId);
             var mappedVehicles = _mapper.Map<IEnumerable<BusinessService.Models.Vehicle>, IEnumerable<Vehicle>>(vehicles);
@@ -39,7 +39,7 @@
         [HttpGet]
         public async Task<Vehicle> GetVehicleById([FromUri] string companyId, [FromUri] string vehicleId)
         {
-            var vehicle = await _vehicleBusinessService.GetVehicleById(new Guid(vehicleId));
+            var vehicle = await _vehicleBusinessService.GetVehicleById(vehicleId);
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(vehicle);
             return mappedVehicle;
         }
@@ -52,8 +52,8 @@
                 return this.BadRequest(ModelState);
 
             var apiVehicle = _mapper.Map<Vehicle, BusinessService.Models.Vehicle>(Vehicle);
-            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(new Guid(companyId),
-                new Guid(driverId), apiVehicle);
+            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(companyId,
+                driverId, apiVehicle);
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return Ok(mappedVehicle);
         }

@@ -4,7 +4,7 @@
 
     public class TelematicsData
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string VIN { get; set; }
 

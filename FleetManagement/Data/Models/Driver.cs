@@ -7,7 +7,7 @@ namespace Data.Models
     {
         public Driver()
         {
-            this.Vehicles = new HashSet<Vehicle>();
+            this.Vehicles = new HashSet<Vehicle>();          
         }
 
         [Key]
@@ -23,6 +23,11 @@ namespace Data.Models
 
         public string Telephone { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; set; }
+        [Required]
+        public string CompanyId { get; set; }
+
+        public virtual Company Company { get; set; }
+
+        public virtual ICollection<Vehicle> Vehicles { get; set; }       
     }
 }

@@ -1,27 +1,27 @@
 ﻿using AutoMapper;
-using DataAccessService.Models;
-using EntityModel;
-using System;
+using Data;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Configuration;
+
 
 namespace DataAccessService.Service
 {
-    public class CompanyDataAccessService : IDataAccessService<Models.Company, Guid>
+    public class CompanyDataAccessService : IDataAccessService<Models.Company, string>
     {
-        private readonly FleetManagementContext _context = new FleetManagementContext();
+        private readonly FleetManagementDbContext _context = new FleetManagementDbContext();
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public CompanyDataAccessService(FleetManagementContext context)
+        public CompanyDataAccessService()
+        {
+        }
+
+        public CompanyDataAccessService(FleetManagementDbContext context)
         {
             _context = context;
             _config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Models.Company, EntityModel.Company>().ReverseMap();
+                cfg.CreateMap<Models.Company,  Data.Models.Company>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }
@@ -30,23 +30,23 @@ namespace DataAccessService.Service
         {
             var companies =  _context.Companies;
 
-            var mappedCompanies = _mapper.Map<IEnumerable<EntityModel.Company>, IEnumerable<Models.Company>>(companies);
+            var mappedCompanies = _mapper.Map<IEnumerable< Data.Models.Company>, IEnumerable<Models.Company>>(companies);
 
             return await Task.Run(() => mappedCompanies.AsQueryable());
         }
 
-        public async Task<Models.Company> GetById(Guid companyId)
+        public async Task<Models.Company> GetById(string companyId)
         {
             var company = await _context.Companies.FindAsync(companyId);
 
-            var mappedCompany = _mapper.Map<EntityModel.Company, Models.Company>(company);
+            var mappedCompany = _mapper.Map< Data.Models.Company, Models.Company>(company);
 
             return await Task.Run(() => mappedCompany);
         }
 
         public async Task<Models.Company> PostItem(Models.Company company)
         {
-            var newCompany = new EntityModel.Company
+            var newCompany = new  Data.Models.Company
             {
                 Name = company.Name,
                 Address = company.Address,
@@ -56,7 +56,7 @@ namespace DataAccessService.Service
             };
 
             var addedCompany = _context.Companies.Add(newCompany);
-            var mappedCompany = _mapper.Map<EntityModel.Company, Models.Company>(addedCompany);
+            var mappedCompany = _mapper.Map< Data.Models.Company, Models.Company>(addedCompany);
             return await Task.Run(() => mappedCompany);
         }
     }

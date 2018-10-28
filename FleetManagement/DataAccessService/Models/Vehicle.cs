@@ -8,7 +8,7 @@ namespace DataAccessService.Models
 {
     public class Vehicle
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string VIN { get; set; }
         public string PlateNumber { get; set; }
         public int Type { get; set; }

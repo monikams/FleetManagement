@@ -50,6 +50,12 @@
 
             builder.RegisterType<VehicleBusinessService>().As<IVehicleBusinessService>();
             builder.RegisterType<VehicleDataAccessService>().As<IVehicleDataAccessService>();
+
+            builder.RegisterType<DriverBusinessService>().As<IDriverBusinessService>();
+            builder.RegisterType<DriverDataAccessService>().As<IDriverDataAccessService>();
+
+            builder.RegisterType<CompanyBusinessService>().As<IBusinessService<BusinessService.Models.Company, string>>();
+            builder.RegisterType<CompanyDataAccessService>().As<IDataAccessService<DataAccessService.Models.Company, string>> ();
         }
     }
 }
