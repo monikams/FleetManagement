@@ -21,7 +21,7 @@ namespace DataAccessService.Service
         {
             _context = context;
             _config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Models.Company,  Data.Models.Company>().ReverseMap();
+                cfg.CreateMap<Models.Company, Data.Models.Company>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }
@@ -30,7 +30,7 @@ namespace DataAccessService.Service
         {
             var companies =  _context.Companies;
 
-            var mappedCompanies = _mapper.Map<IEnumerable< Data.Models.Company>, IEnumerable<Models.Company>>(companies);
+            var mappedCompanies = _mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Models.Company>>(companies);
 
             return await Task.Run(() => mappedCompanies.AsQueryable());
         }
@@ -39,7 +39,7 @@ namespace DataAccessService.Service
         {
             var company = await _context.Companies.FindAsync(companyId);
 
-            var mappedCompany = _mapper.Map< Data.Models.Company, Models.Company>(company);
+            var mappedCompany = _mapper.Map<Data.Models.Company, Models.Company>(company);
 
             return await Task.Run(() => mappedCompany);
         }
@@ -56,7 +56,7 @@ namespace DataAccessService.Service
             };
 
             var addedCompany = _context.Companies.Add(newCompany);
-            var mappedCompany = _mapper.Map< Data.Models.Company, Models.Company>(addedCompany);
+            var mappedCompany = _mapper.Map<Data.Models.Company, Models.Company>(addedCompany);
             return await Task.Run(() => mappedCompany);
         }
     }

@@ -20,7 +20,7 @@ namespace DataAccessService.Service
         {
             _context = context;
             _config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Models.Vehicle,  Data.Models.Vehicle>().ReverseMap();
+                cfg.CreateMap<Models.Vehicle, Data.Models.Vehicle>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }
@@ -29,7 +29,7 @@ namespace DataAccessService.Service
         {
             var vehicles = _context.Vehicles.Where(v => v.Id == companyId);
 
-            var mappedVehicles = _mapper.Map<IEnumerable< Data.Models.Vehicle>, IEnumerable<Models.Vehicle>>(vehicles);
+            var mappedVehicles = _mapper.Map<IEnumerable<Data.Models.Vehicle>, IEnumerable<Models.Vehicle>>(vehicles);
 
             return await Task.Run(() => mappedVehicles.AsQueryable());
         }
@@ -59,7 +59,7 @@ namespace DataAccessService.Service
             };
 
             var addedVehicle = _context.Vehicles.Add(newVehicle);
-            var mappedVehicle = _mapper.Map< Data.Models.Vehicle, Models.Vehicle>(addedVehicle);
+            var mappedVehicle = _mapper.Map<Data.Models.Vehicle, Models.Vehicle>(addedVehicle);
             return await Task.Run(() => mappedVehicle);
         }
     }
