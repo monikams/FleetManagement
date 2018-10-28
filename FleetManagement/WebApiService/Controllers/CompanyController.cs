@@ -1,15 +1,18 @@
-﻿using System.Web.Http;
-using AutoMapper;
-using WebApiService.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BusinessService.Service;
-
-namespace WebApiService.Controllers
+﻿namespace WebApiService.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+
+    using AutoMapper;
+
+    using BusinessService.Models;
+    using BusinessService.Service;
+
+    using WebApiService.Controllers.Base;
     [RoutePrefix("api")]
-    public class CompanyController : ApiController
+    public class CompanyController : BaseAuthorizationController
     {
         private readonly IBusinessService<BusinessService.Models.Company, Guid> _companyBusinessService;
         private readonly MapperConfiguration _config;
