@@ -11,7 +11,7 @@ namespace BusinessService.Service
 {
     public class VehicleBusinessService : IVehicleBusinessService
     {
-        private readonly IVehicleDataAccessService _vehicleDataAccesService;
+        private readonly IVehicleDataAccessService _vehicleDataAccessService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
@@ -19,9 +19,9 @@ namespace BusinessService.Service
         {
         }
 
-        public VehicleBusinessService(IVehicleDataAccessService vehicleDataAccesService)
+        public VehicleBusinessService(IVehicleDataAccessService vehicleDataAccessService)
         {
-            _vehicleDataAccesService = vehicleDataAccesService;
+            _vehicleDataAccessService = vehicleDataAccessService;
             _config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Vehicle, DataAccessService.Models.Vehicle>().ReverseMap();
             });
@@ -30,14 +30,14 @@ namespace BusinessService.Service
 
         public async Task<IQueryable<Vehicle>> GetCompanyVehicles(string companyId)
         {
-            var vehicles = await _vehicleDataAccesService.GetCompanyVehicles(companyId);
+            var vehicles = await _vehicleDataAccessService.GetCompanyVehicles(companyId);
             var mappedVehicles = _mapper.Map<IQueryable<DataAccessService.Models.Vehicle>, IQueryable<Vehicle>>(vehicles);
             return mappedVehicles;
         }
 
         public async Task<Models.Vehicle> GetVehicleById(string vehicleId)
         {
-            var vehicle = await _vehicleDataAccesService.GetVehicleById(vehicleId);
+            var vehicle = await _vehicleDataAccessService.GetVehicleById(vehicleId);
             var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(vehicle);
             return mappedVehicle;
         }
@@ -45,7 +45,7 @@ namespace BusinessService.Service
         public async Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle)
         {
             var dataAccessVehicle = _mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(vehicle);
-            var businessServiceVehicle = await _vehicleDataAccesService.PostVehicle(companyId, driverId, dataAccessVehicle);
+            var businessServiceVehicle = await _vehicleDataAccessService.PostVehicle(companyId, driverId, dataAccessVehicle);
             var mappedVehicle = _mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return mappedVehicle;
         }
