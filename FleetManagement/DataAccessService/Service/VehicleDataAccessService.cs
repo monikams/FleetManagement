@@ -25,13 +25,13 @@ namespace DataAccessService.Service
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(string companyId)
+        public async Task<IEnumerable<Models.Vehicle>> GetCompanyVehicles(string companyId)
         {
             var vehicles = _context.Vehicles.Where(v => v.Id == companyId);
 
             var mappedVehicles = _mapper.Map<IEnumerable<Data.Models.Vehicle>, IEnumerable<Models.Vehicle>>(vehicles);
 
-            return await Task.Run(() => mappedVehicles.AsQueryable());
+            return await Task.Run(() => mappedVehicles);
         }
 
         public async Task<Models.Vehicle> GetVehicleById(string vehicleId)

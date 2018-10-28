@@ -49,12 +49,12 @@
 
         [Route("companies/{companyId}/Drivers")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostDriver([FromUri] string companyId, [FromUri] string driverId, [FromBody] Driver Driver)
+        public async Task<IHttpActionResult> PostDriver([FromUri] string companyId, [FromUri] string driverId, [FromBody] Driver driver)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            var apiDriver = _mapper.Map<Driver, BusinessService.Models.Driver>(Driver);
+            var apiDriver = _mapper.Map<Driver, BusinessService.Models.Driver>(driver);
             var businessServiceDriver = await _driverBusinessService.PostDriver(companyId,
               apiDriver);
             var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(businessServiceDriver);

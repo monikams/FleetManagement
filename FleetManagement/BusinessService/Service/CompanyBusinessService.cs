@@ -24,10 +24,10 @@ namespace BusinessService.Service
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IQueryable<Company>> GetAll()
+        public async Task<IEnumerable<Company>> GetAll()
         {
             var companies = await _companyDataAccessService.GetAll();
-            var mappedCompanies = _mapper.Map<IQueryable<DataAccessService.Models.Company>, IQueryable<Company>>(companies);
+            var mappedCompanies = _mapper.Map<IEnumerable<DataAccessService.Models.Company>, IEnumerable<Company>>(companies);
             return mappedCompanies;
         }
 

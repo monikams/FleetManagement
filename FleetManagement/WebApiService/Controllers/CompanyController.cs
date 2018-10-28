@@ -32,6 +32,7 @@
 
         [Route("companies")]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<Company>> GetCompanies()
         {
             var companies = await _companyBusinessService.GetAll();

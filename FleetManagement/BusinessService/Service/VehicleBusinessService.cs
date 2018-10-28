@@ -28,10 +28,10 @@ namespace BusinessService.Service
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IQueryable<Vehicle>> GetCompanyVehicles(string companyId)
+        public async Task<IEnumerable<Vehicle>> GetCompanyVehicles(string companyId)
         {
             var vehicles = await _vehicleDataAccessService.GetCompanyVehicles(companyId);
-            var mappedVehicles = _mapper.Map<IQueryable<DataAccessService.Models.Vehicle>, IQueryable<Vehicle>>(vehicles);
+            var mappedVehicles = _mapper.Map<IEnumerable<DataAccessService.Models.Vehicle>, IEnumerable<Vehicle>>(vehicles);
             return mappedVehicles;
         }
 

@@ -26,13 +26,13 @@ namespace DataAccessService.Service
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IQueryable<Models.Company>> GetAll()
+        public async Task<IEnumerable<Models.Company>> GetAll()
         {
             var companies =  _context.Companies;
 
             var mappedCompanies = _mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Models.Company>>(companies);
 
-            return await Task.Run(() => mappedCompanies.AsQueryable());
+            return await Task.Run(() => mappedCompanies);
         }
 
         public async Task<Models.Company> GetById(string companyId)

@@ -9,7 +9,7 @@ namespace DataAccessService.Service
 {
     public interface IDataAccessService<T, Key> where T : class
     {
-        Task<IQueryable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll();
 
         Task<T> PostItem(T item);
 
@@ -18,7 +18,7 @@ namespace DataAccessService.Service
 
     public interface IVehicleDataAccessService
     {
-        Task<IQueryable<Models.Vehicle>> GetCompanyVehicles(string companyId);
+        Task<IEnumerable<Models.Vehicle>> GetCompanyVehicles(string companyId);
 
         Task<Models.Vehicle> GetVehicleById(string vehicleId);
 
@@ -27,7 +27,7 @@ namespace DataAccessService.Service
 
     public interface IDriverDataAccessService
     {
-        Task<IQueryable<Models.Driver>> GetCompanyDrivers(string companyId);
+        Task<IEnumerable<Models.Driver>> GetCompanyDrivers(string companyId);
 
         Task<Models.Driver> GetDriverById(string driverId);
 

@@ -15,19 +15,19 @@ namespace BusinessService.Service
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public DriverBusinessService(IDriverDataAccessService _driverDataAccessService)
+        public DriverBusinessService(IDriverDataAccessService driverDataAccessService)
         {
-            _driverDataAccessService = _driverDataAccessService;
+            _driverDataAccessService = driverDataAccessService;
             _config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Driver, DataAccessService.Models.Driver>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IQueryable<Driver>> GetCompanyDrivers(string companyId)
+        public async Task<IEnumerable<Driver>> GetCompanyDrivers(string companyId)
         {
             var drivers = await _driverDataAccessService.GetCompanyDrivers(companyId);
-            var mappedDrivers = _mapper.Map<IQueryable<DataAccessService.Models.Driver>, IQueryable<Driver>>(drivers);
+            var mappedDrivers = _mapper.Map<IEnumerable<DataAccessService.Models.Driver>, IEnumerable<Driver>>(drivers);
             return mappedDrivers;
         }
 
