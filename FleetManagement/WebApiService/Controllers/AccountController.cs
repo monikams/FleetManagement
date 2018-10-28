@@ -7,8 +7,6 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using Data.Models;
-
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
@@ -18,6 +16,8 @@
     using WebApiService.Models;
     using WebApiService.Providers;
     using WebApiService.Results;
+
+    using User = Data.Models.User;
 
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -131,7 +131,6 @@
             }
 
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(this.User.Identity as ClaimsIdentity);
-
             if (externalLogin == null)
             {
                 return this.InternalServerError();
@@ -143,18 +142,16 @@
                 return new ChallengeResult(provider, this);
             }
 
-            User user = await this.UserManager.FindAsync(
-                            new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
-
+            var user = await this.UserManager.FindAsync(
+                           new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
             bool hasRegistered = user != null;
-
             if (hasRegistered)
             {
                 this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(
                                                    this.UserManager,
-                                                   OAuthDefaults.AuthenticationType);
+                                                   AuthenticationTypes.Password);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(
                                                     this.UserManager,
                                                     CookieAuthenticationDefaults.AuthenticationType);
@@ -165,7 +162,7 @@
             else
             {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                ClaimsIdentity identity = new ClaimsIdentity(claims, AuthenticationTypes.Password);
                 this.Authentication.SignIn(identity);
             }
 
@@ -183,9 +180,7 @@
             }
 
             var user = new User { UserName = model.Username, Email = model.Email };
-
             IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
-
             if (!result.Succeeded)
             {
                 return this.GetErrorResult(result);
@@ -248,8 +243,10 @@
 
             public IList<Claim> GetClaims()
             {
-                IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, this.ProviderKey, null, this.LoginProvider));
+                IList<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, this.ProviderKey, null, this.LoginProvider)
+                };
 
                 if (this.UserName != null)
                 {

@@ -33,4 +33,9 @@ namespace DataAccessService.Service
 
         Task<Models.Driver> PostDriver(string companyId, Driver driver);
     }
+
+    public interface IUserDataAccessService
+    {
+        Task<User> ByUsername(string username);
+    }
 }

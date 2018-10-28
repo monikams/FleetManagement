@@ -31,4 +31,9 @@ namespace BusinessService.Service
 
         Task<Models.Driver> PostDriver(string companyId, Driver driver);
     }
+
+    public interface IUserBusinessService
+    {
+        Task<User> ByUsername(string username);
+    }
 }
