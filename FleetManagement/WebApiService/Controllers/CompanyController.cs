@@ -11,6 +11,7 @@
     using BusinessService.Service;
 
     using WebApiService.Controllers.Base;
+
     [RoutePrefix("api")]
     public class CompanyController : BaseAuthorizationController
     {
@@ -18,11 +19,13 @@
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public CompanyController(IBusinessService<BusinessService.Models.Company, string> companyBusinessService)
+        public CompanyController(IBusinessService<BusinessService.Models.Company, string> companyBusinessService, IUserBusinessService userBusinessService)
+            : base(userBusinessService)
         {
-            _companyBusinessService = companyBusinessService;         
-            _config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Models.Company, BusinessService.Models.Company>().ReverseMap();              
+            _companyBusinessService = companyBusinessService;
+            _config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Models.Company, BusinessService.Models.Company>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }

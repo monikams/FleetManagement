@@ -1,6 +1,5 @@
 ﻿namespace WebApiService.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
@@ -10,17 +9,21 @@
     using BusinessService.Models;
     using BusinessService.Service;
 
+    using WebApiService.Controllers.Base;
+
     [RoutePrefix("api")]
-    public class DriverController : ApiController
+    public class DriverController : BaseAuthorizationController
     {
         private readonly IDriverBusinessService _driverBusinessService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public DriverController(IDriverBusinessService driverBusinessService)
+        public DriverController(IDriverBusinessService driverBusinessService, IUserBusinessService userBusinessService)
+            : base(userBusinessService)
         {
             _driverBusinessService = driverBusinessService;
-            _config = new MapperConfiguration(cfg => {
+            _config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Models.Driver, BusinessService.Models.Driver>().ReverseMap();
             });
             _mapper = new Mapper(_config);

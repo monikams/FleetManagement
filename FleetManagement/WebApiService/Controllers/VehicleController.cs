@@ -1,6 +1,5 @@
 ﻿namespace WebApiService.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
@@ -10,17 +9,21 @@
     using BusinessService.Models;
     using BusinessService.Service;
 
+    using WebApiService.Controllers.Base;
+
     [RoutePrefix("api")]
-    public class VehicleController : ApiController
+    public class VehicleController : BaseAuthorizationController
     {
         private readonly IVehicleBusinessService _vehicleBusinessService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public VehicleController(IVehicleBusinessService vehicleBusinessService)
+        public VehicleController(IVehicleBusinessService vehicleBusinessService, IUserBusinessService userBusinessService)
+            : base(userBusinessService)
         {
             _vehicleBusinessService = vehicleBusinessService;
-            _config = new MapperConfiguration(cfg => {
+            _config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<Models.Vehicle, BusinessService.Models.Vehicle>().ReverseMap();
             });
             _mapper = new Mapper(_config);

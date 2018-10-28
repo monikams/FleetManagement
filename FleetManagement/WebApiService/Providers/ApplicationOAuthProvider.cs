@@ -39,12 +39,12 @@
             }
 
             ClaimsIdentity oAuthIdentity =
-                await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
+                await user.GenerateUserIdentityAsync(userManager, AuthenticationTypes.Password);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(
                                                  userManager,
                                                  CookieAuthenticationDefaults.AuthenticationType);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            AuthenticationProperties properties = CreateProperties(user.Email);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
