@@ -39,7 +39,7 @@
             }
 
             ClaimsIdentity oAuthIdentity =
-                await user.GenerateUserIdentityAsync(userManager, AuthenticationTypes.Password);
+                await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(
                                                  userManager,
                                                  CookieAuthenticationDefaults.AuthenticationType);

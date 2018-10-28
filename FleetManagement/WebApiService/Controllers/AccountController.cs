@@ -1,9 +1,6 @@
 ﻿namespace WebApiService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Net.Http;
-    using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -11,11 +8,8 @@
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
-    using Microsoft.Owin.Security.OAuth;
 
     using WebApiService.Models;
-    using WebApiService.Providers;
-    using WebApiService.Results;
 
     using User = Data.Models.User;
 
@@ -31,12 +25,9 @@
         {
         }
 
-        public AccountController(
-            ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        public AccountController(ApplicationUserManager userManager)
         {
             this.UserManager = userManager;
-            this.AccessTokenFormat = accessTokenFormat;
         }
 
         public ApplicationUserManager UserManager
@@ -50,8 +41,6 @@
                 this._userManager = value;
             }
         }
-
-        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
         // POST api/Account/Logout
         [Route("Logout")]
@@ -108,62 +97,6 @@
             if (!result.Succeeded)
             {
                 return this.GetErrorResult(result);
-            }
-
-            return this.Ok();
-        }
-
-        // GET api/Account/ExternalLogin
-        [OverrideAuthentication]
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
-        [AllowAnonymous]
-        [Route("ExternalLogin", Name = "ExternalLogin")]
-        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
-        {
-            if (error != null)
-            {
-                return this.Redirect(this.Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
-            }
-
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return new ChallengeResult(provider, this);
-            }
-
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(this.User.Identity as ClaimsIdentity);
-            if (externalLogin == null)
-            {
-                return this.InternalServerError();
-            }
-
-            if (externalLogin.LoginProvider != provider)
-            {
-                this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                return new ChallengeResult(provider, this);
-            }
-
-            var user = await this.UserManager.FindAsync(
-                           new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
-            bool hasRegistered = user != null;
-            if (hasRegistered)
-            {
-                this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(
-                                                   this.UserManager,
-                                                   AuthenticationTypes.Password);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(
-                                                    this.UserManager,
-                                                    CookieAuthenticationDefaults.AuthenticationType);
-
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-                this.Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            }
-            else
-            {
-                IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, AuthenticationTypes.Password);
-                this.Authentication.SignIn(identity);
             }
 
             return this.Ok();
@@ -231,58 +164,6 @@
             }
 
             return null;
-        }
-
-        private class ExternalLoginData
-        {
-            public string LoginProvider { get; set; }
-
-            public string ProviderKey { get; set; }
-
-            public string UserName { get; set; }
-
-            public IList<Claim> GetClaims()
-            {
-                IList<Claim> claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, this.ProviderKey, null, this.LoginProvider)
-                };
-
-                if (this.UserName != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Name, this.UserName, null, this.LoginProvider));
-                }
-
-                return claims;
-            }
-
-            public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
-            {
-                if (identity == null)
-                {
-                    return null;
-                }
-
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-                if (providerKeyClaim == null || string.IsNullOrEmpty(providerKeyClaim.Issuer)
-                                             || string.IsNullOrEmpty(providerKeyClaim.Value))
-                {
-                    return null;
-                }
-
-                if (providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer)
-                {
-                    return null;
-                }
-
-                return new ExternalLoginData
-                           {
-                               LoginProvider = providerKeyClaim.Issuer,
-                               ProviderKey = providerKeyClaim.Value,
-                               UserName = identity.FindFirstValue(ClaimTypes.Name)
-                           };
-            }
         }
 
         #endregion
