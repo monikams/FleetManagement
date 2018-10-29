@@ -55,10 +55,13 @@
                                      Address = company.Address,
                                      Bulstat = company.Bulstat,
                                      Email = company.Email,
-                                     Telephone = company.Telephone
+                                     Telephone = company.Telephone,
+                                     CreatorId = company.CreatorId,
                                  };
 
             var addedCompany = this._context.Companies.Add(newCompany);
+            this._context.SaveChanges();
+
             var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(addedCompany);
             return await Task.Run(() => mappedCompany);
         }
