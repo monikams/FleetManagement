@@ -1,16 +1,20 @@
-﻿using AutoMapper;
-using Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-
-namespace DataAccessService.Service
+﻿namespace DataAccessService.Service
 {
-    public class CompanyDataAccessService : IDataAccessService<Models.Company, string>
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Data;
+
+    using DataAccessService.Models;
+
+    public class CompanyDataAccessService : ICompanyDataAccessService
     {
-        private readonly FleetManagementDbContext _context = new FleetManagementDbContext();
         private readonly MapperConfiguration _config;
+
+        private readonly FleetManagementDbContext _context = new FleetManagementDbContext();
+
         private readonly IMapper _mapper;
 
         public CompanyDataAccessService()
@@ -19,44 +23,43 @@ namespace DataAccessService.Service
 
         public CompanyDataAccessService(FleetManagementDbContext context)
         {
-            _context = context;
-            _config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Models.Company, Data.Models.Company>().ReverseMap();
-            });
-            _mapper = new Mapper(_config);
+            this._context = context;
+            this._config =
+                new MapperConfiguration(cfg => { cfg.CreateMap<Company, Data.Models.Company>().ReverseMap(); });
+            this._mapper = new Mapper(this._config);
         }
 
-        public async Task<IEnumerable<Models.Company>> GetAll()
+        public async Task<IEnumerable<Company>> GetAll()
         {
-            var companies =  _context.Companies;
+            var companies = this._context.Companies;
 
-            var mappedCompanies = _mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Models.Company>>(companies);
+            var mappedCompanies = this._mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Company>>(companies);
 
             return await Task.Run(() => mappedCompanies);
         }
 
-        public async Task<Models.Company> GetById(string companyId)
+        public async Task<Company> GetById(string companyId)
         {
-            var company = await _context.Companies.FindAsync(companyId);
+            var company = await this._context.Companies.FindAsync(companyId);
 
-            var mappedCompany = _mapper.Map<Data.Models.Company, Models.Company>(company);
+            var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(company);
 
             return await Task.Run(() => mappedCompany);
         }
 
-        public async Task<Models.Company> PostItem(Models.Company company)
+        public async Task<Company> PostItem(Company company)
         {
-            var newCompany = new  Data.Models.Company
-            {
-                Name = company.Name,
-                Address = company.Address,
-                Bulstat = company.Bulstat,
-                Email = company.Email,
-                Telephone = company.Telephone,
-            };
+            var newCompany = new Data.Models.Company
+                                 {
+                                     Name = company.Name,
+                                     Address = company.Address,
+                                     Bulstat = company.Bulstat,
+                                     Email = company.Email,
+                                     Telephone = company.Telephone
+                                 };
 
-            var addedCompany = _context.Companies.Add(newCompany);
-            var mappedCompany = _mapper.Map<Data.Models.Company, Models.Company>(addedCompany);
+            var addedCompany = this._context.Companies.Add(newCompany);
+            var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(addedCompany);
             return await Task.Run(() => mappedCompany);
         }
     }

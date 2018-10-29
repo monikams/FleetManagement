@@ -1,41 +1,39 @@
-﻿using DataAccessService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessService.Service
+﻿namespace DataAccessService.Service
 {
-    public interface IDataAccessService<T, Key> where T : class
-    {
-        Task<IEnumerable<T>> GetAll();
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
-        Task<T> PostItem(T item);
-
-        Task<T> GetById(Key item);
-    }
+    using DataAccessService.Models;
 
     public interface IVehicleDataAccessService
     {
-        Task<IEnumerable<Models.Vehicle>> GetCompanyVehicles(string companyId);
+        Task<IEnumerable<Vehicle>> GetCompanyVehicles(string companyId);
 
-        Task<Models.Vehicle> GetVehicleById(string vehicleId);
+        Task<Vehicle> GetVehicleById(string vehicleId);
 
-        Task<Models.Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle);
+        Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle);
     }
 
     public interface IDriverDataAccessService
     {
-        Task<IEnumerable<Models.Driver>> GetCompanyDrivers(string companyId);
+        Task<IEnumerable<Driver>> GetCompanyDrivers(string companyId);
 
-        Task<Models.Driver> GetDriverById(string driverId);
+        Task<Driver> GetDriverById(string driverId);
 
-        Task<Models.Driver> PostDriver(string companyId, Driver driver);
+        Task<Driver> PostDriver(string companyId, Driver driver);
     }
 
     public interface IUserDataAccessService
     {
         User ByUsername(string username);
+    }
+
+    public interface ICompanyDataAccessService
+    {
+        Task<IEnumerable<Company>> GetAll();
+
+        Task<Company> GetById(string companyId);
+
+        Task<Company> PostItem(Company company);
     }
 }
