@@ -29,6 +29,11 @@ namespace Data.Models
 
         public string Telephone { get; set; }
 
+        [Required]
+        public string CreatorId { get; set; }
+
+        public virtual User Creator { get; set; }
+
         public virtual ICollection<UserCompany> UserCompanies { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }
