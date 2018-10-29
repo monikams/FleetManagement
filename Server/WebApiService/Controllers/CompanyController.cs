@@ -15,11 +15,11 @@
     [RoutePrefix("api")]
     public class CompanyController : BaseAuthorizationController
     {
-        private readonly IBusinessService<BusinessService.Models.Company, string> _companyBusinessService;
+        private readonly ICompanyBusinessService _companyBusinessService;
         private readonly MapperConfiguration _config;
         private readonly IMapper _mapper;
 
-        public CompanyController(IBusinessService<BusinessService.Models.Company, string> companyBusinessService, IUserBusinessService userBusinessService)
+        public CompanyController(ICompanyBusinessService companyBusinessService, IUserBusinessService userBusinessService)
             : base(userBusinessService)
         {
             _companyBusinessService = companyBusinessService;

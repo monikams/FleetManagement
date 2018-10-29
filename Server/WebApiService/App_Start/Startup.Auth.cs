@@ -36,8 +36,7 @@
             OAuthOptions = new OAuthAuthorizationServerOptions
                                {
                                    TokenEndpointPath = new PathString("/Token"),
-                                   Provider =
-                                       new ApplicationOAuthProvider(PublicClientId),
+                                   Provider = new ApplicationOAuthProvider(PublicClientId),
                                    AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                                    // In production mode set AllowInsecureHttp = false
                                    AllowInsecureHttp = true
