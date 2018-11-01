@@ -59,6 +59,8 @@ namespace DataAccessService.Service
             };
 
             var addedVehicle = _context.Vehicles.Add(newVehicle);
+            this._context.SaveChanges();
+
             var mappedVehicle = _mapper.Map<Data.Models.Vehicle, Models.Vehicle>(addedVehicle);
             return await Task.Run(() => mappedVehicle);
         }

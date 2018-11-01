@@ -63,6 +63,8 @@ namespace DataAccessService.Service
             };
 
             var addedDriver = _context.Drivers.Add(newDriver);
+            this._context.SaveChanges();
+
             var mappedDriver = _mapper.Map<Data.Models.Driver, Models.Driver>(addedDriver);
             return await Task.Run(() => mappedDriver);
         }

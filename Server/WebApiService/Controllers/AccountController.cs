@@ -4,42 +4,33 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BusinessService.Service;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
 
+    using WebApiService.Controllers.Base;
     using WebApiService.Models;
 
     using User = Data.Models.User;
 
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseAuthorizationController
     {
         private const string LocalLoginProvider = "Local";
 
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
-
-        public AccountController(ApplicationUserManager userManager)
-        {
+        public AccountController(ApplicationUserManager userManager, IUserBusinessService userBusinessService)
+            : base(userBusinessService) =>
             this.UserManager = userManager;
-        }
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return this._userManager ?? this.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                this._userManager = value;
-            }
+            get => this._userManager ?? this.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            private set => this._userManager = value;
         }
 
         // POST api/Account/Logout
@@ -64,12 +55,7 @@
                                         model.OldPassword,
                                         model.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                return this.GetErrorResult(result);
-            }
-
-            return this.Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // POST api/Account/RemoveLogin
@@ -94,12 +80,7 @@
                              new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
-            if (!result.Succeeded)
-            {
-                return this.GetErrorResult(result);
-            }
-
-            return this.Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // POST api/Account/Register
@@ -114,12 +95,8 @@
 
             var user = new User { UserName = model.Username, Email = model.Email };
             IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                return this.GetErrorResult(result);
-            }
 
-            return this.Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         protected override void Dispose(bool disposing)
@@ -132,40 +109,5 @@
 
             base.Dispose(disposing);
         }
-
-        #region Helpers
-
-        private IAuthenticationManager Authentication => this.Request.GetOwinContext().Authentication;
-
-        private IHttpActionResult GetErrorResult(IdentityResult result)
-        {
-            if (result == null)
-            {
-                return this.InternalServerError();
-            }
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        this.ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (this.ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return this.BadRequest();
-                }
-
-                return this.BadRequest(this.ModelState);
-            }
-
-            return null;
-        }
-
-        #endregion
     }
 }
