@@ -65,7 +65,7 @@
             foreach (var subscriberId in company.Subscribers)
             {
                 this._context.UserCompanies.Add(
-                    new UserCompany { CompanyId = newCompany.Id, Company = newCompany, UserId = subscriberId });
+                    new UserCompany { CompanyId = addedCompany.Id, Company = addedCompany, UserId = subscriberId });
             }
 
             this._context.SaveChanges();
