@@ -6,8 +6,9 @@
     using AutoMapper;
 
     using Data;
+    using Data.Models;
 
-    using DataAccessService.Models;
+    using Company = DataAccessService.Models.Company;
 
     public class CompanyDataAccessService : ICompanyDataAccessService
     {
@@ -56,10 +57,17 @@
                                      Bulstat = company.Bulstat,
                                      Email = company.Email,
                                      Telephone = company.Telephone,
-                                     CreatorId = company.CreatorId,
+                                     CreatorId = company.CreatorId
                                  };
 
             var addedCompany = this._context.Companies.Add(newCompany);
+
+            foreach (var subscriberId in company.Subscribers)
+            {
+                this._context.UserCompanies.Add(
+                    new UserCompany { CompanyId = newCompany.Id, Company = newCompany, UserId = subscriberId });
+            }
+
             this._context.SaveChanges();
 
             var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(addedCompany);

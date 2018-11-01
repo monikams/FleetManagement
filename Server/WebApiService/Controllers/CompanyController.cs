@@ -33,30 +33,30 @@
         [Route("companies")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IEnumerable<Company>> GetCompanies()
+        public async Task<IEnumerable<Models.Company>> GetCompanies()
         {
             var companies = await _companyBusinessService.GetAll();
-            var mappedCompanies = _mapper.Map<IEnumerable<BusinessService.Models.Company>, IEnumerable<Company>>(companies);
+            var mappedCompanies = _mapper.Map<IEnumerable<BusinessService.Models.Company>, IEnumerable<Models.Company>>(companies);
             return mappedCompanies;
         }
 
         [Route("companies/{companyId}")]
         [HttpGet]
-        public async Task<Company> GetCompanyById([FromUri] string companyId)
+        public async Task<Models.Company> GetCompanyById([FromUri] string companyId)
         {
             var company = await _companyBusinessService.GetById(companyId);
-            var mappedCompany = _mapper.Map<BusinessService.Models.Company, Company>(company);
+            var mappedCompany = _mapper.Map<BusinessService.Models.Company, Models.Company>(company);
             return mappedCompany;
         }
 
         [Route("companies")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostCompany([FromBody]Company company)
+        public async Task<IHttpActionResult> PostCompany([FromBody]Models.Company company, IEnumerable<string> subscribers)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
-            var apiCompany = _mapper.Map<Company, BusinessService.Models.Company>(company);
+            var apiCompany = _mapper.Map<Models.Company, BusinessService.Models.Company>(company);
             var businessServiceCompany = await _companyBusinessService.PostItem(apiCompany);
             var mappedCompany = _mapper.Map<BusinessService.Models.Company, Company>(businessServiceCompany);
             return Ok(mappedCompany);
