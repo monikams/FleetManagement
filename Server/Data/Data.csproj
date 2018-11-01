@@ -58,6 +58,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\Service.cs" />
     <Compile Include="Models\TelematicsData.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCompany.cs" />

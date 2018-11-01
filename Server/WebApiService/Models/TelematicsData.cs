@@ -1,11 +1,15 @@
-﻿namespace WebApiService.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebApiService.Models
 {
     using System;
 
     public class TelematicsData
     {
+        [Key]
         public string Id { get; set; }
 
+        [Required]
         public string VIN { get; set; }
 
         public int? CurrentSpeed { get; set; }

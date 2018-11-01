@@ -1,9 +1,15 @@
 namespace Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Vehicle
     {
+        public Vehicle()
+        {
+            this.Services = new HashSet<Service>();
+        }
+
         [Key]
         public string Id { get; set; }
 
@@ -30,5 +36,7 @@ namespace Data.Models
         public string DriverId { get; set; }
 
         public virtual Driver Driver { get; set; }
+
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

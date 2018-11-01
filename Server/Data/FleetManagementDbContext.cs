@@ -23,6 +23,8 @@
 
         public virtual DbSet<Vehicle> Vehicles { get; set; }
 
+        public virtual DbSet<Service> Services { get; set; }
+
         public static FleetManagementDbContext Create()
         {
             return new FleetManagementDbContext();
