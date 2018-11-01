@@ -51,7 +51,7 @@
 
         [Route("companies")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostCompany([FromBody]Models.Company company, IEnumerable<string> subscribers)
+        public async Task<IHttpActionResult> PostCompany([FromBody] Models.Company company)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
