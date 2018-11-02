@@ -30,7 +30,13 @@
         
         protected IUserBusinessService UsersService { get; }
 
-        protected IAuthenticationManager Authentication => this.Request.GetOwinContext().Authentication;
+        protected IAuthenticationManager Authentication
+        {
+            get
+            {
+                return this.Request.GetOwinContext().Authentication;
+            }
+        }
 
         protected User CurrentUser { get; private set; }
 
