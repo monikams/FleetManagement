@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
+import merge from 'lodash/merge';
 import RegistrationStore from '../stores/RegistrationStore.js';
 import RegistrationActions from '../actions/RegistrationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
@@ -39,6 +40,7 @@ class RegistrationContainer extends Component {
                 name: '',
                 email: '',
                 password: '',
+                confirmPassword: '',
             },
 		}
 	}
@@ -54,8 +56,11 @@ class RegistrationContainer extends Component {
     // }
     
     handleChange = name => event => {
+        const { target: { value }} = event;     
+        const { localUser } = this.state;
+        const newUser = merge(localUser, { [name]: value });
         this.setState({
-            [name]: event.target.value,
+            localUser: newUser
         });
     };
 
@@ -107,6 +112,7 @@ class RegistrationContainer extends Component {
             className={classes.textField}
             type="password"
             autoComplete="current-password"
+            onChange={this.handleChange('password')}
             margin="normal"
             />
             <TextField
@@ -120,6 +126,7 @@ class RegistrationContainer extends Component {
             placeholder="Confirm your password"
             className={classes.textField}
             type="password"
+            onChange={this.handleChange('confirmPassword')}
             margin="normal"
             />
         </div>
