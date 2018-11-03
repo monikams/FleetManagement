@@ -17,6 +17,10 @@
 
         private readonly IMapper _mapper;
 
+        public CompanyBusinessService()
+        {
+        }
+
         public CompanyBusinessService(ICompanyDataAccessService companyDataAccessService)
         {
             this._companyDataAccessService = companyDataAccessService;

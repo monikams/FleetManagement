@@ -1,5 +1,6 @@
 ﻿namespace BusinessService.Service
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -30,6 +31,15 @@
             var mappedUser = this._mapper.Map<DataAccessService.Models.User, User>(user);
 
             return mappedUser;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            var users = await this._userDataAccessService.GetAllUsers();
+            var mappedUsers =
+                this._mapper.Map<IEnumerable<DataAccessService.Models.User>, IEnumerable<User>>(users);
+
+            return mappedUsers;
         }
     }
 }

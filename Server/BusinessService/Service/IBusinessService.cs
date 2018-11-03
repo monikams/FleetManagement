@@ -26,6 +26,8 @@
     public interface IUserBusinessService
     {
         User ByUsername(string username);
+
+        Task<IEnumerable<User>> GetAllUsers();
     }
 
     public interface ICompanyBusinessService
