@@ -6,10 +6,11 @@
 
     using AutoMapper;
 
+    using BusinessService.Models;
     using BusinessService.Service;
 
     using WebApiService.Controllers.Base;
-    using WebApiService.Models;
+    using WebApiService.ViewModels;
 
     [RoutePrefix("api")]
     public class UserController : BaseAuthorizationController
@@ -21,18 +22,16 @@
         public UserController(IUserBusinessService userBusinessService)
             : base(userBusinessService)
         {
-            this._config = new MapperConfiguration(
-                cfg => { cfg.CreateMap<User, BusinessService.Models.User>().ReverseMap(); });
+            this._config = new MapperConfiguration(cfg => { cfg.CreateMap<UserViewModel, User>().ReverseMap(); });
             this._mapper = new Mapper(this._config);
         }
 
         [Route("users")]
         [HttpGet]
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<UserViewModel>> GetAllUsers()
         {
             var allUsers = await this.UsersService.GetAllUsers();
-            var mappedCompanies =
-                this._mapper.Map<IEnumerable<BusinessService.Models.User>, IEnumerable<User>>(allUsers);
+            var mappedCompanies = this._mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(allUsers);
 
             return mappedCompanies;
         }
