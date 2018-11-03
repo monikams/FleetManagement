@@ -4,5 +4,8 @@
 
     public class BaseController : ApiController
     {
+        public BaseController()
+        {
+        }
     }
 }

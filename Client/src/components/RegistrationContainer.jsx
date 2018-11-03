@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-// import RegistrationStore from '../stores/RegistrationStore';
-// import RegistrationActions from '../actions/RegistrationActions.js'
+import RegistrationStore from '../stores/RegistrationStore.js';
+import RegistrationActions from '../actions/RegistrationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -50,7 +49,7 @@ class RegistrationContainer extends Component {
 
     // static getPropsFromStores() {
     //     return {
-    //         Registration: RegistrationStore.getRegistration(),           
+    //         users: RegistrationStore.getRegistration(),           
     //     }
     // }
     
@@ -59,6 +58,10 @@ class RegistrationContainer extends Component {
             [name]: event.target.value,
         });
     };
+
+    handleRegisterButtonClick = () => {
+        RegistrationActions.registerUser(this.state.localUser);
+    }
 
  render() {
     const { classes } = this.props;
@@ -74,7 +77,7 @@ class RegistrationContainer extends Component {
             label="Name"
             placeholder="Enter your name"
             className={classes.textField}          
-            value={localUser.name}
+            //value={localUser.name}
             onChange={this.handleChange('name')}
             margin="normal"
             />
@@ -88,7 +91,7 @@ class RegistrationContainer extends Component {
             label="Email"
             placeholder="Enter your email"
             className={classes.textField}         
-            value={localUser.email}
+           // value={localUser.email}
             onChange={this.handleChange('email')}
             margin="normal"
             />
@@ -126,6 +129,7 @@ class RegistrationContainer extends Component {
                 size="large" 
                 color="primary" 
                 className={classes.button}
+                onClick={this.handleRegisterButtonClick}
             >
                 Register
             </Button>
@@ -137,9 +141,15 @@ class RegistrationContainer extends Component {
 
 RegistrationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
+  users: PropTypes.instanceOf(Immutable.Iterable),
+};
+
+RegistrationContainer.defaultProps = {
+    users: Immutable.List(),
 };
 
 export default withStyles(styles)(RegistrationContainer);
 
-// export default connectToStores(RegistrationContainer);
+//export default connectToStores(withStyles(styles)(RegistrationContainer));
+//export default connectToStores(RegistrationContainer);
 //export default RegistrationContainer;
