@@ -4,22 +4,9 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import RegistrationContainer from './RegistrationContainer.jsx';
 import LoginContainer from './LoginContainer.jsx';
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 const styles = theme => ({
   root: {
@@ -27,6 +14,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
 });
+
 
 class AuthorizationContainer extends React.Component {
   state = {
@@ -42,17 +30,15 @@ class AuthorizationContainer extends React.Component {
     const { value } = this.state;
 
     return (
-      <div className={classes.root}>
+      <div>
         <AppBar position="static">
-          <Tabs value={value} onChange={this.handleChange}>
-            <Tab label="Item One" />
-            <Tab label="Item Two" />
-            <Tab label="Item Three" />
-          </Tabs>
-        </AppBar>
-        {value === 0 && <TabContainer>Item One</TabContainer>}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
-        {value === 2 && <TabContainer>Item Three</TabContainer>}
+            <Tabs centered value={value} onChange={this.handleChange}>
+              <Tab label="Login" />
+              <Tab label="Registration" />
+            </Tabs>   
+        </AppBar>     
+        {value === 0 && <LoginContainer/>}
+        {value === 1 && <RegistrationContainer/>}
       </div>
     );
   }
