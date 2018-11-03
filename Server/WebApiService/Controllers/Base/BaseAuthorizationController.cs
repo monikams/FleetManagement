@@ -19,6 +19,10 @@
 
         private readonly IMapper _mapper;
 
+        public BaseAuthorizationController()
+        {
+        }
+
         public BaseAuthorizationController(IUserBusinessService userBusinessService)
         {
             this._config = new MapperConfiguration(

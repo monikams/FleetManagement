@@ -23,6 +23,10 @@
 
         private ApplicationUserManager _userManager;
 
+        public AccountController()
+        {
+        }
+
         public AccountController(ApplicationUserManager userManager, IUserBusinessService userBusinessService)
             : base(userBusinessService)
         {
