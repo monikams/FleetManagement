@@ -18,8 +18,6 @@
 
         public string CreatorId { get; set; }
 
-        public User Creator { get; set; }
-
         public IEnumerable<string> Subscribers { get; set; }
     }
 }
