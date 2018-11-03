@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
-import RegistrationStore from '../stores/RegistrationStore.js';
 import RegistrationActions from '../actions/RegistrationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import classNames from 'classnames';
@@ -44,17 +43,7 @@ class RegistrationContainer extends Component {
             },
 		}
 	}
-
-    // static getStores() {
-    //     return [RegistrationStore];
-    // }
-
-    // static getPropsFromStores() {
-    //     return {
-    //         users: RegistrationStore.getRegistration(),           
-    //     }
-    // }
-    
+   
     handleChange = name => event => {
         const { target: { value }} = event;     
         const { localUser } = this.state;
@@ -156,7 +145,3 @@ RegistrationContainer.defaultProps = {
 };
 
 export default withStyles(styles)(RegistrationContainer);
-
-//export default connectToStores(withStyles(styles)(RegistrationContainer));
-//export default connectToStores(RegistrationContainer);
-//export default RegistrationContainer;
