@@ -24,13 +24,21 @@
         private ApplicationUserManager _userManager;
 
         public AccountController(ApplicationUserManager userManager, IUserBusinessService userBusinessService)
-            : base(userBusinessService) =>
+            : base(userBusinessService)
+        {
             this.UserManager = userManager;
+        }
 
         public ApplicationUserManager UserManager
         {
-            get => this._userManager ?? this.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            private set => this._userManager = value;
+            get
+            {
+                return this._userManager ?? this.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                this._userManager = value;
+            }
         }
 
         // POST api/Account/Logout

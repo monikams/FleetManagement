@@ -34,17 +34,14 @@
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Vehicle>()
-                .HasRequired(s => s.Company)
-                .WithMany(s => s.Vehicles)
-                .HasForeignKey(s => s.CompanyId)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Vehicle>().HasRequired(v => v.Company).WithMany(c => c.Vehicles)
+                        .HasForeignKey(v => v.CompanyId).WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Vehicle>()
-              .HasRequired(s => s.Driver)
-              .WithMany(s => s.Vehicles)
-              .HasForeignKey(s => s.DriverId)
-              .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Vehicle>().HasRequired(v => v.Driver).WithMany(d => d.Vehicles)
+                        .HasForeignKey(v => v.DriverId).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Company>().HasRequired(c => c.Creator).WithMany(u => u.Companies)
+                        .HasForeignKey(c => c.CreatorId).WillCascadeOnDelete(false);
         }
     }
 }
