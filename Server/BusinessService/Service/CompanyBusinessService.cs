@@ -51,5 +51,13 @@
             var mappedCompany = this._mapper.Map<DataAccessService.Models.Company, Company>(businessServiceCompany);
             return mappedCompany;
         }
+
+        public async Task<IEnumerable<Company>> GetByUserId(string userId)
+        {
+            var companies = await this._companyDataAccessService.GetByUserId(userId);
+            var mappedCompanies =
+                this._mapper.Map<IEnumerable<DataAccessService.Models.Company>, IEnumerable<Company>>(companies);
+            return mappedCompanies;
+        }
     }
 }
