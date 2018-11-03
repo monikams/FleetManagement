@@ -42,6 +42,9 @@
 
             modelBuilder.Entity<Company>().HasRequired(c => c.Creator).WithMany(u => u.Companies)
                         .HasForeignKey(c => c.CreatorId).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Service>().HasRequired(v => v.Vehicle).WithMany(d => d.Services)
+                .HasForeignKey(v => v.VehicleId).WillCascadeOnDelete(false);
         }
     }
 }
