@@ -12,9 +12,12 @@ namespace Data.Models
         public User()
         {
             this.UserCompanies = new HashSet<UserCompany>();
+            this.Companies = new HashSet<Company>();
         }
 
         public virtual ICollection<UserCompany> UserCompanies { get; set; }
+
+        public virtual ICollection<Company> Companies { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
             UserManager<User> manager,
