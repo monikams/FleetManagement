@@ -1,6 +1,7 @@
 ﻿namespace DataAccessService.Service
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -9,6 +10,7 @@
     using Data.Models;
 
     using Company = DataAccessService.Models.Company;
+    using User = DataAccessService.Models.User;
 
     public class CompanyDataAccessService : ICompanyDataAccessService
     {
@@ -33,7 +35,6 @@
         public async Task<IEnumerable<Company>> GetAll()
         {
             var companies = this._context.Companies;
-
             var mappedCompanies = this._mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Company>>(companies);
 
             return await Task.Run(() => mappedCompanies);
@@ -51,14 +52,14 @@
         public async Task<Company> PostItem(Company company)
         {
             var newCompany = new Data.Models.Company
-                                 {
-                                     Name = company.Name,
-                                     Address = company.Address,
-                                     Bulstat = company.Bulstat,
-                                     Email = company.Email,
-                                     Telephone = company.Telephone,
-                                     CreatorId = company.CreatorId
-                                 };
+            {
+                Name = company.Name,
+                Address = company.Address,
+                Bulstat = company.Bulstat,
+                Email = company.Email,
+                Telephone = company.Telephone,
+                CreatorId = company.CreatorId
+            };
 
             var addedCompany = this._context.Companies.Add(newCompany);
 
@@ -72,6 +73,14 @@
 
             var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(addedCompany);
             return await Task.Run(() => mappedCompany);
+        }
+
+        public async Task<IEnumerable<Company>> GetByUserId(string userId)
+        {
+            var companies = this._context.Companies.Where(c => c.CreatorId == userId);
+            var mappedCompanies = this._mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Company>>(companies);
+
+            return await Task.Run(() => mappedCompanies);
         }
     }
 }
