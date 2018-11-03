@@ -83,7 +83,7 @@ class RegistrationContainer extends Component {
             placeholder="Enter your name"
             className={classes.textField}          
             //value={localUser.name}
-            onChange={this.handleChange('name')}
+            onChange={this.handleChange('username')}
             margin="normal"
             />
         <TextField
