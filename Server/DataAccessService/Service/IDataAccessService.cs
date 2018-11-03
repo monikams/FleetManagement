@@ -26,6 +26,8 @@
     public interface IUserDataAccessService
     {
         User ByUsername(string username);
+
+        Task<IEnumerable<User>> GetAllUsers();
     }
 
     public interface ICompanyDataAccessService

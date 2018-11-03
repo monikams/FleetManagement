@@ -27,14 +27,14 @@
             this.UsersService = userBusinessService;
             this.SetCurrentUser();
         }
-        
+
         protected IUserBusinessService UsersService { get; }
 
         protected IAuthenticationManager Authentication
         {
             get
             {
-                return this.Request.GetOwinContext().Authentication;
+                return this.Request?.GetOwinContext()?.Authentication;
             }
         }
 
@@ -42,6 +42,11 @@
 
         private void SetCurrentUser()
         {
+            if (this.Authentication == null)
+            {
+                return;
+            }
+
             var username = this.Authentication.User.Identity.Name;
             if (string.IsNullOrWhiteSpace(username))
             {

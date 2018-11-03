@@ -1,6 +1,6 @@
 ﻿namespace DataAccessService.Service
 {
-    using System.Data.Entity;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -35,6 +35,14 @@
             var mappedUser = this._mapper.Map<Data.Models.User, User>(user);
 
             return mappedUser;
+        }
+
+        public Task<IEnumerable<User>> GetAllUsers()
+        {
+            var users = this._context.Users.ToList();
+            var mappedUsers = this._mapper.Map<IEnumerable<Data.Models.User>, IEnumerable<User>>(users);
+
+            return Task.Run(() => mappedUsers);
         }
     }
 }
