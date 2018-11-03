@@ -23,7 +23,7 @@ class Companies extends Component {
     render() {      
         const { companies } = this.props;    
         return (
-            <p>Hello</p>
+            <p>Companies</p>
         );
     }
 }
