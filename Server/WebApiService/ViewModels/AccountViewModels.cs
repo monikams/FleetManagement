@@ -1,4 +1,4 @@
-﻿namespace WebApiService.Models
+﻿namespace WebApiService.ViewModels
 {
     using System.Collections.Generic;
 
