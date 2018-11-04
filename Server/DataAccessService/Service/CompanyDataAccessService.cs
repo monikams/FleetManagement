@@ -77,7 +77,7 @@
 
         public async Task<IEnumerable<Company>> GetByUserId(string userId)
         {
-            var companies = this._context.Companies.Where(c => c.CreatorId == userId);
+            var companies = this._context.Companies.Where(c => c.CreatorId == userId).ToList();
             var mappedCompanies = this._mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Company>>(companies);
 
             return await Task.Run(() => mappedCompanies);
