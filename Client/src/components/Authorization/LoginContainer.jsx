@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
-import RegistrationActions from '../../actions/RegistrationActions.js'
+import LoginActions from '../../actions/LoginActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,10 +36,8 @@ class LoginContainer extends Component {
 		super();
 		this.state = {
 			localUser: {
-                name: '',
-                email: '',
+                username: '',
                 password: '',
-                confirmPassword: '',
             },
 		}
 	}
@@ -53,8 +51,8 @@ class LoginContainer extends Component {
         });
     };
 
-    handleRegisterButtonClick = () => {
-        RegistrationActions.registerUser(this.state.localUser);
+    handleLoginButtonClick = () => {
+        LoginActions.loginUser(this.state.localUser);
     }
 
  render() {
@@ -67,11 +65,10 @@ class LoginContainer extends Component {
             <TextField
             required
             fullWidth
-            id="name"
-            label="Name"
-            placeholder="Enter your name"
-            className={classes.textField}          
-            //value={localUser.name}
+            id="username"
+            label="Username"
+            placeholder="Enter your username"
+            className={classes.textField}                     
             onChange={this.handleChange('username')}
             margin="normal"
             />
@@ -97,7 +94,7 @@ class LoginContainer extends Component {
                 size="large" 
                 color="primary" 
                 className={classes.button}
-                onClick={this.handleRegisterButtonClick}
+                onClick={this.handleLoginButtonClick}
             >
                 Login
             </Button>

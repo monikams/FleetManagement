@@ -67,11 +67,10 @@ class RegistrationContainer extends Component {
             <TextField
             required
             fullWidth
-            id="name"
-            label="Name"
-            placeholder="Enter your name"
+            id="username"
+            label="Username"
+            placeholder="Enter your username"
             className={classes.textField}          
-            //value={localUser.name}
             onChange={this.handleChange('username')}
             margin="normal"
             />
@@ -85,7 +84,6 @@ class RegistrationContainer extends Component {
             label="Email"
             placeholder="Enter your email"
             className={classes.textField}         
-           // value={localUser.email}
             onChange={this.handleChange('email')}
             margin="normal"
             />
