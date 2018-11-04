@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Data.Models
+﻿namespace Data.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class Service
     {
         [Key]
@@ -36,6 +32,6 @@ namespace Data.Models
         [Required]
         public string VehicleId { get; set; }
 
-        public Vehicle Vehicle { get; set; }
+        public virtual Vehicle Vehicle { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace BusinessService.Models
+﻿namespace BusinessService.Models
 {
+    using System;
+
     public class Service
     {
         public string Id { get; set; }
@@ -24,6 +24,6 @@ namespace BusinessService.Models
 
         public int? MileageReminder { get; set; }
 
-        public Vehicle Vehicle { get; set; }
+        public string VehicleId { get; set; }
     }
 }
