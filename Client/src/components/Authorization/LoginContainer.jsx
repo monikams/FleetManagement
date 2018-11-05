@@ -45,14 +45,16 @@ class LoginContainer extends Component {
     handleChange = name => event => {
         const { target: { value }} = event;     
         const { localUser } = this.state;
-        const newUser = merge(localUser, { [name]: value });
+        const updatedUser = merge(localUser, { [name]: value });
         this.setState({
-            localUser: newUser
+            localUser: updatedUser
         });
     };
 
     handleLoginButtonClick = () => {
-        LoginActions.loginUser(this.state.localUser);
+        const { localUser } = this.state;
+        const updatedUser = merge(localUser, { 'grant-type': 'password' });
+        LoginActions.loginUser(updatedUser);
     }
 
  render() {

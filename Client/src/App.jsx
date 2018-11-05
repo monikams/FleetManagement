@@ -10,9 +10,7 @@ class App extends Component {
     render() {
         return (       
             <Router history={browserHistory}>
-                <Route path='/' component={AuthorizationContainer} />
-                <Route path='/login' component={LoginContainer} />
-                <Route path='/register' component={RegistrationContainer} />          
+                <Route path='/' component={AuthorizationContainer} />          
 				<Route path='/companies' component={Companies} />							
 			</Router>
         );
