@@ -8,6 +8,7 @@
 
     using Data;
 
+    using DataAccessService.Contracts;
     using DataAccessService.Models;
 
     public class UserDataAccessService : IUserDataAccessService

@@ -5,8 +5,10 @@
 
     using AutoMapper;
 
+    using BusinessService.Contracts;
     using BusinessService.Models;
 
+    using DataAccessService.Contracts;
     using DataAccessService.Service;
 
     public class UserBusinessService : IUserBusinessService

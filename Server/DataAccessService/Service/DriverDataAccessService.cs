@@ -8,6 +8,8 @@
 
     using Data;
 
+    using DataAccessService.Contracts;
+
     public class DriverDataAccessService : IDriverDataAccessService
     {
         private readonly FleetManagementDbContext _context = new FleetManagementDbContext();

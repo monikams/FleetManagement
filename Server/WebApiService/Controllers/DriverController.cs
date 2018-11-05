@@ -6,8 +6,8 @@
 
     using AutoMapper;
 
+    using BusinessService.Contracts;
     using BusinessService.Models;
-    using BusinessService.Service;
 
     using WebApiService.Controllers.Base;
 

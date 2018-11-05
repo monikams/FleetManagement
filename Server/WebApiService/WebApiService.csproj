@@ -299,7 +299,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\TelematicsData.cs" />
     <Compile Include="Models\Company.cs" />
@@ -310,7 +309,6 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

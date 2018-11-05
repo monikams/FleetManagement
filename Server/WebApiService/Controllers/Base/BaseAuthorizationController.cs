@@ -5,6 +5,7 @@
 
     using AutoMapper;
 
+    using BusinessService.Contracts;
     using BusinessService.Service;
 
     using Microsoft.AspNet.Identity;

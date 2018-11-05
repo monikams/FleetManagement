@@ -8,10 +8,12 @@
     using Autofac;
     using Autofac.Integration.WebApi;
 
+    using BusinessService.Contracts;
     using BusinessService.Service;
 
     using Data;
 
+    using DataAccessService.Contracts;
     using DataAccessService.Service;
 
     using Microsoft.Owin.Security;

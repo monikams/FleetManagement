@@ -9,6 +9,8 @@
     using Data;
     using Data.Models;
 
+    using DataAccessService.Contracts;
+
     using Company = DataAccessService.Models.Company;
 
     public class CompanyDataAccessService : ICompanyDataAccessService
