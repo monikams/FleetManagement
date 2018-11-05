@@ -1,11 +1,13 @@
-﻿using AutoMapper;
-using Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DataAccessService.Service
+﻿namespace DataAccessService.Service
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Data;
+
     public class VehicleDataAccessService : IVehicleDataAccessService
     {
         private readonly FleetManagementDbContext _context = new FleetManagementDbContext();
@@ -27,8 +29,7 @@ namespace DataAccessService.Service
 
         public async Task<IEnumerable<Models.Vehicle>> GetCompanyVehicles(string companyId)
         {
-            var vehicles = _context.Vehicles.Where(v => v.Id == companyId);
-
+            var vehicles = _context.Vehicles.Where(v => v.Id == companyId).ToList();
             var mappedVehicles = _mapper.Map<IEnumerable<Data.Models.Vehicle>, IEnumerable<Models.Vehicle>>(vehicles);
 
             return await Task.Run(() => mappedVehicles);
@@ -37,7 +38,6 @@ namespace DataAccessService.Service
         public async Task<Models.Vehicle> GetVehicleById(string vehicleId)
         {
             var vehicle =  _context.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
-
             var mappedVehicle = _mapper.Map<Data.Models.Vehicle, Models.Vehicle>(vehicle);
 
             return await Task.Run(() => mappedVehicle);
@@ -47,7 +47,6 @@ namespace DataAccessService.Service
         {
             var company = await _context.Companies.FindAsync(companyId);
             var driver = await _context.Drivers.FindAsync(driverId);
-
             var newVehicle = new Data.Models.Vehicle
             {
                 VIN = vehicle.VIN,

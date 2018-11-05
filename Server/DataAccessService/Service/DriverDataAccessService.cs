@@ -1,17 +1,13 @@
-﻿using AutoMapper;
-using Data;
-using DataAccessService.Models;
-using Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Configuration;
-
-namespace DataAccessService.Service
+﻿namespace DataAccessService.Service
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Data;
+
     public class DriverDataAccessService : IDriverDataAccessService
     {
         private readonly FleetManagementDbContext _context = new FleetManagementDbContext();
@@ -34,8 +30,7 @@ namespace DataAccessService.Service
 
         public async Task<IEnumerable<Models.Driver>> GetCompanyDrivers(string companyId)
         {
-            var drivers = _context.Drivers.Where(d => d.Id == companyId);
-
+            var drivers = _context.Drivers.Where(d => d.Id == companyId).ToList();
             var mappedDrivers = _mapper.Map<IEnumerable<Data.Models.Driver>, IEnumerable<Models.Driver>>(drivers);
 
             return await Task.Run(() => mappedDrivers);

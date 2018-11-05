@@ -10,7 +10,6 @@
     using Data.Models;
 
     using Company = DataAccessService.Models.Company;
-    using User = DataAccessService.Models.User;
 
     public class CompanyDataAccessService : ICompanyDataAccessService
     {
@@ -34,7 +33,7 @@
 
         public async Task<IEnumerable<Company>> GetAll()
         {
-            var companies = this._context.Companies;
+            var companies = this._context.Companies.ToList();
             var mappedCompanies = this._mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Company>>(companies);
 
             return await Task.Run(() => mappedCompanies);
@@ -43,7 +42,6 @@
         public async Task<Company> GetById(string companyId)
         {
             var company = await this._context.Companies.FindAsync(companyId);
-
             var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(company);
 
             return await Task.Run(() => mappedCompany);
@@ -60,7 +58,6 @@
                 Telephone = company.Telephone,
                 CreatorId = company.CreatorId
             };
-
             var addedCompany = this._context.Companies.Add(newCompany);
 
             foreach (var subscriberId in company.Subscribers)
