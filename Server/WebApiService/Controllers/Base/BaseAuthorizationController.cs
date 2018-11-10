@@ -6,7 +6,6 @@
     using AutoMapper;
 
     using BusinessService.Contracts;
-    using BusinessService.Service;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
