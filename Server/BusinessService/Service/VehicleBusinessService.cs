@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessService.Service;
-using BusinessService.Models;
-using AutoMapper;
-
-namespace BusinessService.Service
+﻿namespace BusinessService.Service
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using BusinessService.Contracts;
+    using BusinessService.Models;
+
+    using DataAccessService.Contracts;
+    using DataAccessService.Service;
+
     public class VehicleBusinessService : IVehicleBusinessService
     {
         private readonly IVehicleDataAccessService _vehicleDataAccessService;

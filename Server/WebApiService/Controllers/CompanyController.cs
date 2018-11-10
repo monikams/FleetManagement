@@ -6,6 +6,7 @@
 
     using AutoMapper;
 
+    using BusinessService.Contracts;
     using BusinessService.Service;
 
     using WebApiService.Controllers.Base;

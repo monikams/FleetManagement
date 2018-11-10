@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BusinessService.Service;
+    using BusinessService.Contracts;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;

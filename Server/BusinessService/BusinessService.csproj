@@ -71,7 +71,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DriverBusinessService.cs" />
     <Compile Include="Service\CompanyBusinessService.cs" />
-    <Compile Include="Service\IBusinessService.cs" />
+    <Compile Include="Contracts\ICompanyBusinessService.cs" />
+    <Compile Include="Contracts\IDriverBusinessService.cs" />
+    <Compile Include="Contracts\IUserBusinessService.cs" />
+    <Compile Include="Contracts\IVehicleBusinessService.cs" />
     <Compile Include="Service\TelematicsDataBusinessService.cs" />
     <Compile Include="Service\UserBusinessService.cs" />
     <Compile Include="Service\VehicleBusinessService.cs" />
@@ -88,6 +91,7 @@
       <Name>DataAccessService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

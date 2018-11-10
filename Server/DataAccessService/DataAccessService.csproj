@@ -67,7 +67,8 @@
   <ItemGroup>
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Service\IDataAccessService.cs" />
+    <Compile Include="Contracts\ICompanyDataAccessService.cs" />
+    <Compile Include="Contracts\IVehicleDataAccessService.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\TelematicsData.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CompanyDataAccessService.cs" />
     <Compile Include="Service\DriverDataAccessService.cs" />
+    <Compile Include="Contracts\IDriverDataAccessService.cs" />
+    <Compile Include="Contracts\IUserDataAccessService.cs" />
     <Compile Include="Service\TelematicsDataAcessService.cs" />
     <Compile Include="Service\UserDataAccessService.cs" />
     <Compile Include="Service\VehicleDataAccessService.cs" />
