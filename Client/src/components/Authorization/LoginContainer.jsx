@@ -53,7 +53,7 @@ class LoginContainer extends Component {
 
     handleLoginButtonClick = () => {
         const { localUser } = this.state;
-        const updatedUser = merge(localUser, { 'grant-type': 'password' });
+        const updatedUser = merge(localUser, { 'grant_type': 'password' });
         LoginActions.loginUser(updatedUser);
     }
 

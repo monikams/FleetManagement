@@ -7,7 +7,12 @@ class LoginService {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
          };
-        return axios.post('http://localhost:19631/token', user);
+
+         var parsedData = Object.keys(user).map(function(key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(user[key])
+        }).join('&');
+
+      return axios.post('http://localhost:19631/token', parsedData);       
     }
 }
 
