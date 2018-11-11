@@ -14,7 +14,6 @@ class AuthorizationActions {
                 dispatch(response.data);
             })
             .catch((error) => {
-                // TO DO
                 console.log(error);
             });
         }
