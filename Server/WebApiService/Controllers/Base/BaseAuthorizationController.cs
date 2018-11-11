@@ -1,6 +1,6 @@
 ﻿namespace WebApiService.Controllers.Base
 {
-    using System.Net.Http;
+    using System.Web;
     using System.Web.Http;
 
     using AutoMapper;
@@ -38,7 +38,7 @@
         {
             get
             {
-                return this.Request?.GetOwinContext()?.Authentication;
+                return HttpContext.Current?.Request?.GetOwinContext()?.Authentication;
             }
         }
 

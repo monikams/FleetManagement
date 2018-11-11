@@ -4,9 +4,7 @@
 
     using Data;
 
-    using Microsoft.AspNet.Identity;
     using Microsoft.Owin;
-    using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
     using Owin;
@@ -26,24 +24,20 @@
             app.CreatePerOwinContext(FleetManagementDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
             // Configure the application for OAuth based flow
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
                                {
                                    TokenEndpointPath = new PathString("/Token"),
                                    Provider = new ApplicationOAuthProvider(PublicClientId),
-                                   AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                                   AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(36),
                                    // In production mode set AllowInsecureHttp = false
                                    AllowInsecureHttp = true
                                };
 
             // Enable the application to use bearer tokens to authenticate users
-            app.UseOAuthBearerTokens(OAuthOptions);
+            app.UseOAuthAuthorizationServer(OAuthOptions);
+            app.UseOAuthBearerTokens(new OAuthAuthorizationServerOptions());
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(

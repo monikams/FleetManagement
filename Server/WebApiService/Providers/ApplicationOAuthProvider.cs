@@ -9,7 +9,6 @@
 
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
-    using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
@@ -36,16 +35,13 @@
                 return;
             }
 
-            ClaimsIdentity oAuthIdentity =
-                await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(
-                                                 userManager,
-                                                 CookieAuthenticationDefaults.AuthenticationType);
-
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(
+                                               userManager,
+                                               context.Options.AuthenticationType);
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+
             context.Validated(ticket);
-            context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
@@ -58,15 +54,9 @@
             return Task.FromResult<object>(null);
         }
 
-        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            // Resource owner password credentials does not provide a client ID.
-            if (context.ClientId == null)
-            {
-                context.Validated();
-            }
-
-            return Task.FromResult<object>(null);
+            context.Validated();
         }
 
         public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
