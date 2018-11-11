@@ -74,9 +74,9 @@
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string username)
         {
-            IDictionary<string, string> data = new Dictionary<string, string> { { "userName", userName } };
+            IDictionary<string, string> data = new Dictionary<string, string> { { "username", username } };
             return new AuthenticationProperties(data);
         }
     }
