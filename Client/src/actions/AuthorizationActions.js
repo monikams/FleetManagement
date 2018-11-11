@@ -1,5 +1,6 @@
 import alt from '../alt.js';
 import AuthorizationService from '../services/AuthorizationService';
+import { baseURL } from '../Constants.js';
 
 class AuthorizationActions {
 	constructor() {
@@ -23,7 +24,8 @@ class AuthorizationActions {
         return (dispatch) => {
             AuthorizationService.loginUser(user)
             .then((response) => { 
-                localStorage.setItem('token', response.data.access_token);              
+                localStorage.setItem('token', response.data.access_token);
+                window.location.href = baseURL + '/companies';           
             })
             .catch((error) => {
                 console.log(error);

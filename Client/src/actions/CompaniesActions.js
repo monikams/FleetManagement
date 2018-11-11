@@ -8,12 +8,9 @@ class CompaniesActions {
 	}
 
     loadCompanies() {
-           debugger;
         return (dispatch) => {
-               debugger;
             CompaniesService.getCompanies()
-            .then((response) => {
-                   debugger;                          
+            .then((response) => {                       
                 dispatch(response.data);
             })
             .catch((error) => {

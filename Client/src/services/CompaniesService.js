@@ -10,7 +10,6 @@ class CompaniesService {
                 'Content-Type': 'application/json',
                 'Authorization': 'bearer ' + token,
             };
-            debugger;
             return axios.get('http://localhost:19631/api/companies');
         } else {
             // TO DO: Redirect to login page
