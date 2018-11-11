@@ -38,7 +38,7 @@
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(
                                                userManager,
                                                context.Options.AuthenticationType);
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            AuthenticationProperties properties = CreateProperties(user);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
 
             context.Validated(ticket);
@@ -74,10 +74,17 @@
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string username)
+        private static AuthenticationProperties CreateProperties(User user)
         {
-            IDictionary<string, string> data = new Dictionary<string, string> { { "username", username } };
-            return new AuthenticationProperties(data);
+            IDictionary<string, string> userProperties =
+                new Dictionary<string, string>
+                    {
+                        { "user_id", user.Id },
+                        { nameof(user.Email).ToLower(), user.Email },
+                        { nameof(user.UserName).ToLower(), user.UserName }
+                    };
+
+            return new AuthenticationProperties(userProperties);
         }
     }
 }
