@@ -33,7 +33,6 @@
 
         [Route("companies")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IEnumerable<Company>> GetCompanies()
         {
             var companies = await this._companyBusinessService.GetAll();
@@ -68,7 +67,6 @@
 
         [Route("userCompanies/{userId}")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IEnumerable<Company>> GetUserCompanies([FromUri] string userId)
         {
             var companies = await this._companyBusinessService.GetByUserId(userId);
