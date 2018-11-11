@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
-import RegistrationActions from '../../actions/RegistrationActions.js'
+import AuthorizationActions from '../../actions/AuthorizationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,7 +36,7 @@ class RegistrationContainer extends Component {
 		super();
 		this.state = {
 			localUser: {
-                name: '',
+                username: '',
                 email: '',
                 password: '',
                 confirmPassword: '',
@@ -54,7 +54,7 @@ class RegistrationContainer extends Component {
     };
 
     handleRegisterButtonClick = () => {
-        RegistrationActions.registerUser(this.state.localUser);
+        AuthorizationActions.registerUser(this.state.localUser);
     }
 
  render() {

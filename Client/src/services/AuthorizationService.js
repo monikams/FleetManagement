@@ -1,8 +1,12 @@
 import * as axios from 'axios';
 
-class LoginService {
+class AuthorizationService {
     
-    static loginUser(user) {
+    static registerUser(newUser) {
+        return axios.post('http://localhost:19631/api/account/register', newUser);
+    }
+
+    static getAuthToken(user) {
         axios.defaults.headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
@@ -16,4 +20,4 @@ class LoginService {
     }
 }
 
-export default LoginService;
+export default AuthorizationService;

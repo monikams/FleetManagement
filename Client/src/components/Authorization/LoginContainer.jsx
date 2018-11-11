@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
-import LoginActions from '../../actions/LoginActions.js'
+import AuthorizationActions from '../../actions/AuthorizationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -54,7 +54,7 @@ class LoginContainer extends Component {
     handleLoginButtonClick = () => {
         const { localUser } = this.state;
         const updatedUser = merge(localUser, { 'grant_type': 'password' });
-        LoginActions.loginUser(updatedUser);
+        AuthorizationActions.getAuthToken(updatedUser);
     }
 
  render() {
