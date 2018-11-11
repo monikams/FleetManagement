@@ -17,17 +17,6 @@ class AuthorizationStore {
         const immutableCreatedUser = Immutable.fromJS(newUser);
         this.setState(this.state.update('users', usersList => usersList.push(immutableCreatedUser)));             
     }
-
-    loginUser(data) {
-        const { token, username } = data;
-        this.setState(this.state.update('token', token => token));
-        this.setState(this.state.update('username', username => username));    
-    }
-
-    getToken() {
-        debugger;
-        return this.getState().get('token');
-    }
 }
 
 export default alt.createStore(ImmutableUtil(AuthorizationStore));

@@ -15,6 +15,7 @@ class AuthorizationActions {
             })
             .catch((error) => {
                 // TO DO
+                console.log(error);
             });
         }
     }
@@ -22,12 +23,11 @@ class AuthorizationActions {
      loginUser(user) {
         return (dispatch) => {
             AuthorizationService.loginUser(user)
-            .then((response) => {
-                const { data: { access_token, username } } = response; 
-                dispatch({ token: access_token, username });
+            .then((response) => { 
+                localStorage.setItem('token', response.data.access_token);              
             })
             .catch((error) => {
-                // TO DO
+                console.log(error);
             });
         }
     }  
