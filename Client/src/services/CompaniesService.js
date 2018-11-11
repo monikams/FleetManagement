@@ -1,4 +1,5 @@
 import * as axios from 'axios';
+import AuthorizationStore from '../stores/AuthorizationStore';
 
 class CompaniesService {
     static getCompanies() {

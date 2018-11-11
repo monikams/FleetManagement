@@ -6,7 +6,7 @@ class AuthorizationService {
         return axios.post('http://localhost:19631/api/account/register', newUser);
     }
 
-    static getAuthToken(user) {
+    static loginUser(user) {
         axios.defaults.headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',

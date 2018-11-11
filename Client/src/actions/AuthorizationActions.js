@@ -19,11 +19,12 @@ class AuthorizationActions {
         }
     }
 
-     getAuthToken(user) {
+     loginUser(user) {
         return (dispatch) => {
-            AuthorizationService.getAuthToken(user)
+            AuthorizationService.loginUser(user)
             .then((response) => {
-                dispatch(response.data);
+                const { data: { access_token, username } } = response; 
+                dispatch({ token: access_token, username });
             })
             .catch((error) => {
                 // TO DO

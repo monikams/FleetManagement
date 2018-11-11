@@ -6,25 +6,27 @@ import ImmutableUtil from 'alt-utils/lib/ImmutableUtil.js';
 class AuthorizationStore {
     constructor() {
         this.bindActions(AuthorizationActions);
-        //  this.bindListeners({
-        //     registerUser: AuthorizationActions.registerUser,
-        //     getAuthToken: AuthorizationActions.loginUser,
-        //  })
         this.state = new Immutable.Map({
           users: Immutable.List(),
+          token: '',
+          username: '',
         });
     }
 
     registerUser(newUser) {
-        debugger;
         const immutableCreatedUser = Immutable.fromJS(newUser);
-        this.setState(this.state.update("users", usersList => usersList.push(immutableCreatedUser)));             
+        this.setState(this.state.update('users', usersList => usersList.push(immutableCreatedUser)));             
     }
 
-    getAuthToken(user) {
-          debugger;
-        // const immutableCreatedUser = Immutable.fromJS(newUser);
-        // this.setState(this.state.update("users", usersList => usersList.push(immutableCreatedUser)));             
+    loginUser(data) {
+        const { token, username } = data;
+        this.setState(this.state.update('token', token => token));
+        this.setState(this.state.update('username', username => username));    
+    }
+
+    getToken() {
+        debugger;
+        return this.getState().get('token');
     }
 }
 
