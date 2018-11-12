@@ -19,6 +19,8 @@ class CompaniesService {
             return axios.get('http://localhost:19631/api/companies');
         } else {
             window.location.href = baseURL;
+            localStorage.removeItem('token');
+            localStorage.removeItem('expiration');      
         } 
     }
 }
