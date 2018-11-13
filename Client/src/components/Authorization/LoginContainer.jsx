@@ -67,6 +67,9 @@ class LoginContainer extends Component {
             <TextField
             required
             fullWidth
+            InputLabelProps={{
+                shrink: true,
+            }}
             id="username"
             label="Username"
             placeholder="Enter your username"
