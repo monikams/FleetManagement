@@ -1,6 +1,4 @@
-﻿using System.Web.Http.Cors;
-
-namespace WebApiService
+﻿namespace WebApiService
 {
     using System.Web.Http;
 
