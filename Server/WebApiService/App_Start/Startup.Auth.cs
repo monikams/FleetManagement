@@ -30,7 +30,7 @@
                                {
                                    TokenEndpointPath = new PathString("/Token"),
                                    Provider = new ApplicationOAuthProvider(PublicClientId),
-                                   AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(36),
+                                   AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
                                    // In production mode set AllowInsecureHttp = false
                                    AllowInsecureHttp = true
                                };
