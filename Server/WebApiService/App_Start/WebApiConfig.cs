@@ -12,8 +12,6 @@ namespace WebApiService
         {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // Web API routes
