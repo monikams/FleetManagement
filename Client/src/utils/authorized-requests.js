@@ -10,17 +10,22 @@ async function authorizedGet (url) {
         const expirationDate = moment(expiration).format('X');
         const currentDate = moment().format('X');
 
-        if (token && currentDate < expirationDate) {
+        if (token && currentDate < expirationDate) { 
             axios.defaults.headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'bearer ' + token,
             };
             return await axios.get(url)
         } else {
-            window.location.href = baseURL;
-            localStorage.removeItem('token');
-            localStorage.removeItem('expiration');      
+                logout();
         } 
     };
 
-export { authorizedGet };
+const logout = () => {    
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    window.location.href = baseURL;
+}
+
+
+export { authorizedGet, logout };

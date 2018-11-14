@@ -23,7 +23,6 @@ class Companies extends Component {
 
     render() {      
         const { companies } = this.props;
-        debugger;    
         return (
             <div>
                 <AppBar />

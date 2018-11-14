@@ -9,6 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import '../styles/AppBar.css';
+import { logout } from '../utils/authorized-requests.js';
 
 const styles = {
   root: {
@@ -25,7 +26,7 @@ const styles = {
 
 class MenuAppBar extends React.Component {
   handleLogoutClick = () => {
-    // TO DO
+     logout();
   };
 
   render() {
