@@ -5,7 +5,7 @@ import moment from 'moment';
 import { baseURL } from '../Constants.js';
 
 class CompaniesService {
-    static getCompanies() {
+    static async getCompanies() {
         const token = localStorage.getItem('token');
         const expiration = localStorage.getItem('expiration');
         const expirationDate = moment(expiration).format('X');
@@ -16,7 +16,7 @@ class CompaniesService {
                 'Content-Type': 'application/json',
                 'Authorization': 'bearer ' + token,
             };
-            return axios.get('http://localhost:19631/api/companies');
+            return await axios.get('http://localhost:19631/api/companies')
         } else {
             window.location.href = baseURL;
             localStorage.removeItem('token');
