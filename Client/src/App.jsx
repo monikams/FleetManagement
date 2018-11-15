@@ -6,7 +6,7 @@ import AuthorizationContainer from './components/Authorization/AuthorizationCont
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
 import LoginContainer from './components/Authorization/LoginContainer.jsx';
 import { isLoggedIn } from './utils/authorized-requests.js';
-import AppBar from './components/AppBar.jsx';
+import Home from './components/Home.jsx';
 
 class App extends Component {
     render() {
@@ -14,7 +14,7 @@ class App extends Component {
             <Router history={browserHistory}>     
                     <Route path='/' component={AuthorizationContainer} /> 
                     <Router history={browserHistory}>
-                        <Route path='/' component={AppBar} >
+                        <Route path='/' component={Home} >
                             <Route path='companies' component={Companies} />
                             <Route path='drivers' component={Companies} />
                         </Route>    

@@ -24,7 +24,7 @@ const styles = {
   },
 };
 
-class MenuAppBar extends React.Component {
+class Home extends React.Component {
   handleLogoutClick = () => {
      logout();
   };
@@ -55,9 +55,9 @@ class MenuAppBar extends React.Component {
   }
 }
 
-MenuAppBar.propTypes = {
+Home.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default withStyles(styles)(Home);
