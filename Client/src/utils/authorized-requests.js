@@ -4,20 +4,6 @@ import AuthorizationActions from '../actions/AuthorizationActions';
 import moment from 'moment';
 import { baseURL } from '../Constants.js';
 
-async function authorizedGet (url) {
-        const token = localStorage.getItem('token');
-    
-        if (isLoggedIn()) { 
-            axios.defaults.headers = {
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer ' + token,
-            };
-            return await axios.get(url)
-        } else {
-                logout();
-        } 
-    };
-
 const isLoggedIn = () => {
     const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
@@ -33,5 +19,18 @@ const logout = () => {
     window.location.href = baseURL;
 }
 
+async function authorizedGet (url) {
+        const token = localStorage.getItem('token');
+    
+        if (isLoggedIn()) { 
+            axios.defaults.headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + token,
+            };
+            return await axios.get(url)
+        } else {
+                logout();
+        } 
+    };
 
-export { authorizedGet, logout };
+export { isLoggedIn, logout, authorizedGet };

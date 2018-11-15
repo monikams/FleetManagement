@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import CompaniesStore from '../stores/CompaniesStore';
 import CompaniesActions from '../actions/CompaniesActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
-import AppBar from './AppBar.jsx';
 
 class Companies extends Component {
     static getStores() {
@@ -24,10 +23,7 @@ class Companies extends Component {
     render() {      
         const { companies } = this.props;
         return (
-            <div>
-                <AppBar />
-                <p>Companies</p>
-            </div>
+            <p>Companies</p>
         );
     }
 }

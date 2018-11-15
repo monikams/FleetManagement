@@ -49,6 +49,7 @@ class MenuAppBar extends React.Component {
             <Button color="inherit" onClick={this.handleLogoutClick}>Logout</Button>
           </Toolbar>
         </AppBar>
+        {this.props.children}
       </div>
     );
   }
@@ -56,6 +57,7 @@ class MenuAppBar extends React.Component {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default withStyles(styles)(MenuAppBar);
