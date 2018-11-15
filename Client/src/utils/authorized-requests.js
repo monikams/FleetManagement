@@ -6,11 +6,8 @@ import { baseURL } from '../Constants.js';
 
 async function authorizedGet (url) {
         const token = localStorage.getItem('token');
-        const expiration = localStorage.getItem('expiration');
-        const expirationDate = moment(expiration).format('X');
-        const currentDate = moment().format('X');
-
-        if (token && currentDate < expirationDate) { 
+    
+        if (isLoggedIn()) { 
             axios.defaults.headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'bearer ' + token,
@@ -20,6 +17,15 @@ async function authorizedGet (url) {
                 logout();
         } 
     };
+
+const isLoggedIn = () => {
+    const token = localStorage.getItem('token');
+    const expiration = localStorage.getItem('expiration');
+    const expirationDate = moment(expiration).format('X');
+    const currentDate = moment().format('X');
+    const isLoggedIn = token && currentDate < expirationDate;
+    return isLoggedIn;
+}    
 
 const logout = () => {    
     localStorage.removeItem('token');
