@@ -22,9 +22,8 @@ class Companies extends Component {
 
     render() {      
         const { companies } = this.props;
-        console.log(companies.toJS());
         return (
-            <p></p>
+            <p>Companies</p>
         );
     }
 }
