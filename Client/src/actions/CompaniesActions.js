@@ -9,7 +9,7 @@ class CompaniesActions {
 
     loadCompanies() {
         return (dispatch) => {
-            CompaniesService.getCompanies()
+             CompaniesService.getCompanies()
             .then((response) => {                       
                 dispatch(response.data);
             })

@@ -1,6 +1,4 @@
 import * as axios from 'axios';
-import AuthorizationStore from '../stores/AuthorizationStore';
-import AuthorizationActions from '../actions/AuthorizationActions';
 import moment from 'moment';
 import { baseURL } from '../Constants.js';
 
@@ -19,6 +17,14 @@ const logout = () => {
     window.location.href = baseURL;
 }
 
+const setHeaders = (token) => {
+    axios.defaults.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + token,
+    };
+}
+
+// This function needs to be fixed
 async function authorizedGet (url) {
         const token = localStorage.getItem('token');
     
@@ -28,9 +34,12 @@ async function authorizedGet (url) {
                 'Authorization': 'bearer ' + token,
             };
             return await axios.get(url)
+            .then(response => {
+                return response;
+            })
         } else {
                 logout();
         } 
     };
 
-export { isLoggedIn, logout, authorizedGet };
+export { isLoggedIn, logout, setHeaders, authorizedGet };

@@ -1,8 +1,17 @@
-import { authorizedGet } from '../utils/authorized-requests.js';
+import { isLoggedIn, logout, setHeaders } from '../utils/authorized-requests.js';
+import * as axios from 'axios';
 
 class CompaniesService {
     static async getCompanies() {
-       await authorizedGet('http://localhost:19631/api/companies');
+        const token = localStorage.getItem('token');
+        
+        if (!isLoggedIn()) { 
+             logout();
+             return;
+        }
+    
+        setHeaders(token);
+        return await axios.get('http://localhost:19631/api/companies')
     }
 }
 
