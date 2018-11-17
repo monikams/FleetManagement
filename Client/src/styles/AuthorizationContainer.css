@@ -1,0 +1,14 @@
+button {
+    height: 64px;
+    font-size: 14px;
+}
+
+#loginButton {
+    height: 40px;
+}
+
+#registerButton {
+    height: 40px;
+}
+
+

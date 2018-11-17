@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import '../../styles/AuthorizationContainer.css';
 
 const styles = theme => ({
   button: {
@@ -127,6 +128,7 @@ class RegistrationContainer extends Component {
                 color="primary" 
                 className={classes.button}
                 onClick={this.handleRegisterButtonClick}
+                id='registerButton'
             >
                 Register
             </Button>

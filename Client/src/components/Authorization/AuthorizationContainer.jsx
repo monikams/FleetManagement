@@ -8,11 +8,11 @@ import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AuthorizationStore from '../../stores/AuthorizationStore';
+import '../../styles/AuthorizationContainer.css';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    height: '64px',
   },
 });
 
@@ -32,7 +32,7 @@ class AuthorizationContainer extends React.Component {
 
     return (
       <div>
-        <AppBar position="static">
+        <AppBar className={classes.root} position="static">
             <Tabs centered value={value} onChange={this.handleChange}>
               <Tab label="Login" />
               <Tab label="Registration" />
