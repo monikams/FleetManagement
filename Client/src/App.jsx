@@ -13,12 +13,10 @@ class App extends Component {
         return (       
             <Router history={browserHistory}>     
                     <Route path='/' component={AuthorizationContainer} /> 
-                    <Router history={browserHistory}>
-                        <Route path='/' component={Home} >
-                            <Route path='companies' component={Companies} />
-                            <Route path='drivers' component={Companies} />
-                        </Route>    
-                   </Router>                                						
+                    <Route path='/' component={Home} >
+                        <Route path='companies' component={Companies} />
+                        <Route path='drivers' component={Companies} />
+                    </Route>                                        						
 			</Router>
         );
     }
