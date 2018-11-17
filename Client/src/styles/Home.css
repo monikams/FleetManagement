@@ -3,11 +3,12 @@
 }
 
 .basic {
+    height: 100%;
     display: flex;
 }
 
 #sideBar {
-   margin-top: 10px; 
+   height: 100%;
 }
 
 .children {

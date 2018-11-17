@@ -15,6 +15,7 @@ import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 const styles = {
   root: {
     flexGrow: 1,
+    height: '100%',
   },
   grow: {
     flexGrow: 1,
