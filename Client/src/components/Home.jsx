@@ -51,8 +51,12 @@ class Home extends React.Component {
             <Button color="inherit" onClick={this.handleLogoutClick}>Logout</Button>
           </Toolbar>
         </AppBar>
-        <SideBar id='sideBar'/>
-        {this.props.children}
+        <div className='basic'>
+          <SideBar id='sideBar'/>
+          <div className='children'>
+            {this.props.children}
+          </div>
+        </div>
       </div>
     );
   }
