@@ -5,7 +5,6 @@ import Companies from './components/Companies.jsx';
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
 import LoginContainer from './components/Authorization/LoginContainer.jsx';
-import { isLoggedIn } from './utils/authorized-requests.js';
 import Home from './components/Home.jsx';
 
 class App extends Component {

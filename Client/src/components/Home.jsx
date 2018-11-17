@@ -9,8 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import '../styles/Home.css';
-import { logout } from '../utils/authorized-requests.js';
 import SideBar from './SideBar';
+import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 
 const styles = {
   root: {
@@ -34,6 +34,7 @@ class Home extends React.Component {
     const { classes } = this.props;
     
     return (
+      isLoggedIn() &&
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
