@@ -8,6 +8,10 @@ const isLoggedIn = () => {
     const expirationDate = moment(expiration).format('X');
     const currentDate = moment().format('X');
     const isLoggedIn = token && currentDate < expirationDate;
+    if (isLoggedIn)
+    {
+       setHeaders(token);   
+    }
     return isLoggedIn;
 }    
 
@@ -24,22 +28,4 @@ const setHeaders = (token) => {
     };
 }
 
-// This function needs to be fixed
-async function authorizedGet (url) {
-        const token = localStorage.getItem('token');
-    
-        if (isLoggedIn()) { 
-            axios.defaults.headers = {
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer ' + token,
-            };
-            return await axios.get(url)
-            .then(response => {
-                return response;
-            })
-        } else {
-                logout();
-        } 
-    };
-
-export { isLoggedIn, logout, setHeaders, authorizedGet };
+export { isLoggedIn, logout, setHeaders };
