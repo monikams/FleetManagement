@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import '../styles/AppBar.css';
 import { logout } from '../utils/authorized-requests.js';
+import SideBar from './SideBar';
 
 const styles = {
   root: {
@@ -49,6 +50,7 @@ class Home extends React.Component {
             <Button color="inherit" onClick={this.handleLogoutClick}>Logout</Button>
           </Toolbar>
         </AppBar>
+        <SideBar id='sideBar'/>
         {this.props.children}
       </div>
     );

@@ -1,0 +1,43 @@
+.sideBar {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	width: 300px;
+	background-color: white;
+}
+
+.item {
+	font-size: 20px;
+	flex-direction: column-reverse;
+	margin: 0 10px 0 0;
+	justify-content: center;
+	height: 64px;
+	display: flex;
+	border-radius: 3px;
+	width: 100%;
+	text-transform: uppercase;
+	color: white;
+	margin: 0 10px 10px 0;
+	background-color: #3f51b5;
+}
+
+.itemText {
+	display: flex;
+	align-items: center;
+	padding-left: 24px;
+	margin: 10px 0;
+	max-width: 94%;
+	/*'&:hover > span': {
+		'text-decoration': 'none',
+	},*/
+}
+
+.selectedIndicator {
+	width: 10px;
+	border-radius: 0 3px 3px 0;
+	/*'&.active': {
+		backgroundColor: primaryBlue,
+	},*/
+}
+
