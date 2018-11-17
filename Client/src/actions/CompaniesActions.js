@@ -10,11 +10,23 @@ class CompaniesActions {
     loadCompanies() {
         return (dispatch) => {
              CompaniesService.getCompanies()
-            .then((response) => {                       
+            .then((response) => {    
                 dispatch(response.data);
             })
             .catch((error) => {
                // TO DO
+            });
+        }
+    }
+
+    deleteCompany(companyId){
+        return (dispatch) => {
+            CompaniesService.deleteCompany(companyId)
+            .then((response) => {
+                this.loadCompanies();                   
+            })
+            .catch((error) => {
+                // TODO
             });
         }
     }

@@ -10,6 +10,12 @@ class CompaniesService {
 
         logout();
     }
+
+    static async deleteCompany(companyId){
+        if(isLoggedIn()){
+            return await axios.delete(`http://localhost:19631/api/deleteCompany?companyId=${companyId}`);
+        }
+    }
 }
 
 export default CompaniesService;

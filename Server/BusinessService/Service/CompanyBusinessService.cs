@@ -61,5 +61,10 @@
                 this._mapper.Map<IEnumerable<DataAccessService.Models.Company>, IEnumerable<Company>>(companies);
             return mappedCompanies;
         }
+
+        public async Task DeleteItem(string companyId)
+        {
+            await this._companyDataAccessService.DeleteItem(companyId);
+        }
     }
 }

@@ -81,5 +81,15 @@
 
             return await Task.Run(() => mappedCompanies);
         }
+
+        public async Task DeleteItem(string companyId)
+        {
+            var company = this._context.Companies.FirstOrDefault(x => x.Id == companyId);
+            if (company != null)
+            {
+                this._context.Companies.Remove(company);
+                await this._context.SaveChangesAsync();
+            }
+        }
     }
 }

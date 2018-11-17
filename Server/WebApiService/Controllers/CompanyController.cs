@@ -74,5 +74,24 @@
                 this._mapper.Map<IEnumerable<BusinessService.Models.Company>, IEnumerable<Company>>(companies);
             return mappedCompanies;
         }
+
+        [Route("deleteCompany")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteCompany([FromUri] string companyId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var company = await this._companyBusinessService.GetById(companyId);
+            if (company == null || company.CreatorId != this.CurrentUser.Id)
+            {
+                return this.BadRequest();
+            }
+
+            await this._companyBusinessService.DeleteItem(companyId);
+            return this.Ok();
+        }
     }
 }

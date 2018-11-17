@@ -14,5 +14,7 @@
         Task<Company> PostItem(Company company);
 
         Task<IEnumerable<Company>> GetByUserId(string userId);
+
+        Task DeleteItem(string companyId);
     }
 }

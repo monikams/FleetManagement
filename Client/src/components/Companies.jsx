@@ -11,6 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 const styles = theme => ({
   root: {
@@ -38,6 +40,10 @@ class Companies extends Component {
         CompaniesActions.loadCompanies();
     }
 
+    handleDeleteClick(companyId) {
+        CompaniesActions.deleteCompany(companyId);
+    };
+
     render() {      
         const { companies, classes } = this.props;
     
@@ -49,19 +55,23 @@ class Companies extends Component {
                         <TableCell>Name</TableCell>
                         <TableCell>Address</TableCell>
                         <TableCell>Email</TableCell>
-                        <TableCell numeric>Telephone</TableCell>
+                        <TableCell>Telephone</TableCell>
+                        <TableCell>Edit</TableCell>
+                        <TableCell>Delete</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
                     {companies.map(company => {
                         return (
-                        <TableRow key={company.id}>
+                        <TableRow key={company.Id}>
                             <TableCell component="th" scope="row">
                             {company.Name}
                             </TableCell>
                             <TableCell>{company.Address}</TableCell>
                             <TableCell>{company.Email}</TableCell>
-                            <TableCell numeric>{company.Telephone}</TableCell>
+                            <TableCell>{company.Telephone}</TableCell>
+                            <TableCell><EditIcon /></TableCell>
+                            <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
                         </TableRow>
                         );
                     })}
