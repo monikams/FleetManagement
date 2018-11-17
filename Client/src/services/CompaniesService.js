@@ -4,7 +4,8 @@ import * as axios from 'axios';
 class CompaniesService {
     static async getCompanies() {   
         if (isLoggedIn()) { 
-            return await axios.get('http://localhost:19631/api/companies');
+            const userId = localStorage.getItem('userId');
+            return await axios.get(`http://localhost:19631/api/userCompanies/${userId}`);
         }
 
         logout();

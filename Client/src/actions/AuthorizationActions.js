@@ -26,6 +26,7 @@ class AuthorizationActions {
             .then((response) => { 
                 localStorage.setItem('token', response.data.access_token);
                 localStorage.setItem('expiration', response.data['.expires']);
+                localStorage.setItem('userId', response.data.user_id);
                 window.location.href = baseURL + '/companies';           
             })
             .catch((error) => {
