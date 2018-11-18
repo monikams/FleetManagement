@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import CompaniesStore from '../stores/CompaniesStore';
-import CompaniesActions from '../actions/CompaniesActions.js'
+import CompaniesActions from '../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -26,6 +27,7 @@ const styles = theme => ({
 });
 
 class Companies extends Component {
+
     static getStores() {
         return [CompaniesStore];
     }
@@ -44,40 +46,56 @@ class Companies extends Component {
         CompaniesActions.deleteCompany(companyId);
     };
 
+    handleCreateCompanyClick() {
+      // TO DO
+    };
+
     render() {      
         const { companies, classes } = this.props;
     
         return (
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Address</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Telephone</TableCell>
-                        <TableCell>Edit</TableCell>
-                        <TableCell>Delete</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {companies.map(company => {
-                        return (
-                        <TableRow key={company.Id}>
-                            <TableCell component="th" scope="row">
-                            {company.Name}
-                            </TableCell>
-                            <TableCell>{company.Address}</TableCell>
-                            <TableCell>{company.Email}</TableCell>
-                            <TableCell>{company.Telephone}</TableCell>
-                            <TableCell><EditIcon /></TableCell>
-                            <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
+            <div>
+                <Button 
+                    variant="contained" 
+                    size="large" 
+                    color="primary" 
+                    className={classes.button}
+                    onClick={this.handleCreateCompanyClick}
+                    id='loginButton'
+                >
+                    Create company
+                </Button>
+                <Paper className={classes.root}>
+                    <Table className={classes.table}>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Address</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Telephone</TableCell>
+                            <TableCell>Edit</TableCell>
+                            <TableCell>Delete</TableCell>
                         </TableRow>
-                        );
-                    })}
-                    </TableBody>
-                </Table>
-            </Paper>
+                        </TableHead>
+                        <TableBody>
+                        {companies.map(company => {
+                            return (
+                            <TableRow key={company.Id}>
+                                <TableCell component="th" scope="row">
+                                {company.Name}
+                                </TableCell>
+                                <TableCell>{company.Address}</TableCell>
+                                <TableCell>{company.Email}</TableCell>
+                                <TableCell>{company.Telephone}</TableCell>
+                                <TableCell><EditIcon /></TableCell>
+                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
+                            </TableRow>
+                            );
+                        })}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </div>
         );
     }
 }
