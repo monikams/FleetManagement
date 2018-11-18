@@ -18,6 +18,7 @@ const isLoggedIn = () => {
 const logout = () => {    
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
+    localStorage.removeItem('userId');
     window.location.href = baseURL;
 }
 
