@@ -59,6 +59,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
+            company.CreatorId = this.CurrentUser.Id;
             var apiCompany = this._mapper.Map<Company, BusinessService.Models.Company>(company);
             var businessServiceCompany = await this._companyBusinessService.PostItem(apiCompany);
             var mappedCompany = this._mapper.Map<BusinessService.Models.Company, Company>(businessServiceCompany);

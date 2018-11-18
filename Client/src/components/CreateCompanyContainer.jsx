@@ -101,7 +101,7 @@ class CreateCompanyContainer extends Component {
             selectedUsers.splice(index, 1);
         }
 
-        const newCompany = merge(localCompany, { selectedUsers });
+        const newCompany = merge(localCompany, { subscribers: selectedUsers });
         this.setState({ localCompany: newCompany });
      };
 
@@ -160,7 +160,7 @@ class CreateCompanyContainer extends Component {
                         label="Phone"
                         placeholder="Enter company`s phone number"
                         className={classes.textField}         
-                        onChange={this.handleChange('phone')}
+                        onChange={this.handleChange('telephone')}
                         margin="normal"
                     />
                     <Select
