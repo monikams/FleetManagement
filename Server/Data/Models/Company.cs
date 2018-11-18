@@ -1,5 +1,6 @@
 namespace Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +14,7 @@ namespace Data.Models
         }
 
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string Name { get; set; }
@@ -21,7 +22,6 @@ namespace Data.Models
         [Required]
         public string Address { get; set; }
 
-        [Required]
         public string Bulstat { get; set; }
 
         [Required]

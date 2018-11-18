@@ -1,5 +1,6 @@
 namespace Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -7,11 +8,11 @@ namespace Data.Models
     {
         public Driver()
         {
-            this.Vehicles = new HashSet<Vehicle>();          
+            this.Vehicles = new HashSet<Vehicle>();
         }
 
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string Name { get; set; }
@@ -28,6 +29,6 @@ namespace Data.Models
 
         public virtual Company Company { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; set; }       
+        public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 }

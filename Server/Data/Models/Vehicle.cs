@@ -1,5 +1,6 @@
 namespace Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +12,7 @@ namespace Data.Models
         }
 
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string VIN { get; set; }
