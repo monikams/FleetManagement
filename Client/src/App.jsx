@@ -16,7 +16,7 @@ class App extends Component {
                     <Route path='/' component={AuthorizationContainer} /> 
                     <Route path='/' component={Home} >
                         <Route path='companies' component={CompaniesContainer} />
-                         <Route path='companies/create' component={CreateCompanyContainer} />
+                         <Route path='createCompany' component={CreateCompanyContainer} />
                         <Route path='drivers' component={Drivers} />
                     </Route>                                        						
 			</Router>

@@ -46,12 +46,11 @@ class CreateCompanyContainer extends Component {
 }
 
 CreateCompanyContainer.propTypes = {
-    companies: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
 };
 
 CreateCompanyContainer.defaultProps = {
-    companies: Immutable.List(),
+   
 };
 
 export default withStyles(styles)(connectToStores(CreateCompanyContainer));

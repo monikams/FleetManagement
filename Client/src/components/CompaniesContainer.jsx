@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
-import { baseURL } from '../Constants.js';
+import { withRouter } from 'react-router'
 
 const styles = theme => ({
   root: {
@@ -28,6 +28,10 @@ const styles = theme => ({
 });
 
 class CompaniesContainer extends Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     static getStores() {
         return [CompaniesStore];
@@ -43,12 +47,12 @@ class CompaniesContainer extends Component {
         CompaniesActions.loadCompanies();
     }
 
-    handleDeleteClick(companyId) {
+    handleDeleteClick(companyId)  {
         CompaniesActions.deleteCompany(companyId);
     };
 
-    handleCreateCompanyClick() {
-      window.location.href = baseURL + '/companies/create'; 
+    handleCreateCompanyClick = () => {
+         this.props.router.push('/createCompany');
     };
 
     render() {      
@@ -110,4 +114,4 @@ CompaniesContainer.defaultProps = {
     companies: Immutable.List(),
 };
 
-export default withStyles(styles)(connectToStores(CompaniesContainer));
+export default withStyles(styles)(withRouter(connectToStores(CompaniesContainer)));
