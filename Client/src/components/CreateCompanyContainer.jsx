@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -37,9 +38,26 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  select: {
+    marginTop: '16px',
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: theme.spacing.unit / 4,
+  },
 });
 
 class CreateCompanyContainer extends Component {
+
+     constructor(props) {
+        super(props);
+        this.state = {
+            selectedUsers: [],
+        } 
+    }
 
     static getStores() {
         return [UsersStore];
@@ -68,9 +86,21 @@ class CreateCompanyContainer extends Component {
         //AuthorizationActions.registerUser(this.state.localUser);
     }
 
+     handleUserDropdownChange = event => {
+        const { target: { value } } = event;
+        const { selectedUsers } = this.state;
+        const index = selectedUsers.findIndex(name => name === value);
+        if (index === -1) {
+            selectedUsers.push(value); 
+        } else {
+            selectedUsers.splice(index, 1);
+        }
+        this.setState({ selectedUsers });
+     };
+
     render() {      
         const { users, classes } = this.props;
-        console.log(users.toJS());
+        const { selectedUsers } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -126,6 +156,27 @@ class CreateCompanyContainer extends Component {
                         onChange={this.handleChange('phone')}
                         margin="normal"
                     />
+                    <Select
+                        fullWidth
+                        className={classes.select}
+                        value={selectedUsers}
+                        input={<Input id="select-multiple-chip" />}
+                        onChange={this.handleUserDropdownChange}
+                        renderValue={selected => (
+                        <div className={classes.chips}>
+                            {selected.map(value => (
+                            <Chip key={value} label={value} className={classes.chip} />
+                            ))}
+                        </div>
+                        )}
+                    >
+                        {users.map(user => (
+                        <MenuItem key={user.Id} value={user.UserName}>
+                            <Checkbox  checked={selectedUsers.indexOf(user.UserName) > -1} />
+                            <ListItemText primary={user.UserName} />
+                        </MenuItem>
+                        ))}
+                    </Select>
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -146,10 +197,11 @@ class CreateCompanyContainer extends Component {
 
 CreateCompanyContainer.propTypes = {
     classes: PropTypes.object.isRequired,
+    users: PropTypes.instanceOf(Immutable.Iterable),
 };
 
 CreateCompanyContainer.defaultProps = {
-   
+   users: Immutable.List(),
 };
 
 export default withStyles(styles)(connectToStores(CreateCompanyContainer));
