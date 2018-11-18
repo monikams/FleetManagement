@@ -19,7 +19,19 @@ class CompaniesActions {
         }
     }
 
-    deleteCompany(companyId){
+     createCompany(company){
+        return (dispatch) => {
+            CompaniesService.createCompany(company)
+            .then((response) => {
+                this.loadCompanies();                   
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
+    deleteCompany(companyId) {
         return (dispatch) => {
             CompaniesService.deleteCompany(companyId)
             .then((response) => {

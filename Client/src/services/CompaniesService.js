@@ -12,6 +12,15 @@ class CompaniesService {
         logout();
     }
 
+    static async createCompany(company){
+        if(isLoggedIn()){
+            debugger;
+            return await axios.post('http://localhost:19631/api/companies', company);
+        }
+
+         logout();
+    }
+
     static async deleteCompany(companyId){
         if(isLoggedIn()){
             return await axios.delete(`http://localhost:19631/api/deleteCompany?companyId=${companyId}`);

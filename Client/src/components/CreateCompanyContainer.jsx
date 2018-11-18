@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import UsersStore from '../stores/UsersStore';
 import UsersActions from '../actions/UsersActions.js';
+import CompaniesActions from '../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -55,8 +55,14 @@ class CreateCompanyContainer extends Component {
      constructor(props) {
         super(props);
         this.state = {
-            selectedUsers: [],
-        } 
+			localCompany: {
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                selectedUsers: [],
+            },
+		} 
     }
 
     static getStores() {
@@ -74,33 +80,34 @@ class CreateCompanyContainer extends Component {
     }
 
     handleChange = name => event => {
-        // const { target: { value }} = event;     
-        // const { localUser } = this.state;
-        // const newUser = merge(localUser, { [name]: value });
-        // this.setState({
-        //     localUser: newUser
-        // });
+        const { target: { value }} = event;     
+        const { localCompany } = this.state;
+        const newCompany = merge(localCompany, { [name]: value });
+        this.setState({ localCompany: newCompany });
     };
 
     handleSaveButtonClick = () => {
-        //AuthorizationActions.registerUser(this.state.localUser);
+        const { localCompany } = this.state;
+        CompaniesActions.createCompany(localCompany);
     }
 
      handleUserDropdownChange = event => {
+        const { localCompany, localCompany: { selectedUsers } } = this.state;
         const { target: { value } } = event;
-        const { selectedUsers } = this.state;
         const index = selectedUsers.findIndex(name => name === value);
         if (index === -1) {
             selectedUsers.push(value); 
         } else {
             selectedUsers.splice(index, 1);
         }
-        this.setState({ selectedUsers });
+
+        const newCompany = merge(localCompany, { selectedUsers });
+        this.setState({ localCompany: newCompany });
      };
 
     render() {      
         const { users, classes } = this.props;
-        const { selectedUsers } = this.state;
+        const { localCompany : { selectedUsers } } = this.state;
     
         return (
             <div className={classes.form} >  
