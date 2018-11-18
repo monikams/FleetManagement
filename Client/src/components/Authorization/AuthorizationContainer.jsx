@@ -9,6 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AuthorizationStore from '../../stores/AuthorizationStore';
 import '../../styles/AuthorizationContainer.css';
+import { withRouter } from 'react-router'
 
 const styles = theme => ({
   root: {
@@ -18,12 +19,21 @@ const styles = theme => ({
 
 
 class AuthorizationContainer extends React.Component {
+  componentDidMount() {
+      this.props.router.push('login');
+  }
+
   state = {
     value: 0,
   };
 
   handleChange = (event, value) => {
     this.setState({ value });
+    if (value === 0) {
+      this.props.router.push('login');
+    } else {
+      this.props.router.push('register');
+    }
   };
 
   render() {
@@ -38,8 +48,7 @@ class AuthorizationContainer extends React.Component {
               <Tab label="Registration" />
             </Tabs>   
         </AppBar>     
-        {value === 0 && <LoginContainer/>}
-        {value === 1 && <RegistrationContainer/>}
+        {this.props.children}
       </div>
     );
   }
@@ -49,4 +58,4 @@ AuthorizationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AuthorizationContainer);
+export default withStyles(styles)(withRouter(AuthorizationContainer));

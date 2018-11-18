@@ -1,6 +1,7 @@
 import alt from '../alt.js';
 import AuthorizationService from '../services/AuthorizationService';
 import { baseURL } from '../Constants.js';
+import { setLocalStorageItems } from '../utils/authorized-requests.js';
 
 class AuthorizationActions {
 	constructor() {
@@ -12,7 +13,7 @@ class AuthorizationActions {
         return (dispatch) => {
             AuthorizationService.registerUser(newUser)
             .then((response) => {
-                dispatch(response.data);
+                window.location.href = baseURL + '/login';     
             })
             .catch((error) => {
                 console.log(error);
@@ -24,9 +25,7 @@ class AuthorizationActions {
         return (dispatch) => {
             AuthorizationService.loginUser(user)
             .then((response) => { 
-                localStorage.setItem('token', response.data.access_token);
-                localStorage.setItem('expiration', response.data['.expires']);
-                localStorage.setItem('userId', response.data.user_id);
+                setLocalStorageItems(response);
                 window.location.href = baseURL + '/companies';           
             })
             .catch((error) => {

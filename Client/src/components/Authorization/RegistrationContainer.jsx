@@ -65,7 +65,7 @@ class RegistrationContainer extends Component {
     return (
       <div className={classes.form} >  
         <div className={classes.container} >
-            <TextField
+        <TextField
             required
             fullWidth
             InputLabelProps={{
