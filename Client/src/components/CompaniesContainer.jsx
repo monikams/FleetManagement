@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
+import { baseURL } from '../Constants.js';
 
 const styles = theme => ({
   root: {
@@ -26,7 +27,7 @@ const styles = theme => ({
   },
 });
 
-class Companies extends Component {
+class CompaniesContainer extends Component {
 
     static getStores() {
         return [CompaniesStore];
@@ -47,7 +48,7 @@ class Companies extends Component {
     };
 
     handleCreateCompanyClick() {
-      // TO DO
+      window.location.href = baseURL + '/companies/create'; 
     };
 
     render() {      
@@ -100,13 +101,13 @@ class Companies extends Component {
     }
 }
 
-Companies.propTypes = {
+CompaniesContainer.propTypes = {
     companies: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
 };
 
-Companies.defaultProps = {
+CompaniesContainer.defaultProps = {
     companies: Immutable.List(),
 };
 
-export default withStyles(styles)(connectToStores(Companies));
+export default withStyles(styles)(connectToStores(CompaniesContainer));
