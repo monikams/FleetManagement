@@ -67,7 +67,7 @@
             {
                 var userId = await this._context.Users.Where(x => x.UserName == subscriber).Select(x => x.Id)
                                        .FirstOrDefaultAsync();
-                if (string.IsNullOrEmpty(userId))
+                if (!string.IsNullOrEmpty(userId))
                 {
                     this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = userId });
                 }
