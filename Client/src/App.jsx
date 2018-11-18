@@ -13,10 +13,13 @@ class App extends Component {
     render() {
         return (       
             <Router history={browserHistory}>     
-                    <Route path='/' component={AuthorizationContainer} /> 
+                    <Route path='/' component={AuthorizationContainer} > 
+                        <Route path='register' component={RegistrationContainer} />
+                        <Route path='login' component={LoginContainer} />
+                    </Route>
                     <Route path='/' component={Home} >
                         <Route path='companies' component={CompaniesContainer} />
-                         <Route path='createCompany' component={CreateCompanyContainer} />
+                            <Route path='createCompany' component={CreateCompanyContainer} />
                         <Route path='drivers' component={Drivers} />
                     </Route>                                        						
 			</Router>
