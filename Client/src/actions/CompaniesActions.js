@@ -14,7 +14,7 @@ class CompaniesActions {
                 dispatch(response.data);
             })
             .catch((error) => {
-               // TO DO
+               console.log(error);
             });
         }
     }
@@ -26,7 +26,7 @@ class CompaniesActions {
                 this.loadCompanies();                   
             })
             .catch((error) => {
-                // TODO
+                console.log(error);
             });
         }
     }

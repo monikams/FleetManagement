@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import CompaniesStore from '../stores/CompaniesStore';
-import CompaniesActions from '../actions/CompaniesActions.js';
+import UsersStore from '../stores/UsersStore';
+import UsersActions from '../actions/UsersActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
   button: {
@@ -34,17 +42,17 @@ const styles = theme => ({
 class CreateCompanyContainer extends Component {
 
     static getStores() {
-        return [CompaniesStore];
+        return [UsersStore];
     }
 
     static getPropsFromStores() {
         return {
-            companies: CompaniesStore.getCompanies(),           
+            users: UsersStore.getUsers(),           
         }
     }
 
     componentDidMount() {
-        CompaniesActions.loadCompanies();
+        UsersActions.loadUsers();
     }
 
     handleChange = name => event => {
@@ -61,7 +69,8 @@ class CreateCompanyContainer extends Component {
     }
 
     render() {      
-        const { companies, classes } = this.props;
+        const { users, classes } = this.props;
+        console.log(users.toJS());
     
         return (
             <div className={classes.form} >  
