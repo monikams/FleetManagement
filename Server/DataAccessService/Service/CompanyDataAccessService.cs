@@ -1,6 +1,7 @@
 ﻿namespace DataAccessService.Service
 {
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -62,13 +63,17 @@
             };
             var addedCompany = this._context.Companies.Add(newCompany);
 
-            foreach (var subscriberId in company.Subscribers)
+            foreach (var subscriber in company.Subscribers)
             {
-                this._context.UserCompanies.Add(
-                    new UserCompany { CompanyId = addedCompany.Id, UserId = subscriberId });
+                var userId = await this._context.Users.Where(x => x.UserName == subscriber).Select(x => x.Id)
+                                       .FirstOrDefaultAsync();
+                if (string.IsNullOrEmpty(userId))
+                {
+                    this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = userId });
+                }
             }
 
-            this._context.SaveChanges();
+            await this._context.SaveChangesAsync();
 
             var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(addedCompany);
             return await Task.Run(() => mappedCompany);
