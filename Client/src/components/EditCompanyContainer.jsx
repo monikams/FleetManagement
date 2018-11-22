@@ -50,7 +50,7 @@ const styles = theme => ({
   },
 });
 
-class CreateCompanyContainer extends Component {
+class EditCompanyContainer extends Component {
 
      constructor(props) {
         super(props);
@@ -120,7 +120,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="name"
                         label="Name"
-                        placeholder="Enter company`s name"
+                        placeholder="Edit company`s name"
                         className={classes.textField}          
                         onChange={this.handleChange('name')}
                         margin="normal"
@@ -133,7 +133,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="email"
                         label="Email"
-                        placeholder="Enter company`s email"
+                        placeholder="Edit company`s email"
                         className={classes.textField}          
                         onChange={this.handleChange('email')}
                         margin="normal"
@@ -146,7 +146,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="address"
                         label="Address"
-                        placeholder="Enter company`s address"
+                        placeholder="Edit company`s address"
                         className={classes.textField}         
                         onChange={this.handleChange('address')}
                         margin="normal"
@@ -158,7 +158,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="phone"
                         label="Phone"
-                        placeholder="Enter company`s phone number"
+                        placeholder="Edit company`s phone number"
                         className={classes.textField}         
                         onChange={this.handleChange('telephone')}
                         margin="normal"
@@ -203,13 +203,13 @@ class CreateCompanyContainer extends Component {
     }
 }
 
-CreateCompanyContainer.propTypes = {
+EditCompanyContainer.propTypes = {
     classes: PropTypes.object.isRequired,
     users: PropTypes.instanceOf(Immutable.Iterable),
 };
 
-CreateCompanyContainer.defaultProps = {
+EditCompanyContainer.defaultProps = {
    users: Immutable.List(),
 };
 
-export default withStyles(styles)(connectToStores(CreateCompanyContainer));
+export default withStyles(styles)(connectToStores(EditCompanyContainer));

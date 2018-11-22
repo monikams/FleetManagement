@@ -47,7 +47,11 @@ class CompaniesContainer extends Component {
         CompaniesActions.loadCompanies();
     }
 
-    handleDeleteClick(companyId)  {
+    handleEditClick(companyId) {
+        this.props.router.push('/editCompany');
+    };
+
+     handleDeleteClick(companyId) {
         CompaniesActions.deleteCompany(companyId);
     };
 
@@ -92,7 +96,7 @@ class CompaniesContainer extends Component {
                                 <TableCell>{company.Address}</TableCell>
                                 <TableCell>{company.Email}</TableCell>
                                 <TableCell>{company.Telephone}</TableCell>
-                                <TableCell><EditIcon /></TableCell>
+                                <TableCell><EditIcon onClick={() => this.handleEditClick(company.Id)} /></TableCell>
                                 <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
                             </TableRow>
                             );
