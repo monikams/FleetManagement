@@ -1,4 +1,6 @@
-﻿namespace WebApiService.Controllers
+﻿using Microsoft.AspNet.OData;
+
+namespace WebApiService.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -93,6 +95,32 @@
 
             await this._companyBusinessService.DeleteItem(companyId);
             return this.Ok();
+        }
+
+        [Route("companies/{companyId}")]
+        [HttpPatch]
+        public async Task<IHttpActionResult> EditCompany([FromUri] string companyId, [FromBody] Delta<EditCompany> companyForEditDelta)
+        {        
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var company = await _companyBusinessService.GetById(companyId);
+            if (company == null)
+            {
+                return this.BadRequest();
+            }
+
+            var companyForEdit = _mapper.Map<EditCompany>(company);
+            companyForEditDelta.Patch(companyForEdit);
+
+            var businessCompanyForEdit = _mapper.Map<BusinessService.Models.EditCompany>(companyForEdit);
+            businessCompanyForEdit.Id = companyId;
+
+            var editedCompany = await _companyBusinessService.EditCompany(businessCompanyForEdit);
+            var apiCompany = _mapper.Map<EditCompany>(editedCompany);
+            return Ok(apiCompany);
         }
     }
 }

@@ -66,5 +66,11 @@
         {
             await this._companyDataAccessService.DeleteItem(companyId);
         }
+
+        public async Task<Company> EditCompany(EditCompany companyForEdit)
+        {
+            var editedCompany = await _companyDataAccessService.EditCompany(_mapper.Map<DataAccessService.Models.EditCompany>(companyForEdit));
+            return _mapper.Map<Company>(editedCompany);
+        }
     }
 }

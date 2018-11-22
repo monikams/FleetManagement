@@ -1,4 +1,6 @@
-﻿namespace DataAccessService.Service
+﻿using DataAccessService.Models;
+
+namespace DataAccessService.Service
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -90,6 +92,18 @@
                 this._context.Companies.Remove(company);
                 await this._context.SaveChangesAsync();
             }
+        }
+
+        public async Task<Company> EditCompany(EditCompany companyForEdit)
+        {
+            var company = await _context.Companies.FindAsync(companyForEdit.Id);
+            company.Name = companyForEdit.Name;
+            company.Address = companyForEdit.Address;
+            company.Telephone = companyForEdit.Telephone ?? string.Empty;
+            company.Email = companyForEdit.Email;
+           
+            await _context.SaveChangesAsync();
+            return (Company) _mapper.Map(company, typeof(Data.Models.Company), typeof(Company));        
         }
     }
 }
