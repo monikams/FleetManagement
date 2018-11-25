@@ -46,10 +46,10 @@
             return mappedCompany;
         }
 
-        public async Task<Company> PostItem(Company company)
+        public async Task<Company> PostCompany(Company company)
         {
             var dataAccessCompany = this._mapper.Map<Company, DataAccessService.Models.Company>(company);
-            var businessServiceCompany = await this._companyDataAccessService.PostItem(dataAccessCompany);
+            var businessServiceCompany = await this._companyDataAccessService.PostCompany(dataAccessCompany);
             var mappedCompany = this._mapper.Map<DataAccessService.Models.Company, Company>(businessServiceCompany);
             return mappedCompany;
         }

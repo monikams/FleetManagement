@@ -52,7 +52,7 @@ namespace DataAccessService.Service
             return await Task.Run(() => mappedCompany);
         }
 
-        public async Task<Company> PostItem(Company company)
+        public async Task<Company> PostCompany(Company company)
         {
             var newCompany = new Data.Models.Company
             {
@@ -65,13 +65,11 @@ namespace DataAccessService.Service
             };
             var addedCompany = this._context.Companies.Add(newCompany);
 
-            foreach (var subscriber in company.Subscribers)
+            foreach (var subscriberId in company.Subscribers)
             {
-                var userId = await this._context.Users.Where(x => x.UserName == subscriber).Select(x => x.Id)
-                                       .FirstOrDefaultAsync();
-                if (!string.IsNullOrEmpty(userId))
+                if (!string.IsNullOrEmpty(subscriberId))
                 {
-                    this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = userId });
+                    this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = subscriberId });
                 }
             }
 

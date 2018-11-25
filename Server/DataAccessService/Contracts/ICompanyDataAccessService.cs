@@ -11,7 +11,7 @@
 
         Task<Company> GetById(string companyId);
 
-        Task<Company> PostItem(Company company);
+        Task<Company> PostCompany(Company company);
 
         Task<IEnumerable<Company>> GetByUserId(string userId);
 
