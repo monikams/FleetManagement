@@ -20,7 +20,7 @@
 
         public User Creator { get; set; }
 
-        public IEnumerable<string> Subscribers { get; set; }
+        public IEnumerable<User> Subscribers { get; set; }
     }
 
     public class EditCompany

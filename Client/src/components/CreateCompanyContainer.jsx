@@ -89,8 +89,8 @@ class CreateCompanyContainer extends Component {
     handleSaveButtonClick = () => {
         const { localCompany, localCompany: { subscribers } } = this.state;
         const { users } = this.props;
-        const selectedUserIds = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first().Id);    
-        const newLocalCompany = merge(localCompany, { subscribers: selectedUserIds });
+        const selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());    
+        const newLocalCompany = merge(localCompany, { subscribers: selectedUsers });
         CompaniesActions.createCompany(newLocalCompany);
     }
 

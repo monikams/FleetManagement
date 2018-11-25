@@ -65,12 +65,9 @@ namespace DataAccessService.Service
             };
             var addedCompany = this._context.Companies.Add(newCompany);
 
-            foreach (var subscriberId in company.Subscribers)
+            foreach (var subscriber in company.Subscribers)
             {
-                if (!string.IsNullOrEmpty(subscriberId))
-                {
-                    this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = subscriberId });
-                }
+              this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = subscriber.Id });              
             }
 
             await this._context.SaveChangesAsync();
