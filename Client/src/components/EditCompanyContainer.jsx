@@ -79,25 +79,45 @@ class EditCompanyContainer extends Component {
 
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localCompany } = this.state;
-        const newCompany = merge(localCompany, { [name]: value });
+        const { localCompany } = this.state;    
+        const newCompany = localCompany.update(name, oldValue => value);
         this.setState({ localCompany: newCompany });
     };
 
     handleSaveButtonClick = () => {
-        const { localCompany } = this.state;
-        CompaniesActions.createCompany(localCompany);
+       const { localCompany, localCompany: { subscribers } } = this.state;
+       const { users } = this.props;
+      // CompaniesActions.createCompany(localCompany);
     }
 
      handleUserDropdownChange = event => {
-      
+        const { localCompany } = this.state;
+        const { users } = this.props;
+        const { target: { value } } = event;   
+        let newCompany;
+        let selectedUsers;
+
+        if(this.state.localCompany.get("Subscribers")) {
+             const subscribers = this.state.localCompany.get("Subscribers").map(user => user.UserName); 
+             const index = subscribers.findIndex(name => name === value);
+            if (index === -1) {
+               subscribers.push(value);
+              
+            } else {
+                subscribers.splice(index, 1);
+            }
+
+            selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
+            newCompany = localCompany.update('Subscribers', subscribers => selectedUsers);        
+        }
+       
+        this.setState({ localCompany: newCompany });
      };
 
     render() {      
         const { users, classes } = this.props;
         const { localCompany } = this.state;
-        console.log(localCompany);
-    
+           
         return (
             <div className={classes.form} >  
                 <div className={classes.container} >
@@ -112,7 +132,7 @@ class EditCompanyContainer extends Component {
                         label="Name"
                         placeholder="Edit company`s name"
                         className={classes.textField}          
-                        onChange={this.handleChange('name')}
+                        onChange={this.handleChange('Name')}
                         margin="normal"
                     />
                     <TextField
@@ -126,7 +146,7 @@ class EditCompanyContainer extends Component {
                         label="Email"
                         placeholder="Edit company`s email"
                         className={classes.textField}          
-                        onChange={this.handleChange('email')}
+                        onChange={this.handleChange('Email')}
                         margin="normal"
                     />
                     <TextField
@@ -140,7 +160,7 @@ class EditCompanyContainer extends Component {
                         label="Address"
                         placeholder="Edit company`s address"
                         className={classes.textField}         
-                        onChange={this.handleChange('address')}
+                        onChange={this.handleChange('Address')}
                         margin="normal"
                     />
                      <TextField
@@ -153,11 +173,30 @@ class EditCompanyContainer extends Component {
                         label="Phone"
                         placeholder="Edit company`s phone number"
                         className={classes.textField}         
-                        onChange={this.handleChange('telephone')}
+                        onChange={this.handleChange('Telephone')}
                         margin="normal"
                     />
                     <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
-                   
+                    <Select
+                        fullWidth
+                        className={classes.select}
+                        value={localCompany.get("Subscribers") !== undefined ? localCompany.get("Subscribers").map(u => u.UserName) : []}
+                        onChange={this.handleUserDropdownChange}
+                        renderValue={selected => (
+                        <div className={classes.chips}>
+                            {selected.map(value => (
+                            <Chip key={value} label={value} className={classes.chip} />
+                            ))}
+                        </div>
+                        )}
+                    >
+                        {users.map(user => (
+                        <MenuItem key={user.Id} value={user.UserName}>
+                            <Checkbox checked={localCompany.get("Subscribers") !== undefined ? localCompany.get("Subscribers").map(u => u.UserName).indexOf(user.UserName) > -1 : false} />
+                            <ListItemText primary={user.UserName} />
+                        </MenuItem>
+                        ))}
+                    </Select>
                 </div>
                 <div className={classes.container} >
                     <Button 

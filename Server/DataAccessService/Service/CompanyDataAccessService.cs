@@ -46,9 +46,22 @@ namespace DataAccessService.Service
 
         public async Task<Company> GetById(string companyId)
         {
-            var company = await this._context.Companies.FindAsync(companyId);
-            var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(company);
+            var company = await this._context.Companies.FindAsync(companyId);         
+            var companyUsersIds = this._context.UserCompanies.Where(userCompany => userCompany.CompanyId == companyId).Select(uc => uc.UserId).ToList();
+            IList<Models.User> companyUsers = new List<Models.User>();
 
+            foreach (var userId in companyUsersIds)
+            {
+                var user = await this._context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    var mappedUser = this._mapper.Map<User, Models.User>(user);
+                    companyUsers.Add(mappedUser);
+                }
+            }
+         
+            var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(company);
+            mappedCompany.Subscribers = companyUsers;
             return await Task.Run(() => mappedCompany);
         }
 
@@ -67,7 +80,11 @@ namespace DataAccessService.Service
 
             foreach (var subscriber in company.Subscribers)
             {
-              this._context.UserCompanies.Add(new UserCompany { CompanyId = addedCompany.Id, UserId = subscriber.Id });              
+                if (subscriber != null)
+                {
+                    this._context.UserCompanies.Add(new UserCompany
+                        {CompanyId = addedCompany.Id, UserId = subscriber.Id});
+                }
             }
 
             await this._context.SaveChangesAsync();
