@@ -45,6 +45,19 @@ class CompaniesActions {
         }
     }
 
+    editCompany(company){
+        return (dispatch) => {
+            CompaniesService.editCompany(company)
+            .then((response) => {
+                this.loadCompanies();
+                window.location.href = baseURL + '/companies';                   
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
     deleteCompany(companyId) {
         return (dispatch) => {
             CompaniesService.deleteCompany(companyId)

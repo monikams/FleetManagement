@@ -28,6 +28,14 @@ class CompaniesService {
          logout();
     }
 
+     static async editCompany(company){
+        if(isLoggedIn()){
+            return await axios.patch(`http://localhost:19631/api/companies/${company.get('Id')}`, company.toJS());
+        }
+
+         logout();
+    }
+
     static async deleteCompany(companyId){
         if(isLoggedIn()){
             return await axios.delete(`http://localhost:19631/api/deleteCompany?companyId=${companyId}`);
