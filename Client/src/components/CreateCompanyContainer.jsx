@@ -60,7 +60,7 @@ class CreateCompanyContainer extends Component {
                 email: '',
                 password: '',
                 confirmPassword: '',
-                selectedUsers: [],
+                subscribers: [],
             },
 		} 
     }
@@ -87,27 +87,28 @@ class CreateCompanyContainer extends Component {
     };
 
     handleSaveButtonClick = () => {
-        const { localCompany } = this.state;
+        const { localCompany } = this.state;     
         CompaniesActions.createCompany(localCompany);
     }
 
      handleUserDropdownChange = event => {
-        const { localCompany, localCompany: { selectedUsers } } = this.state;
+        const { localCompany, localCompany: { subscribers } } = this.state;
         const { target: { value } } = event;
-        const index = selectedUsers.findIndex(name => name === value);
+
+        const index = subscribers.findIndex(name => name === value);
         if (index === -1) {
-            selectedUsers.push(value); 
+            subscribers.push(value); 
         } else {
-            selectedUsers.splice(index, 1);
+            subscribers.splice(index, 1);
         }
 
-        const newCompany = merge(localCompany, { subscribers: selectedUsers });
+        const newCompany = merge(localCompany, { subscribers });
         this.setState({ localCompany: newCompany });
      };
 
     render() {      
         const { users, classes } = this.props;
-        const { localCompany : { selectedUsers } } = this.state;
+        const { localCompany : { subscribers } } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -167,7 +168,7 @@ class CreateCompanyContainer extends Component {
                     <Select
                         fullWidth
                         className={classes.select}
-                        value={selectedUsers}
+                        value={subscribers}
                         input={<Input id="select-multiple-chip" />}
                         onChange={this.handleUserDropdownChange}
                         renderValue={selected => (
@@ -180,7 +181,7 @@ class CreateCompanyContainer extends Component {
                     >
                         {users.map(user => (
                         <MenuItem key={user.Id} value={user.UserName}>
-                            <Checkbox  checked={selectedUsers.indexOf(user.UserName) > -1} />
+                            <Checkbox checked={subscribers.indexOf(user.UserName) > -1} />
                             <ListItemText primary={user.UserName} />
                         </MenuItem>
                         ))}
