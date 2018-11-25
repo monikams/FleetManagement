@@ -12,9 +12,16 @@ class CompaniesService {
         logout();
     }
 
+    static async getCompany(companyId) {   
+        if (isLoggedIn()) { 
+            return await axios.get(`http://localhost:19631/api/companies/${companyId}`);
+        }
+
+        logout();
+    }
+
     static async createCompany(company){
         if(isLoggedIn()){
-            debugger;
             return await axios.post('http://localhost:19631/api/companies', company);
         }
 

@@ -43,12 +43,12 @@ class CompaniesContainer extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         CompaniesActions.loadCompanies();
     }
 
     handleEditClick(companyId) {
-        this.props.router.push('/editCompany');
+        this.props.router.push({ pathname: `/editCompany/${companyId}` });
     };
 
      handleDeleteClick(companyId) {

@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import UsersStore from '../stores/UsersStore';
 import UsersActions from '../actions/UsersActions.js';
 import CompaniesActions from '../actions/CompaniesActions.js';
+import CompaniesStore from '../stores/CompaniesStore';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -55,28 +56,25 @@ class EditCompanyContainer extends Component {
      constructor(props) {
         super(props);
         this.state = {
-			localCompany: {
-                username: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-                selectedUsers: [],
-            },
+			localCompany: this.props.company,
 		} 
     }
 
     static getStores() {
-        return [UsersStore];
+        return [UsersStore, CompaniesStore];
     }
 
     static getPropsFromStores() {
         return {
-            users: UsersStore.getUsers(),           
+            users: UsersStore.getUsers(),
+            company: CompaniesStore.getCompany(),           
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        const { params: { companyId } } = this.props;
         UsersActions.loadUsers();
+        CompaniesActions.loadCompany(companyId);
     }
 
     handleChange = name => event => {
@@ -92,22 +90,13 @@ class EditCompanyContainer extends Component {
     }
 
      handleUserDropdownChange = event => {
-        const { localCompany, localCompany: { selectedUsers } } = this.state;
-        const { target: { value } } = event;
-        const index = selectedUsers.findIndex(name => name === value);
-        if (index === -1) {
-            selectedUsers.push(value); 
-        } else {
-            selectedUsers.splice(index, 1);
-        }
-
-        const newCompany = merge(localCompany, { subscribers: selectedUsers });
-        this.setState({ localCompany: newCompany });
+      
      };
 
     render() {      
         const { users, classes } = this.props;
-        const { localCompany : { selectedUsers } } = this.state;
+        const { localCompany } = this.state;
+        console.log(localCompany);
     
         return (
             <div className={classes.form} >  
@@ -118,6 +107,7 @@ class EditCompanyContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        value={localCompany.get("Name")}
                         id="name"
                         label="Name"
                         placeholder="Edit company`s name"
@@ -131,6 +121,7 @@ class EditCompanyContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        value={localCompany.get("Email")}
                         id="email"
                         label="Email"
                         placeholder="Edit company`s email"
@@ -144,6 +135,7 @@ class EditCompanyContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        value={localCompany.get("Address")}
                         id="address"
                         label="Address"
                         placeholder="Edit company`s address"
@@ -156,6 +148,7 @@ class EditCompanyContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        value={localCompany.get("Telephone")}
                         id="phone"
                         label="Phone"
                         placeholder="Edit company`s phone number"
@@ -164,27 +157,7 @@ class EditCompanyContainer extends Component {
                         margin="normal"
                     />
                     <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
-                    <Select
-                        fullWidth
-                        className={classes.select}
-                        value={selectedUsers}
-                        input={<Input id="select-multiple-chip" />}
-                        onChange={this.handleUserDropdownChange}
-                        renderValue={selected => (
-                        <div className={classes.chips}>
-                            {selected.map(value => (
-                            <Chip key={value} label={value} className={classes.chip} />
-                            ))}
-                        </div>
-                        )}
-                    >
-                        {users.map(user => (
-                        <MenuItem key={user.Id} value={user.UserName}>
-                            <Checkbox  checked={selectedUsers.indexOf(user.UserName) > -1} />
-                            <ListItemText primary={user.UserName} />
-                        </MenuItem>
-                        ))}
-                    </Select>
+                   
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -206,6 +179,8 @@ class EditCompanyContainer extends Component {
 EditCompanyContainer.propTypes = {
     classes: PropTypes.object.isRequired,
     users: PropTypes.instanceOf(Immutable.Iterable),
+    company: PropTypes.instanceOf(Immutable.Map),
+    params: PropTypes.object.isRequired,
 };
 
 EditCompanyContainer.defaultProps = {

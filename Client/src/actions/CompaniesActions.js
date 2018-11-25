@@ -1,5 +1,6 @@
 import alt from '../alt.js';
 import CompaniesService from '../services/CompaniesService';
+import { baseURL } from '../Constants.js';
 
 class CompaniesActions {
 	constructor() {
@@ -19,11 +20,24 @@ class CompaniesActions {
         }
     }
 
+    loadCompany(companyId) {
+        return (dispatch) => {
+             CompaniesService.getCompany(companyId)
+            .then((response) => {    
+                dispatch(response.data);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
+        }
+    }
+
      createCompany(company){
         return (dispatch) => {
             CompaniesService.createCompany(company)
             .then((response) => {
-                this.loadCompanies();                   
+                this.loadCompanies();
+                window.location.href = baseURL + '/companies';                   
             })
             .catch((error) => {
                 console.log(error);

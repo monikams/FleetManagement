@@ -8,6 +8,7 @@ class CompaniesStore {
         this.bindActions(CompaniesActions);
         this.state = new Immutable.Map({
             companies: Immutable.List(),
+            company: Immutable.Map(),
         });
     }
 
@@ -15,8 +16,16 @@ class CompaniesStore {
         this.setState(this.state.set("companies", Immutable.List(companies)));
     }
 
+    loadCompany(company) {
+        this.setState(this.state.set("company", Immutable.Map(company)));
+    }
+
     static getCompanies() {
         return this.getState().get("companies");
+    }
+
+     static getCompany() {
+        return this.getState().get("company");
     }
 }
 

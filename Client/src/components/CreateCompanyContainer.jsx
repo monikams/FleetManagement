@@ -75,7 +75,7 @@ class CreateCompanyContainer extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         UsersActions.loadUsers();
     }
 
