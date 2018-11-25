@@ -71,7 +71,6 @@ namespace DataAccessService.Service
             {
                 Name = company.Name,
                 Address = company.Address,
-                Bulstat = company.Bulstat,
                 Email = company.Email,
                 Telephone = company.Telephone,
                 CreatorId = company.CreatorId

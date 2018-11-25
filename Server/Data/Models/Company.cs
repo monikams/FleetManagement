@@ -22,8 +22,6 @@ namespace Data.Models
         [Required]
         public string Address { get; set; }
 
-        public string Bulstat { get; set; }
-
         [Required]
         public string Email { get; set; }
 
