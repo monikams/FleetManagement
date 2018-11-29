@@ -130,10 +130,8 @@ class EditCompanyContainer extends Component {
     render() {      
         const { users, classes } = this.props;
         const { localCompany } = this.state;
-        console.log(localCompany);
            
         return (
-            {localCompany.get('isEmpty') &&
                <div className={classes.form} >  
                 <div className={classes.container} >
                     <TextField
@@ -225,7 +223,7 @@ class EditCompanyContainer extends Component {
                         Save
                     </Button>
                 </div>
-            </div>} 
+            </div>
         );
     }
 }
