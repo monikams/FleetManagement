@@ -3,8 +3,7 @@ import UsersService from '../services/UsersService';
 
 class UsersActions {
 	constructor() {
-		// Here add the actions which will be invoked by components
-        // but won't have implementation in the actions file
+        this.generateActions('unloadUsers');
 	}
 
     loadUsers() {

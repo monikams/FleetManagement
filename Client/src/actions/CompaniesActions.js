@@ -3,10 +3,9 @@ import CompaniesService from '../services/CompaniesService';
 import { baseURL } from '../Constants.js';
 
 class CompaniesActions {
-	constructor() {
-		// Here add the actions which will be invoked by components
-        // but won't have implementation in the actions file
-	}
+  constructor() {
+    this.generateActions('unloadCompany');
+  }
 
     loadCompanies() {
         return (dispatch) => {
@@ -23,7 +22,7 @@ class CompaniesActions {
     loadCompany(companyId) {
         return (dispatch) => {
              CompaniesService.getCompany(companyId)
-            .then((response) => {    
+            .then((response) => {   
                 dispatch(response.data);
             })
             .catch((error) => {

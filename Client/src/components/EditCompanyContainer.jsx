@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
+import shallowEqual from 'shallowequal';
 import UsersStore from '../stores/UsersStore';
 import UsersActions from '../actions/UsersActions.js';
 import CompaniesActions from '../actions/CompaniesActions.js';
@@ -71,10 +72,23 @@ class EditCompanyContainer extends Component {
         }
     }
 
+    shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+
     componentWillMount() {
         const { params: { companyId } } = this.props;
         UsersActions.loadUsers();
         CompaniesActions.loadCompany(companyId);
+    }
+
+    componentWillReceiveProps = nextProps => {
+        if (this.props.params.companyId !== nextProps.params.companyId) {
+            CompaniesActions.loadCompany(nextProps.params.companyId);
+        }
+    };
+
+    componentWillUnmount() { 
+        CompaniesActions.unloadCompany();
+        UsersActions.unloadUsers();
     }
 
     handleChange = name => event => {
@@ -101,8 +115,7 @@ class EditCompanyContainer extends Component {
              const subscribers = this.state.localCompany.get("Subscribers").map(user => user.UserName); 
              const index = subscribers.findIndex(name => name === value);
             if (index === -1) {
-               subscribers.push(value);
-              
+               subscribers.push(value);         
             } else {
                 subscribers.splice(index, 1);
             }
@@ -117,9 +130,11 @@ class EditCompanyContainer extends Component {
     render() {      
         const { users, classes } = this.props;
         const { localCompany } = this.state;
+        console.log(localCompany);
            
         return (
-            <div className={classes.form} >  
+            {localCompany.get('isEmpty') &&
+               <div className={classes.form} >  
                 <div className={classes.container} >
                     <TextField
                         required
@@ -210,7 +225,7 @@ class EditCompanyContainer extends Component {
                         Save
                     </Button>
                 </div>
-            </div>  
+            </div>} 
         );
     }
 }

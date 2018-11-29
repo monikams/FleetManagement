@@ -10,22 +10,37 @@ class CompaniesStore {
             companies: Immutable.List(),
             company: Immutable.Map(),
         });
+
+        this.defaultCompany = Immutable.Map({
+            Id: '',
+            CreatorId: '',
+            Name: '',
+            Email: '',
+            Address: '',
+            Telephone: '',
+            Subscribers: Immutable.List(),
+            Creator: {},
+        });
     }
 
     loadCompanies(companies) {
-        this.setState(this.state.set("companies", Immutable.List(companies)));
+        this.setState(this.state.set('companies', Immutable.List(companies)));
     }
 
     loadCompany(company) {
-        this.setState(this.state.set("company", Immutable.Map(company)));
+        this.setState(this.state.set('company', Immutable.Map(company)));
+    }
+
+    unloadCompany() {
+        this.setState(this.state.set('company', this.defaultCompany));
     }
 
     static getCompanies() {
-        return this.getState().get("companies");
+        return this.getState().get('companies');
     }
 
      static getCompany() {
-        return this.getState().get("company");
+        return this.getState().get('company');
     }
 }
 

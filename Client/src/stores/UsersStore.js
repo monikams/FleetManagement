@@ -12,11 +12,15 @@ class UsersStore {
     }
 
     loadUsers(users) {
-        this.setState(this.state.set("users", Immutable.List(users)));
+        this.setState(this.state.set('users', Immutable.List(users)));
+    }
+
+    unloadUsers() {
+        this.setState(this.state.set('users', Immutable.List()));
     }
 
     static getUsers() {
-        return this.getState().get("users");
+        return this.getState().get('users');
     }
 }
 
