@@ -57,7 +57,7 @@ class EditCompanyContainer extends Component {
      constructor(props) {
         super(props);
         this.state = {
-			localCompany: this.props.company,
+			localCompany: props.company,
 		} 
     }
 
@@ -77,12 +77,13 @@ class EditCompanyContainer extends Component {
     componentWillMount() {
         const { params: { companyId } } = this.props;
         UsersActions.loadUsers();
-        CompaniesActions.loadCompany(companyId);
+        CompaniesActions.loadCompany(companyId, true);
     }
 
     componentWillReceiveProps = nextProps => {
         if (this.props.params.companyId !== nextProps.params.companyId) {
-            CompaniesActions.loadCompany(nextProps.params.companyId);
+            CompaniesActions.loadCompany(nextProps.params.companyId, true);
+            UsersActions.loadUsers();
         }
     };
 
@@ -128,11 +129,14 @@ class EditCompanyContainer extends Component {
      };
 
     render() {      
-        const { users, classes } = this.props;
-        const { localCompany } = this.state;
+        const { users, classes, company } = this.props;   
+        const localCompany = this.state.localCompany.get('company');
+        const doneLoading = company.get('doneLoading');
+        console.log(doneLoading);
            
         return (
-               <div className={classes.form} >  
+            doneLoading ?
+            <div className={classes.form} >  
                 <div className={classes.container} >
                     <TextField
                         required
@@ -223,7 +227,7 @@ class EditCompanyContainer extends Component {
                         Save
                     </Button>
                 </div>
-            </div>
+            </div> : null
         );
     }
 }
@@ -236,7 +240,21 @@ EditCompanyContainer.propTypes = {
 };
 
 EditCompanyContainer.defaultProps = {
-   users: Immutable.List(),
+    users: Immutable.List(),
+    company: Immutable.Map({
+        company: {
+            Id: '',
+            CreatorId: '',
+            Name: '',
+            Email: '',
+            Address: '',
+            Telephone: '',
+            Subscribers: Immutable.List(),
+            Creator: {},
+        },
+        isLoading: true,
+        doneLoading: false,
+    }),
 };
 
 export default withStyles(styles)(connectToStores(EditCompanyContainer));
