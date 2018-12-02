@@ -1,7 +1,5 @@
 ﻿namespace WebApiService.Models
 {
-    using Microsoft.AspNet.Identity.EntityFramework;
-
     public class User
     {
         public string Id { get; set; }

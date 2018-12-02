@@ -33,6 +33,6 @@
 
         public string Telephone { get; set; }
 
-        public IEnumerable<string> Subscribers { get; set; }
+        public IEnumerable<User> Subscribers { get; set; }
     }
 }

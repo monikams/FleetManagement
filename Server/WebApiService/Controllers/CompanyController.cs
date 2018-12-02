@@ -98,8 +98,8 @@ namespace WebApiService.Controllers
         }
 
         [Route("companies/{companyId}")]
-        [HttpPatch]
-        public async Task<IHttpActionResult> EditCompany([FromUri] string companyId, [FromBody] Delta<EditCompany> companyForEditDelta)
+        [HttpPut]
+        public async Task<IHttpActionResult> EditCompany([FromUri] string companyId, [FromBody]EditCompany companyForEdit)
         {        
             if (!ModelState.IsValid)
             {
@@ -111,9 +111,6 @@ namespace WebApiService.Controllers
             {
                 return this.BadRequest();
             }
-
-            var companyForEdit = _mapper.Map<EditCompany>(company);
-            companyForEditDelta.Patch(companyForEdit);
 
             var businessCompanyForEdit = _mapper.Map<BusinessService.Models.EditCompany>(companyForEdit);
             businessCompanyForEdit.Id = companyId;

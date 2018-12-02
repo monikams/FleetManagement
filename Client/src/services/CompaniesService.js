@@ -30,7 +30,7 @@ class CompaniesService {
 
      static async editCompany(company){
         if(isLoggedIn()){
-            return await axios.patch(`http://localhost:19631/api/companies/${company.get('Id')}`, company.toJS());
+            return await axios.put(`http://localhost:19631/api/companies/${company.get('Id')}`, company.toJS());
         }
 
          logout();
