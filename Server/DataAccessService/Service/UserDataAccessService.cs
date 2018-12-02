@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Data.Entity;
 
     using AutoMapper;
 
@@ -38,12 +39,12 @@
             return mappedUser;
         }
 
-        public Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers(string currentUserId)
         {
-            var users = this._context.Users.ToList();
+            var users = await this._context.Users.Where(u => u.Id != currentUserId).ToListAsync();
             var mappedUsers = this._mapper.Map<IEnumerable<Data.Models.User>, IEnumerable<User>>(users);
 
-            return Task.Run(() => mappedUsers);
+            return await Task.Run(() => mappedUsers);
         }
     }
 }

@@ -9,6 +9,6 @@
     {
         User ByUsername(string username);
 
-        Task<IEnumerable<User>> GetAllUsers();
+        Task<IEnumerable<User>> GetAllUsers(string currentUserId);
     }
 }

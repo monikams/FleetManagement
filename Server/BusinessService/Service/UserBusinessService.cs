@@ -35,9 +35,9 @@
             return mappedUser;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers(string currentUserId)
         {
-            var users = await this._userDataAccessService.GetAllUsers();
+            var users = await this._userDataAccessService.GetAllUsers(currentUserId);
             var mappedUsers =
                 this._mapper.Map<IEnumerable<DataAccessService.Models.User>, IEnumerable<User>>(users);
 

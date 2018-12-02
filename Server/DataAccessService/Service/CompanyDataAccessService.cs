@@ -144,15 +144,5 @@ namespace DataAccessService.Service
             await _context.SaveChangesAsync();
             return (Company) _mapper.Map(company, typeof(Data.Models.Company), typeof(Company));        
         }
-
-        public async Task<IEnumerable<Models.User>> GetUsersWithoutCreator(string companyId)
-        {
-            var company = await this._context.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
-            var users = await this._context.Users.Where(u => u.Id != company.CreatorId).ToListAsync();
-
-            var mappedUsers = this._mapper.Map<IEnumerable<User>, IEnumerable<Models.User>>(users);
-
-            return await Task.Run(() => mappedUsers);
-        }
     }
 }

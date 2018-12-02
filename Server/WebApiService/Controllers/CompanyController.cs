@@ -119,21 +119,5 @@ namespace WebApiService.Controllers
             var apiCompany = _mapper.Map<EditCompany>(editedCompany);
             return Ok(apiCompany);
         }
-
-        [Route("companies/users")]
-        [HttpGet]
-        public async Task<IEnumerable<User>> GetUsersWithoutCreator([FromUri] string companyId)
-        {
-            var company = this._companyBusinessService.GetById(companyId);
-            if (company == null)
-            {
-                return null;
-            }
-
-            var users = await this._companyBusinessService.GetUsersWithoutCreator(companyId);
-            var mappedUsers =
-                this._mapper.Map<IEnumerable<BusinessService.Models.User>, IEnumerable<User>>(users);
-            return mappedUsers;
-        }
     }
 }

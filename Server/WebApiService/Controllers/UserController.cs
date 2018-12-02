@@ -29,7 +29,7 @@
         [HttpGet]
         public async Task<IEnumerable<Models.User>> GetAllUsers()
         {
-            var allUsers = await this.UsersService.GetAllUsers();
+            var allUsers = await this.UsersService.GetAllUsers(this.CurrentUser.Id);
             var mappedCompanies = this._mapper.Map<IEnumerable<User>, IEnumerable<Models.User>>(allUsers);
 
             return mappedCompanies;
