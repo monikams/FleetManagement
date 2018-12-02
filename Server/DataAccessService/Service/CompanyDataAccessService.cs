@@ -134,7 +134,7 @@ namespace DataAccessService.Service
 
             foreach (var subscriber in companyForEdit.Subscribers)
             {
-                if (subscriber != null)
+                if (subscriber != null && !companySubscribers.Any(s => s.UserId == subscriber.Id))
                 {
                     this._context.UserCompanies.Add(new UserCompany
                         { CompanyId = company.Id, UserId = subscriber.Id });
