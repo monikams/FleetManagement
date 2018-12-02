@@ -69,9 +69,12 @@ class EditCompanyContainer extends Component {
     }
 
     handleSaveButtonClick = () => {
-       const { localCompany, localCompany: { subscribers } } = this.state;
-       const { users } = this.props;
-       CompaniesActions.editCompany(localCompany);
+       const { localCompany } = this.state;
+       if (localCompany === undefined) {
+          this.props.router.push('companies');
+       } else {
+          CompaniesActions.editCompany(localCompany);
+       }
     }
 
     handleChange = (name, event) => {
