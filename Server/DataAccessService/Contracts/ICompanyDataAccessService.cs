@@ -18,5 +18,7 @@
         Task DeleteItem(string companyId);
 
         Task<Company> EditCompany(EditCompany company);
+
+        Task<IEnumerable<User>> GetUsersWithoutCreator(string companyId);
     }
 }

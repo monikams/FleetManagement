@@ -72,5 +72,13 @@
             var editedCompany = await _companyDataAccessService.EditCompany(_mapper.Map<DataAccessService.Models.EditCompany>(companyForEdit));
             return _mapper.Map<Company>(editedCompany);
         }
+
+        public async Task<IEnumerable<User>> GetUsersWithoutCreator(string companyId)
+        {
+            var users = await this._companyDataAccessService.GetUsersWithoutCreator(companyId);
+            var mappedUsers =
+                this._mapper.Map<IEnumerable<DataAccessService.Models.User>, IEnumerable<User>>(users);
+            return mappedUsers;
+        }
     }
 }

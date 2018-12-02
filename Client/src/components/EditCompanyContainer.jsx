@@ -7,7 +7,6 @@ import UsersActions from '../actions/UsersActions.js';
 import CompaniesActions from '../actions/CompaniesActions.js';
 import CompaniesStore from '../stores/CompaniesStore';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
@@ -18,46 +17,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
-
-const styles = theme => ({
-  button: {
-    marginTop: '20px',
-    width: '112px',
-    height: '40px',
-  },
-  container: {
-    width: '75%',
-    margin: 'auto',
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  form: {
-    width: '50%',
-    margin: 'auto',
-    display: 'grid',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
-  select: {
-    marginTop: '16px',
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: theme.spacing.unit / 4,
-  },
-});
+import EditCompany from './EditCompany';
 
 class EditCompanyContainer extends Component {
 
      constructor(props) {
         super(props);
         this.state = {
-			localCompany: props.company,
+		company: Immutable.Map({
+            Id: '',
+            CreatorId: '',
+            Name: '',
+            Email: '',
+            Address: '',
+            Telephone: '',
+            Subscribers: Immutable.List(),
+            Creator: {},
+        }),
 		} 
     }
 
@@ -92,28 +68,28 @@ class EditCompanyContainer extends Component {
         UsersActions.unloadUsers();
     }
 
-    handleChange = name => event => {
-        const { target: { value }} = event;     
-        const { localCompany } = this.state;    
-        const newCompany = localCompany.update(name, oldValue => value);
-        this.setState({ localCompany: newCompany });
-    };
-
     handleSaveButtonClick = () => {
        const { localCompany, localCompany: { subscribers } } = this.state;
        const { users } = this.props;
        CompaniesActions.editCompany(localCompany);
     }
 
-     handleUserDropdownChange = event => {
-        const { localCompany } = this.state;
+    handleChange = (name, event) => {
+        const { target: { value }} = event;  
+        const { company } = this.props;   
+        const updatedCompany = company.get('company').update(name, oldValue => value);
+        this.setState({ localCompany: updatedCompany });
+    };
+
+    handleUserDropdownChange = event => {
         const { users } = this.props;
+        const company = this.props.company.get('company');
         const { target: { value } } = event;   
-        let newCompany;
+        let updatedCompany;
         let selectedUsers;
 
-        if(this.state.localCompany.get("Subscribers")) {
-             const subscribers = this.state.localCompany.get("Subscribers").map(user => user.UserName); 
+        if(company) {
+             const subscribers = company.get("Subscribers").map(user => user.UserName); 
              const index = subscribers.findIndex(name => name === value);
             if (index === -1) {
                subscribers.push(value);         
@@ -122,118 +98,32 @@ class EditCompanyContainer extends Component {
             }
 
             selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
-            newCompany = localCompany.update('Subscribers', subscribers => selectedUsers);        
+            updatedCompany = company.update('Subscribers', subscribers => selectedUsers);        
         }
        
-        this.setState({ localCompany: newCompany });
+       this.setState({ localCompany: updatedCompany });
      };
 
     render() {      
-        const { users, classes, company } = this.props;   
-        const localCompany = this.state.localCompany.get('company');
+        const { users, classes, company, params: { companyId  } } = this.props;
+        const { localCompany } = this.state;   
         const doneLoading = company.get('doneLoading');
-        console.log(doneLoading);
-           
+        
         return (
             doneLoading ?
-            <div className={classes.form} >  
-                <div className={classes.container} >
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={localCompany.get("Name")}
-                        id="name"
-                        label="Name"
-                        placeholder="Edit company`s name"
-                        className={classes.textField}          
-                        onChange={this.handleChange('Name')}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={localCompany.get("Email")}
-                        id="email"
-                        label="Email"
-                        placeholder="Edit company`s email"
-                        className={classes.textField}          
-                        onChange={this.handleChange('Email')}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={localCompany.get("Address")}
-                        id="address"
-                        label="Address"
-                        placeholder="Edit company`s address"
-                        className={classes.textField}         
-                        onChange={this.handleChange('Address')}
-                        margin="normal"
-                    />
-                     <TextField
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={localCompany.get("Telephone")}
-                        id="phone"
-                        label="Phone"
-                        placeholder="Edit company`s phone number"
-                        className={classes.textField}         
-                        onChange={this.handleChange('Telephone')}
-                        margin="normal"
-                    />
-                    <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
-                    <Select
-                        fullWidth
-                        className={classes.select}
-                        value={localCompany.get("Subscribers") !== undefined ? localCompany.get("Subscribers").map(u => u.UserName) : []}
-                        onChange={this.handleUserDropdownChange}
-                        renderValue={selected => (
-                        <div className={classes.chips}>
-                            {selected.map(value => (
-                            <Chip key={value} label={value} className={classes.chip} />
-                            ))}
-                        </div>
-                        )}
-                    >
-                        {users.map(user => (
-                        <MenuItem key={user.Id} value={user.UserName}>
-                            <Checkbox checked={localCompany.get("Subscribers") !== undefined ? localCompany.get("Subscribers").map(u => u.UserName).indexOf(user.UserName) > -1 : false} />
-                            <ListItemText primary={user.UserName} />
-                        </MenuItem>
-                        ))}
-                    </Select>
-                </div>
-                <div className={classes.container} >
-                    <Button 
-                        variant="contained" 
-                        size="large" 
-                        color="primary" 
-                        className={classes.button}
-                        onClick={this.handleSaveButtonClick}
-                        id='saveButton'
-                    >
-                        Save
-                    </Button>
-                </div>
-            </div> : null
+            <EditCompany
+                company={localCompany === undefined ? company.get('company') : localCompany}
+                users={users}
+                companyId={companyId}
+                onDropownChange={this.handleUserDropdownChange} 
+                onSaveButtonClick={this.handleSaveButtonClick}
+                onChange={this.handleChange}
+            /> : null
         );
     }
 }
 
 EditCompanyContainer.propTypes = {
-    classes: PropTypes.object.isRequired,
     users: PropTypes.instanceOf(Immutable.Iterable),
     company: PropTypes.instanceOf(Immutable.Map),
     params: PropTypes.object.isRequired,
@@ -242,7 +132,7 @@ EditCompanyContainer.propTypes = {
 EditCompanyContainer.defaultProps = {
     users: Immutable.List(),
     company: Immutable.Map({
-        company: {
+        company: Immutable.Map({
             Id: '',
             CreatorId: '',
             Name: '',
@@ -251,10 +141,10 @@ EditCompanyContainer.defaultProps = {
             Telephone: '',
             Subscribers: Immutable.List(),
             Creator: {},
-        },
+        }),
         isLoading: true,
         doneLoading: false,
     }),
 };
 
-export default withStyles(styles)(connectToStores(EditCompanyContainer));
+export default connectToStores(EditCompanyContainer);

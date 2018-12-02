@@ -12,7 +12,7 @@ class CompaniesStore {
         });
 
         this.defaultCompany = Immutable.Map({
-            company: {
+            company: Immutable.Map({
                 Id: '',
                 CreatorId: '',
                 Name: '',
@@ -21,7 +21,7 @@ class CompaniesStore {
                 Telephone: '',
                 Subscribers: Immutable.List(),
                 Creator: {},
-            },
+            }),
             isLoading: true,
             doneLoading: false,
         });
@@ -34,10 +34,10 @@ class CompaniesStore {
     loadCompany({ company, clearList }) {
         const nextState = this.defaultCompany.withMutations(tempState => {
             if (clearList) {
-                tempState.set('company', {});
+                tempState.set('company', Immutable.Map());
                 tempState.set('doneLoading', false);
             }
-            tempState.set('company', company);
+            tempState.set('company', Immutable.Map(company));
             tempState.set('isLoading', false);
             if (!company.length) {
                 tempState.set('doneLoading', true);
