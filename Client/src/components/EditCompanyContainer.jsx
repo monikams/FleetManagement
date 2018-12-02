@@ -56,13 +56,6 @@ class EditCompanyContainer extends Component {
         CompaniesActions.loadCompany(companyId, true);
     }
 
-    componentWillReceiveProps = nextProps => {
-        if (this.props.params.companyId !== nextProps.params.companyId) {
-            CompaniesActions.loadCompany(nextProps.params.companyId, true);
-            UsersActions.loadUsers();
-        }
-    };
-
     componentWillUnmount() { 
         CompaniesActions.unloadCompany();
         UsersActions.unloadUsers();

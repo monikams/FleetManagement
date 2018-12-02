@@ -116,27 +116,31 @@ class EditCompany extends Component {
                         onChange={this.handleChange('Telephone')}
                         margin="normal"
                     />
-                    <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
-                    <Select
-                        fullWidth
-                        className={classes.select}
-                        value={company.get("Subscribers") !== undefined ? company.get("Subscribers").map(u => u.UserName) : []}
-                        onChange={onDropownChange}
-                        renderValue={selected => (
-                        <div className={classes.chips}>
-                            {selected.map(value => (
-                            <Chip key={value} label={value} className={classes.chip} />
-                            ))}
+                    {company.get("CreatorId") === localStorage.getItem('userId') &&
+                        <div>
+                            <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
+                            <Select
+                                fullWidth
+                                className={classes.select}
+                                value={company.get("Subscribers") !== undefined ? company.get("Subscribers").map(u => u.UserName) : []}
+                                onChange={onDropownChange}
+                                renderValue={selected => (
+                                <div className={classes.chips}>
+                                    {selected.map(value => (
+                                    <Chip key={value} label={value} className={classes.chip} />
+                                    ))}
+                                </div>
+                                )}
+                            >
+                                {users.map(user => (
+                                <MenuItem key={user.Id} value={user.UserName}>
+                                    <Checkbox checked={company.get("Subscribers") !== undefined ? company.get("Subscribers").map(u => u.UserName).indexOf(user.UserName) > -1 : false} />
+                                    <ListItemText primary={user.UserName} />
+                                </MenuItem>
+                                ))}
+                            </Select>
                         </div>
-                        )}
-                    >
-                        {users.map(user => (
-                        <MenuItem key={user.Id} value={user.UserName}>
-                            <Checkbox checked={company.get("Subscribers") !== undefined ? company.get("Subscribers").map(u => u.UserName).indexOf(user.UserName) > -1 : false} />
-                            <ListItemText primary={user.UserName} />
-                        </MenuItem>
-                        ))}
-                    </Select>
+                    }
                 </div>
                 <div className={classes.container} >
                     <Button 
