@@ -94,7 +94,11 @@ namespace DataAccessService.Service
 
         public async Task<IEnumerable<Company>> GetByUserId(string userId)
         {
-            var companies = this._context.Companies.Where(c => c.CreatorId == userId).ToList();
+            var companies = await this._context.Companies.Where(c => c.CreatorId == userId).ToListAsync();
+            var subscriberCompanies = await this._context.UserCompanies.Where(x => x.UserId == userId).Select(u => u.Company).ToListAsync();
+
+            companies.AddRange(subscriberCompanies);
+
             var mappedCompanies = this._mapper.Map<IEnumerable<Data.Models.Company>, IEnumerable<Company>>(companies);
 
             return await Task.Run(() => mappedCompanies);
@@ -117,7 +121,26 @@ namespace DataAccessService.Service
             company.Address = companyForEdit.Address;
             company.Telephone = companyForEdit.Telephone ?? string.Empty;
             company.Email = companyForEdit.Email;
-           
+
+            var companySubscribers = this._context.UserCompanies.Where(u => u.CompanyId == company.Id).ToList();
+            foreach (var companySubscriber in companySubscribers)
+            {
+                var subscriberRemain = companyForEdit.Subscribers.Any(x => x.Id == companySubscriber.UserId);
+                if (!subscriberRemain)
+                {
+                    this._context.UserCompanies.Remove(companySubscriber);
+                }
+            }
+
+            foreach (var subscriber in companyForEdit.Subscribers)
+            {
+                if (subscriber != null)
+                {
+                    this._context.UserCompanies.Add(new UserCompany
+                        { CompanyId = company.Id, UserId = subscriber.Id });
+                }
+            }
+
             await _context.SaveChangesAsync();
             return (Company) _mapper.Map(company, typeof(Data.Models.Company), typeof(Company));        
         }
