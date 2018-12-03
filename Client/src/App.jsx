@@ -4,6 +4,7 @@ import { Router, Route, Redirect, browserHistory } from 'react-router';
 import CompaniesContainer from './components/CompaniesContainer.jsx';
 import CreateCompanyContainer from './components/CreateCompanyContainer.jsx';
 import EditCompanyContainer from './components/EditCompanyContainer.jsx';
+import VehiclesContainer from './components/Vehicles/VehiclesContainer.jsx';
 import Drivers from './components/Drivers.jsx';
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
@@ -22,6 +23,7 @@ class App extends Component {
                         <Route path='companies' component={CompaniesContainer} />
                             <Route path='createCompany' component={CreateCompanyContainer} />
                             <Route path='editCompany/(:companyId)' component={EditCompanyContainer} />
+                        <Route path='vehicles' component={VehiclesContainer} />    
                         <Route path='drivers' component={Drivers} />
                     </Route>                                        						
 			</Router>
