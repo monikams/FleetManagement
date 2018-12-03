@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import DriversStore from '../../stores/DriversStore';
+import CompaniesStore from '../../stores/CompaniesStore';
 import DriversActions from '../../actions/DriversActions.js';
+import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -50,12 +52,14 @@ class DriversContainer extends Component {
 
     static getPropsFromStores() {
         return {
-            drivers: DriversStore.getDrivers(),           
+            drivers: DriversStore.getDrivers(),
+            companies: CompaniesStore.getCompanies(),            
         }
     }
 
     componentWillMount() {
         DriversActions.loadDrivers();
+        CompaniesActions.loadCompanies();
     }
 
     handleEditClick(driverId) {
@@ -71,11 +75,12 @@ class DriversContainer extends Component {
     };
 
     render() {      
-        const { drivers, classes } = this.props;
+        const { drivers, companies, classes } = this.props;
+        console.log(companies);
     
         return (
             <div>
-                <FormControl className={classes.formControl}>
+              <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="age-simple">Age</InputLabel>
                     <Select
                         value="Company1"
@@ -88,9 +93,9 @@ class DriversContainer extends Component {
                         <MenuItem value="">
                         <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {companies.map(company => (
+                            <MenuItem value={company.Id}>company.Name</MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
                 <Button 
