@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import CompaniesStore from '../stores/CompaniesStore';
-import CompaniesActions from '../actions/CompaniesActions.js';
+import CompaniesStore from '../../stores/CompaniesStore';
+import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

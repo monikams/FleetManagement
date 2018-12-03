@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import UsersStore from '../stores/UsersStore';
-import UsersActions from '../actions/UsersActions.js';
-import CompaniesActions from '../actions/CompaniesActions.js';
+import UsersStore from '../../stores/UsersStore';
+import UsersActions from '../../actions/UsersActions.js';
+import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';

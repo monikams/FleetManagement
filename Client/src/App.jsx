@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './styles/App.css';
 import { Router, Route, Redirect, browserHistory } from 'react-router';
-import CompaniesContainer from './components/CompaniesContainer.jsx';
-import CreateCompanyContainer from './components/CreateCompanyContainer.jsx';
-import EditCompanyContainer from './components/EditCompanyContainer.jsx';
+import CompaniesContainer from './components/Companies/CompaniesContainer.jsx';
+import CreateCompanyContainer from './components/Companies/CreateCompanyContainer.jsx';
+import EditCompanyContainer from './components/Companies/EditCompanyContainer.jsx';
 import VehiclesContainer from './components/Vehicles/VehiclesContainer.jsx';
 import Drivers from './components/Drivers.jsx';
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
