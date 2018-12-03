@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import VehiclesStore from '../../stores/VehiclesStore';
-import VehiclesActions from '../../actions/VehiclesActions.js';
+import DriversStore from '../../stores/DriversStore';
+import DriversActions from '../../actions/DriversActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -27,40 +27,40 @@ const styles = theme => ({
   },
 });
 
-class VehiclesContainer extends Component {
+class DriversContainer extends Component {
 
     constructor(props) {
         super(props);
     }
 
     static getStores() {
-        return [VehiclesStore];
+        return [DriversStore];
     }
 
     static getPropsFromStores() {
         return {
-            vehicles: VehiclesStore.getVehicles(),           
+            drivers: DriversStore.getDrivers(),           
         }
     }
 
     componentWillMount() {
-        VehiclesActions.loadVehicles();
+        DriversActions.loadDrivers();
     }
 
-    handleEditClick(vehicleId) {
-        this.props.router.push({ pathname: `/editVehicle/${vehicleId}` });
+    handleEditClick(driverId) {
+        this.props.router.push({ pathname: `/editDriver/${driverId}` });
     };
 
-     handleDeleteClick(vehicleId) {
-        VehiclesActions.deleteVehicle(vehicleId);
+     handleDeleteClick(driverId) {
+        DriversActions.deleteDriver(driverId);
     };
 
-    handleCreateVehicleClick = () => {
-         this.props.router.push('/createVehicle');
+    handleCreateDriverClick = () => {
+         this.props.router.push('/createDriver');
     };
 
     render() {      
-        const { vehicles, classes } = this.props;
+        const { drivers, classes } = this.props;
     
         return (
             <div>
@@ -69,37 +69,35 @@ class VehiclesContainer extends Component {
                     size="large" 
                     color="primary" 
                     className={classes.button}
-                    onClick={this.handleCreateVehicleClick}
+                    onClick={this.handleCreateDriverClick}
                     id='loginButton'
                 >
-                    Create vehicle
+                    Create driver
                 </Button>
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
                         <TableRow>
-                            <TableCell>Plate Number</TableCell>
-                            <TableCell>Brand</TableCell>
-                            <TableCell>Model</TableCell>
-                            <TableCell>VIN</TableCell>
-                            <TableCell>Type</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Address</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Telephone</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                        {vehicles.map(vehicle => {
+                        {drivers.map(driver => {
                             return (
-                            <TableRow key={vehicle.Id}>
+                            <TableRow key={driver.Id}>
                                 <TableCell component="th" scope="row">
-                                {vehicle.PlateNumber}
+                                {driver.Name}
                                 </TableCell>
-                                <TableCell>{vehicle.Brand}</TableCell>
-                                <TableCell>{vehicle.Model}</TableCell>
-                                <TableCell>{vehicle.Vin}</TableCell>
-                                <TableCell>{vehicle.Type}</TableCell>
-                                <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
-                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>
+                                <TableCell>{driver.Address}</TableCell>
+                                <TableCell>{driver.Email}</TableCell>
+                                <TableCell>{driver.Telephone}</TableCell>
+                                <TableCell><EditIcon onClick={() => this.handleEditClick(driver.Id)} /></TableCell>
+                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(driver.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
@@ -111,13 +109,13 @@ class VehiclesContainer extends Component {
     }
 }
 
-VehiclesContainer.propTypes = {
-    vehicles: PropTypes.instanceOf(Immutable.Iterable),
+DriversContainer.propTypes = {
+    Vehicles: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
 };
 
-VehiclesContainer.defaultProps = {
-    vehicles: Immutable.List(),
+DriversContainer.defaultProps = {
+    Vehicles: Immutable.List(),
 };
 
-export default withStyles(styles)(withRouter(connectToStores(VehiclesContainer)));
+export default withStyles(styles)(withRouter(connectToStores(DriversContainer)));

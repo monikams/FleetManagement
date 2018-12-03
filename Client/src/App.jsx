@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import './styles/App.css';
 import { Router, Route, Redirect, browserHistory } from 'react-router';
+
 import CompaniesContainer from './components/Companies/CompaniesContainer.jsx';
 import CreateCompanyContainer from './components/Companies/CreateCompanyContainer.jsx';
 import EditCompanyContainer from './components/Companies/EditCompanyContainer.jsx';
+
+import DriversContainer from './components/Drivers/DriversContainer.jsx';
+
 import VehiclesContainer from './components/Vehicles/VehiclesContainer.jsx';
-import Drivers from './components/Drivers.jsx';
+
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
 import LoginContainer from './components/Authorization/LoginContainer.jsx';
@@ -24,7 +28,7 @@ class App extends Component {
                             <Route path='createCompany' component={CreateCompanyContainer} />
                             <Route path='editCompany/(:companyId)' component={EditCompanyContainer} />
                         <Route path='vehicles' component={VehiclesContainer} />    
-                        <Route path='drivers' component={Drivers} />
+                        <Route path='drivers' component={DriversContainer} />
                     </Route>                                        						
 			</Router>
         );
