@@ -44,16 +44,19 @@ class DriversContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            companyId: '',
+        };
     }
 
     static getStores() {
-        return [DriversStore];
+        return [CompaniesStore, DriversStore];
     }
 
     static getPropsFromStores() {
         return {
             drivers: DriversStore.getDrivers(),
-            companies: CompaniesStore.getCompanies(),            
+            companies: CompaniesStore.getCompanies(),     
         }
     }
 
@@ -74,27 +77,31 @@ class DriversContainer extends Component {
          this.props.router.push('/createDriver');
     };
 
+    handleCompanyChange = event => {
+        const { company } = this.state;
+        const { target: { value } } = event;
+        this.setState({ companyId: value });
+    }
+
     render() {      
         const { drivers, companies, classes } = this.props;
-        console.log(companies);
-    
+        const { companyId } = this.state;
+       
         return (
             <div>
               <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="age-simple">Age</InputLabel>
+                    <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
                     <Select
-                        value="Company1"
-                        //onChange={this.handleChange}
+                        displayEmpty
+                        value={companyId}
+                        onChange={this.handleCompanyChange}
                         inputProps={{
                         name: 'age',
                         id: 'age-simple',
                         }}
                     >
-                        <MenuItem value="">
-                        <em>None</em>
-                        </MenuItem>
                         {companies.map(company => (
-                            <MenuItem value={company.Id}>company.Name</MenuItem>
+                            <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
@@ -144,12 +151,14 @@ class DriversContainer extends Component {
 }
 
 DriversContainer.propTypes = {
-    Vehicles: PropTypes.instanceOf(Immutable.Iterable),
+    drivers: PropTypes.instanceOf(Immutable.Iterable),
+    companies: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
 };
 
 DriversContainer.defaultProps = {
-    Vehicles: Immutable.List(),
+    drivers: Immutable.List(),
+    companies: Immutable.List(),
 };
 
 export default withStyles(styles)(withRouter(connectToStores(DriversContainer)));
