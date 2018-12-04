@@ -6,6 +6,7 @@ import CompaniesStore from '../../stores/CompaniesStore';
 import DriversActions from '../../actions/DriversActions.js';
 import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import shallowEqual from 'shallowequal';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -61,9 +62,10 @@ class DriversContainer extends Component {
     }
 
     componentWillMount() {
-        DriversActions.loadDrivers();
         CompaniesActions.loadCompanies();
     }
+
+    shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     handleEditClick(driverId) {
         this.props.router.push({ pathname: `/editDriver/${driverId}` });
@@ -78,18 +80,29 @@ class DriversContainer extends Component {
     };
 
     handleCompanyChange = event => {
-        const { company } = this.state;
-        const { target: { value } } = event;
-        this.setState({ companyId: value });
+        const companyId = event.target.value;
+        this.setState({ companyId });
+        DriversActions.loadDrivers(companyId);
     }
 
     render() {      
         const { drivers, companies, classes } = this.props;
         const { companyId } = this.state;
+        console.log(drivers);
        
         return (
             <div>
-              <FormControl className={classes.formControl}>
+                <Button 
+                    variant="contained" 
+                    size="large" 
+                    color="primary" 
+                    className={classes.button}
+                    onClick={this.handleCreateDriverClick}
+                    id='loginButton'
+                >
+                    Create driver
+                </Button>
+                <FormControl className={classes.formControl}>
                     <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
                     <Select
                         displayEmpty
@@ -105,16 +118,6 @@ class DriversContainer extends Component {
                         ))}
                     </Select>
                 </FormControl>
-                <Button 
-                    variant="contained" 
-                    size="large" 
-                    color="primary" 
-                    className={classes.button}
-                    onClick={this.handleCreateDriverClick}
-                    id='loginButton'
-                >
-                    Create driver
-                </Button>
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>

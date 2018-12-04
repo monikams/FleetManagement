@@ -7,10 +7,10 @@ class DriversActions {
     this.generateActions('unloadDriver');
   }
 
-    loadDrivers() {
+    loadDrivers(companyId) {
         return (dispatch) => {
-             DriversService.getDrivers()
-            .then((response) => {    
+             DriversService.getDrivers(companyId)
+            .then((response) => {   
                 dispatch(response.data);
             })
             .catch((error) => {

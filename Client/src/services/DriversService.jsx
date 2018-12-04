@@ -3,10 +3,10 @@ import * as axios from 'axios';
 
 class DriversService {
 
-    static async getDrivers() {   
+    static async getDrivers(companyId) {   
         if (isLoggedIn()) { 
             const userId = localStorage.getItem('userId');
-            return await axios.get(`http://localhost:19631/api/userDrivers/${userId}`);
+            return await axios.get(`http://localhost:19631/api/companies/${companyId}/drivers`);
         }
 
         logout();
