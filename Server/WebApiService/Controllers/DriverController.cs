@@ -29,21 +29,21 @@
             _mapper = new Mapper(_config);
         }
 
-        [Route("companies/{companyId}/Drivers")]
+        [Route("companies/{companyId}/getDrivers")]
         [HttpGet]
-        public async Task<IEnumerable<Driver>> GetDrivers([FromUri] string companyId)
+        public async Task<IEnumerable<Models.Driver>> GetDrivers([FromUri] string companyId)
         {
             var drivers = await _driverBusinessService.GetCompanyDrivers(companyId);
-            var mappedDrivers = _mapper.Map<IEnumerable<BusinessService.Models.Driver>, IEnumerable<Driver>>(drivers);
+            var mappedDrivers = _mapper.Map<IEnumerable<BusinessService.Models.Driver>, IEnumerable<Models.Driver>>(drivers);
             return mappedDrivers;
         }
 
         [Route("companies/{companyId}/Drivers/{DriverId}")]
         [HttpGet]
-        public async Task<Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
+        public async Task<Models.Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
         {
             var driver = await _driverBusinessService.GetDriverById(driverId);
-            var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(driver);
+            var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Models.Driver>(driver);
             return mappedDriver;
         }
 

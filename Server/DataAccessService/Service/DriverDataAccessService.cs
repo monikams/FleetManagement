@@ -32,7 +32,7 @@
 
         public async Task<IEnumerable<Models.Driver>> GetCompanyDrivers(string companyId)
         {
-            var drivers = _context.Drivers.Where(d => d.Id == companyId).ToList();
+            var drivers = _context.Drivers.Where(d => d.CompanyId == companyId).ToList();
             var mappedDrivers = _mapper.Map<IEnumerable<Data.Models.Driver>, IEnumerable<Models.Driver>>(drivers);
 
             return await Task.Run(() => mappedDrivers);

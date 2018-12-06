@@ -6,7 +6,7 @@ class DriversService {
     static async getDrivers(companyId) {   
         if (isLoggedIn()) { 
             const userId = localStorage.getItem('userId');
-            return await axios.get(`http://localhost:19631/api/companies/${companyId}/drivers`);
+            return await axios.get(`http://localhost:19631/api/companies/${companyId}/getdrivers`);
         }
 
         logout();

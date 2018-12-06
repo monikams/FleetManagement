@@ -1,7 +1,5 @@
 ﻿namespace WebApiService.Models
 {
-    using System;
-
     public class Driver
     {
         public string Id { get; set; }
@@ -14,6 +12,6 @@
 
         public string Telephone { get; set; }
 
-        public Company Company { get; set; }
+        public string CompanyId { get; set; }
     }
 }
