@@ -34,11 +34,15 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    marginLeft: '80px',
+    minWidth: 250,
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  button: {
+      marginTop: '15px', 
+  }
 });
 
 class DriversContainer extends Component {
