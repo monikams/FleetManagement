@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNet.OData;
-
-namespace WebApiService.Controllers
+﻿namespace WebApiService.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
