@@ -7,9 +7,9 @@
     using AutoMapper;
 
     using BusinessService.Contracts;
-    using BusinessService.Models;
 
     using WebApiService.Controllers.Base;
+    using WebApiService.Models;
 
     [RoutePrefix("api")]
     public class DriverController : BaseAuthorizationController
@@ -24,14 +24,14 @@
             _driverBusinessService = driverBusinessService;
             _config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Models.Driver, BusinessService.Models.Driver>().ReverseMap();
+                cfg.CreateMap<Driver, BusinessService.Models.Driver>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }
 
         [Route("companies/{companyId}/getDrivers")]
         [HttpGet]
-        public async Task<IEnumerable<Models.Driver>> GetDrivers([FromUri] string companyId)
+        public async Task<IEnumerable<Driver>> GetDrivers([FromUri] string companyId)
         {
             var drivers = await _driverBusinessService.GetCompanyDrivers(companyId);
             var mappedDrivers = _mapper.Map<IEnumerable<BusinessService.Models.Driver>, IEnumerable<Models.Driver>>(drivers);
@@ -40,10 +40,10 @@
 
         [Route("companies/{companyId}/Drivers/{DriverId}")]
         [HttpGet]
-        public async Task<Models.Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
+        public async Task<Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
         {
             var driver = await _driverBusinessService.GetDriverById(driverId);
-            var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Models.Driver>(driver);
+            var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(driver);
             return mappedDriver;
         }
 
