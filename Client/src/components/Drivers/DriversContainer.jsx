@@ -69,6 +69,10 @@ class DriversContainer extends Component {
         CompaniesActions.loadCompanies();
     }
 
+    componentWillUnmount() {
+        DriversActions.unloadDrivers();
+    }
+
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     handleEditClick(driverId) {
@@ -90,11 +94,20 @@ class DriversContainer extends Component {
     }
 
     render() {      
-        const { drivers, companies, classes } = this.props;
+        const { drivers, classes } = this.props;
         const { companyId } = this.state;
-        console.log(drivers);
-       
+        let companies;
+        if (this.props.companies !== undefined) {
+            if (this.props.companies.size === 1) {
+                companies = this.props.companies.first();
+                DriversActions.loadDrivers(this.props.companies.first().Id);
+            } else {
+                companies = this.props.companies;
+            }
+        }
+              
         return (
+           companies !== undefined ?
             <div>
                 <Button 
                     variant="contained" 
@@ -106,6 +119,7 @@ class DriversContainer extends Component {
                 >
                     Create driver
                 </Button>
+                {companies.size >= 2 &&
                 <FormControl className={classes.formControl}>
                     <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
                     <Select
@@ -121,7 +135,7 @@ class DriversContainer extends Component {
                             <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
                         ))}
                     </Select>
-                </FormControl>
+                </FormControl>}
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
@@ -152,7 +166,7 @@ class DriversContainer extends Component {
                         </TableBody>
                     </Table>
                 </Paper>
-            </div>
+            </div> : null
         );
     }
 }
