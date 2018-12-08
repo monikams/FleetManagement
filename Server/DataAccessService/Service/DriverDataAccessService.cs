@@ -67,5 +67,15 @@
             var mappedDriver = _mapper.Map<Data.Models.Driver, Models.Driver>(addedDriver);
             return await Task.Run(() => mappedDriver);
         }
+
+        public async Task DeleteDriver(string driverId)
+        {
+            var driver = this._context.Drivers.FirstOrDefault(x => x.Id == driverId);
+            if (driver != null)
+            {
+                this._context.Drivers.Remove(driver);
+                await this._context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -40,9 +40,9 @@
             return mappedDrivers;
         }
 
-        [Route("companies/{companyId}/Drivers/{DriverId}")]
+        [Route("drivers/{driverId}")]
         [HttpGet]
-        public async Task<Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
+        public async Task<Driver> GetDriverById([FromUri] string driverId)
         {
             var driver = await _driverBusinessService.GetDriverById(driverId);
             var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(driver);
@@ -61,6 +61,25 @@
               apiDriver);
             var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(businessServiceDriver);
             return Ok(mappedDriver);
+        }
+
+        [Route("deleteDriver/{driverId}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteDriver([FromUri] string driverId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var driver = await this._driverBusinessService.GetDriverById(driverId);
+            if (driver == null)
+            {
+                return this.BadRequest();
+            }
+
+            await this._driverBusinessService.DeleteDriver(driverId);
+            return this.Ok();
         }
     }
 }

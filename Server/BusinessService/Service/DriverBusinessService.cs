@@ -50,5 +50,10 @@
             var mappedDriver = _mapper.Map<DataAccessService.Models.Driver, Driver>(businessServiceDriver);
             return mappedDriver;
         }
+
+        public async Task DeleteDriver(string driverId)
+        {
+            await this._driverDataAccessService.DeleteDriver(driverId);
+        }
     }
 }

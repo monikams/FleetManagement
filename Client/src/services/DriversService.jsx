@@ -38,7 +38,7 @@ class DriversService {
 
     static async deleteDriver(driverId){
         if(isLoggedIn()){
-            return await axios.delete(`http://localhost:19631/api/deleteDriver?driverId=${driverId}`);
+            return await axios.delete(`http://localhost:19631/api/deleteDriver/${driverId}`);
         }
 
          logout();
