@@ -24,9 +24,12 @@
         {
             _context = context;
             _config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Models.Driver, Data.Models.Driver>().ReverseMap();
-            });
+                {
+                    cfg.CreateMap<Models.Company, Data.Models.Company>().ReverseMap();
+                    cfg.CreateMap<Models.Driver, Data.Models.Driver>()
+                       .ForMember(x => x.Company, b => b.ResolveUsing(c => c.Company)).ReverseMap();
+
+                });
             _mapper = new Mapper(_config);
         }
 
@@ -41,7 +44,6 @@
         public async Task<Models.Driver> GetDriverById(string driverId)
         {
             var driver = _context.Drivers.FirstOrDefault(v => v.Id == driverId);
-
             var mappedDriver = _mapper.Map<Data.Models.Driver, Models.Driver>(driver);
 
             return await Task.Run(() => mappedDriver);
