@@ -8,6 +8,7 @@ import EditCompanyContainer from './components/Companies/EditCompanyContainer.js
 
 import DriversContainer from './components/Drivers/DriversContainer.jsx';
 import CreateDriverContainer from './components/Drivers/CreateDriverContainer.jsx';
+import EditDriverContainer from './components/Drivers/EditDriverContainer.jsx';
 
 import VehiclesContainer from './components/Vehicles/VehiclesContainer.jsx';
 
@@ -30,6 +31,7 @@ class App extends Component {
                             <Route path='editCompany/(:companyId)' component={EditCompanyContainer} />
                         <Route path='drivers' component={DriversContainer} />
                             <Route path='createDriver' component={CreateDriverContainer} />
+                            <Route path='editDriver/(:driverId)' component={EditDriverContainer} />
                         <Route path='vehicles' component={VehiclesContainer} />
                     </Route>                                        						
 			</Router>

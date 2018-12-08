@@ -83,5 +83,28 @@
             await this._driverBusinessService.DeleteDriver(driverId);
             return this.Ok();
         }
+
+        [Route("drivers/{driverId}")]
+        [HttpPut]
+        public async Task<IHttpActionResult> EditDriver([FromUri] string driverId, [FromBody] EditDriver driverForEdit)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var driver = await _driverBusinessService.GetDriverById(driverId);
+            if (driver == null)
+            {
+                return this.BadRequest();
+            }
+
+            var businessDriverForEdit = _mapper.Map<BusinessService.Models.EditDriver>(driverForEdit);
+            businessDriverForEdit.Id = driverId;
+
+            var editedDriver = await _driverBusinessService.EditDriver(businessDriverForEdit);
+            var apiDriver = _mapper.Map<EditDriver>(editedDriver);
+            return Ok(apiDriver);
+        }
     }
 }

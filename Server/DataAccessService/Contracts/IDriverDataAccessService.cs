@@ -14,5 +14,7 @@
         Task<Driver> PostDriver(string companyId, Driver driver);
 
         Task DeleteDriver(string driverId);
+
+        Task<Driver> EditDriver(EditDriver driver);
     }
 }

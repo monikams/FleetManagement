@@ -1,4 +1,9 @@
-﻿namespace DataAccessService.Service
+﻿using Data.Models;
+using DataAccessService.Models;
+using Company = DataAccessService.Models.Company;
+using Driver = DataAccessService.Models.Driver;
+
+namespace DataAccessService.Service
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -76,6 +81,19 @@
                 this._context.Drivers.Remove(driver);
                 await this._context.SaveChangesAsync();
             }
+        }
+
+        public async Task<Driver> EditDriver(EditDriver driverForEdit)
+        {
+            var driver = await _context.Drivers.FindAsync(driverForEdit.Id);
+            driver.Name = driverForEdit.Name;
+            driver.Address = driverForEdit.Address;
+            driver.Telephone = driverForEdit.Telephone ?? string.Empty;
+            driver.Email = driverForEdit.Email;
+            driver.CompanyId = driverForEdit.CompanyId;
+
+            await _context.SaveChangesAsync();
+            return (Driver)_mapper.Map(driver, typeof(Data.Models.Driver), typeof(Driver));
         }
     }
 }

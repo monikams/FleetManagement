@@ -55,5 +55,11 @@
         {
             await this._driverDataAccessService.DeleteDriver(driverId);
         }
+
+        public async Task<Driver> EditDriver(EditDriver driverForEdit)
+        {
+            var editedDriver = await _driverDataAccessService.EditDriver(_mapper.Map<DataAccessService.Models.EditDriver>(driverForEdit));
+            return _mapper.Map<Driver>(editedDriver);
+        }
     }
 }
