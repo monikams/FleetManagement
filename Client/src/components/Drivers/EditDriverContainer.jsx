@@ -35,7 +35,7 @@ class EditDriverContainer extends Component {
         }
     }
 
-    shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+   shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     componentWillMount() {
         const { params: { driverId } } = this.props;
@@ -46,37 +46,44 @@ class EditDriverContainer extends Component {
         DriversActions.unloadDriver();
     }
 
+    componentWillReceiveProps = nextProps => {
+        if (this.props.driver !== nextProps.driver) {
+          const driver = nextProps.driver.get('driver');
+          const localDriver = Immutable.Map({
+                Id: driver.get('Id'),
+                Name: driver.get('Name'),
+                Email: driver.get('Email'),
+                Address: driver.get('Address'),
+                Telephone: driver.get('Telephone'),
+            });
+          this.setState({ localDriver });
+        }
+    }
+
     handleSaveButtonClick = () => {
         const driver = this.props.driver.get('driver');  
         const { localDriver } = this.state;
-
-       if (localDriver === undefined) {
-          this.props.router.push('drivers');
-       } else {
-          DriversActions.editDriver(localDriver);
-       }
+        DriversActions.editDriver(localDriver);
     }
 
     handleChange = (name, event) => {
         const { target: { value }} = event;  
-        const { driver } = this.props;   
-        const updatedDriver = driver.get('driver').update(name, oldValue => value);
+        const { localDriver } = this.state;   
+        const updatedDriver = localDriver.update(name, oldValue => value);
         this.setState({ localDriver: updatedDriver });
     };
     
     render() {      
         const { classes, driver, params: { driverId  } } = this.props;
         const { localDriver } = this.state;   
-        const doneLoading = driver.get('doneLoading');
         
         return (
-            doneLoading ?
             <EditDriver
-                driver={localDriver === undefined ? driver.get('driver') : localDriver}
+                driver={localDriver}
                 driverId={driverId}
                 onSaveButtonClick={this.handleSaveButtonClick}
                 onChange={this.handleChange}
-            /> : null
+            />
         );
     }
 }
