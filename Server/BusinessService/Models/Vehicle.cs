@@ -14,8 +14,8 @@
 
         public string Model { get; set; }
 
-        public string CompanyId { get; set; }
+        public Company Company { get; set; }
 
-        public string DriverId { get; set; }
+        public Driver Driver { get; set; }
     }
 }

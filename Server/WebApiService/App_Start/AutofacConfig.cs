@@ -61,6 +61,9 @@
 
             builder.RegisterType<CompanyBusinessService>().As<ICompanyBusinessService>();
             builder.RegisterType<CompanyDataAccessService>().As<ICompanyDataAccessService>();
+
+            builder.RegisterType<ServiceBusinessService>().As<IServiceBusinessService>();
+            builder.RegisterType<ServiceDataAccessService>().As<IServiceDataAccessService>();
         }
     }
 }
