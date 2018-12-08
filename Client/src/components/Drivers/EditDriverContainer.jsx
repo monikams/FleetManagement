@@ -4,11 +4,13 @@ import Immutable from 'immutable';
 import shallowEqual from 'shallowequal';
 import DriversActions from '../../actions/DriversActions.js';
 import DriversStore from '../../stores/DriversStore';
+import CompaniesStore from '../../stores/CompaniesStore';
+import CompaniesActions from '../../actions/CompaniesActions.js';
+import EditDriver from './EditDriver';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
-import EditDriver from './EditDriver';
 
 class EditDriverContainer extends Component {
 
@@ -21,17 +23,19 @@ class EditDriverContainer extends Component {
             Email: '',
             Address: '',
             Telephone: '',
+            CompanyId: '',
         }),
 	  } 
     }
 
     static getStores() {
-        return [DriversStore];
+        return [DriversStore, CompaniesStore];
     }
 
     static getPropsFromStores() {
         return {
-            driver: DriversStore.getDriver(),           
+            driver: DriversStore.getDriver(),
+            companies: CompaniesStore.getCompanies(),           
         }
     }
 
@@ -40,6 +44,7 @@ class EditDriverContainer extends Component {
     componentWillMount() {
         const { params: { driverId } } = this.props;
         DriversActions.loadDriver(driverId);
+        CompaniesActions.loadCompanies();
     }
 
     componentWillUnmount() { 
@@ -55,6 +60,7 @@ class EditDriverContainer extends Component {
                 Email: driver.get('Email'),
                 Address: driver.get('Address'),
                 Telephone: driver.get('Telephone'),
+                CompanyId: driver.get('CompanyId'),
             });
           this.setState({ localDriver });
         }
@@ -74,12 +80,13 @@ class EditDriverContainer extends Component {
     };
     
     render() {      
-        const { classes, driver, params: { driverId  } } = this.props;
+        const { classes, companies, driver, params: { driverId  } } = this.props;
         const { localDriver } = this.state;   
         
         return (
             <EditDriver
                 driver={localDriver}
+                companies={companies}
                 driverId={driverId}
                 onSaveButtonClick={this.handleSaveButtonClick}
                 onChange={this.handleChange}
@@ -90,6 +97,7 @@ class EditDriverContainer extends Component {
 
 EditDriverContainer.propTypes = {
     driver: PropTypes.instanceOf(Immutable.Map),
+    companies: PropTypes.instanceOf(Immutable.List),
     params: PropTypes.object.isRequired,
 };
 
@@ -101,10 +109,12 @@ EditDriverContainer.defaultProps = {
             Email: '',
             Address: '',
             Telephone: '',
+            CompanyId: '',
         }),
         isLoading: true,
         doneLoading: false,
     }),
+    companies: Immutable.List(),
 };
 
 export default connectToStores(EditDriverContainer);
