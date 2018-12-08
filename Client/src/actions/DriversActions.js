@@ -5,6 +5,7 @@ import { baseURL } from '../Constants.js';
 class DriversActions {
   constructor() {
     this.generateActions('unloadDriver');
+    this.generateActions('unloadDrivers');
   }
 
     loadDrivers(companyId) {
@@ -18,7 +19,7 @@ class DriversActions {
             });
         }
     }
-
+    
     loadDriver(driverId, clearList) {
         return (dispatch) => {
              DriversService.getDriver(driverId)

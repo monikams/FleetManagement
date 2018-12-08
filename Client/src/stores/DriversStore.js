@@ -28,6 +28,10 @@ class DriversStore {
         this.setState(this.state.set('drivers', Immutable.List(drivers)));
     }
 
+    unloadDrivers() {
+        this.setState(this.state.set('drivers', Immutable.List()));
+    }
+
     loadDriver({ driver, clearList }) {
         const nextState = this.defaultDriver.withMutations(tempState => {
             if (clearList) {

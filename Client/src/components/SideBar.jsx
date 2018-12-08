@@ -5,21 +5,15 @@ import { withRouter } from 'react-router'
 
 class SideBar extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      active: 'Companies',
-    }
-  }
-
   handleItemClick = (event) => {
     const { target : { textContent } } = event;
     this.props.router.push(textContent.toLowerCase());
-    this.setState({ active: textContent });
+    localStorage.removeItem('selectedTab');
+    localStorage.setItem('selectedTab', textContent);
   }
 
   renderItem = (text, index) => (
-      <div key={index} onClick={this.handleItemClick} className={text === this.state.active ? 'selectedIndicator' : 'item'}>
+      <div key={index} onClick={this.handleItemClick} className={text === localStorage.getItem('selectedTab') ? 'selectedIndicator' : 'item'}>
         <div className='itemText'>
             <span className='titleClass'>{text}</span>
         </div>

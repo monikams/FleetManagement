@@ -25,6 +25,9 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  button: {
+      marginTop: '15px', 
+  }
 });
 
 class CompaniesContainer extends Component {
