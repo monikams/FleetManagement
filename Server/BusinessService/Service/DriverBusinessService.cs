@@ -20,9 +20,12 @@
         public DriverBusinessService(IDriverDataAccessService driverDataAccessService)
         {
             _driverDataAccessService = driverDataAccessService;
-            _config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Driver, DataAccessService.Models.Driver>().ReverseMap();
-            });
+            _config = new MapperConfiguration(cfg => 
+                {
+                    cfg.CreateMap<Company, DataAccessService.Models.Company>().ReverseMap();
+                    cfg.CreateMap<Driver, DataAccessService.Models.Driver>().ReverseMap()
+                       .ForMember(x => x.Company, b => b.ResolveUsing(c => c.Company)).ReverseMap();
+                });
             _mapper = new Mapper(_config);
         }
 

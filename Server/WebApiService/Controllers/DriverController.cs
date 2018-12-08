@@ -24,7 +24,9 @@
             _driverBusinessService = driverBusinessService;
             _config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Driver, BusinessService.Models.Driver>().ReverseMap();
+                cfg.CreateMap<Company, BusinessService.Models.Company>().ReverseMap();
+                cfg.CreateMap<Driver, BusinessService.Models.Driver>()
+                   .ForMember(x => x.Company, b => b.ResolveUsing(c => c.Company)).ReverseMap();
             });
             _mapper = new Mapper(_config);
         }

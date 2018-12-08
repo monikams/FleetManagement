@@ -13,5 +13,7 @@
         public string Telephone { get; set; }
 
         public string CompanyId { get; set; }
+
+        public Company Company { get; set; }
     }
 }
