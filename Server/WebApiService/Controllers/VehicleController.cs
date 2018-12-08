@@ -7,9 +7,9 @@
     using AutoMapper;
 
     using BusinessService.Contracts;
-    using BusinessService.Models;
 
     using WebApiService.Controllers.Base;
+    using WebApiService.Models;
 
     [RoutePrefix("api")]
     public class VehicleController : BaseAuthorizationController
@@ -24,7 +24,12 @@
             _vehicleBusinessService = vehicleBusinessService;
             _config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Models.Vehicle, BusinessService.Models.Vehicle>().ReverseMap();
+                cfg.CreateMap<Company, BusinessService.Models.Company>().ReverseMap();
+                cfg.CreateMap<Driver, BusinessService.Models.Driver>().ReverseMap();
+                cfg.CreateMap<Vehicle, BusinessService.Models.Vehicle>()
+                   .ForMember(v => v.Company, b => b.ResolveUsing(c => c.Company))
+                   .ForMember(v => v.Driver, b => b.ResolveUsing(c => c.Driver))
+                   .ReverseMap();
             });
             _mapper = new Mapper(_config);
         }

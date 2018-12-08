@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace WebApiService.Models
+﻿namespace WebApiService.Models
 {
+    using System;
+
     public class Service
     {
-
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -24,6 +23,8 @@ namespace WebApiService.Models
         public DateTimeOffset? TimeReminder { get; set; }
 
         public int? MileageReminder { get; set; }
+
+        public string VehicleId { get; set; }
 
         public Vehicle Vehicle { get; set; }
     }

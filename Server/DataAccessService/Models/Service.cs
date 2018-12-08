@@ -24,6 +24,8 @@ namespace DataAccessService.Models
 
         public int? MileageReminder { get; set; }
 
+        public string VehicleId { get; set; }
+
         public Vehicle Vehicle { get; set; }
     }
 }
