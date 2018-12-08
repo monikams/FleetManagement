@@ -56,7 +56,7 @@
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            context.Validated();
+            await Task.Run(() => context.Validated());
         }
 
         public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
