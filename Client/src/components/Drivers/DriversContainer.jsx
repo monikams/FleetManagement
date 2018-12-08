@@ -126,10 +126,6 @@ class DriversContainer extends Component {
                         displayEmpty
                         value={companyId}
                         onChange={this.handleCompanyChange}
-                        inputProps={{
-                        name: 'age',
-                        id: 'age-simple',
-                        }}
                     >
                         {companies.map(company => (
                             <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>

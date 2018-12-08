@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import UsersStore from '../../stores/UsersStore';
-import UsersActions from '../../actions/UsersActions.js';
+import CompaniesStore from '../../stores/CompaniesStore';
 import CompaniesActions from '../../actions/CompaniesActions.js';
+import DriversActions from '../../actions/DriversActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
-import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -40,82 +40,57 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
   },
   formControl: {
-    marginTop: '16px',
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    marginTop: '16px',
     width: '566.375px',
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: theme.spacing.unit / 4,
   },
 });
 
-class CreateCompanyContainer extends Component {
+class CreateDriverContainer extends Component {
 
      constructor(props) {
         super(props);
         this.state = {
-			localCompany: {
+			localDriver: {
                 name: '',
                 email: '',
                 address: '',
                 telephone: '',
-                subscribers: [],
+                companyId: '',
             },
 		} 
     }
 
     static getStores() {
-        return [UsersStore];
+        return [CompaniesStore];
     }
 
     static getPropsFromStores() {
         return {
-            users: UsersStore.getUsers(),           
+            companies: CompaniesStore.getCompanies(),           
         }
     }
 
     componentWillMount() {
-        UsersActions.loadUsers();
+        CompaniesActions.loadCompanies();
     }
 
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localCompany } = this.state;
-        const newCompany = merge(localCompany, { [name]: value });
-        this.setState({ localCompany: newCompany });
+        const { localDriver } = this.state;
+        const newDriver = merge(localDriver, { [name]: value });
+        this.setState({ localDriver: newDriver });
     };
 
     handleSaveButtonClick = () => {
-        const { localCompany, localCompany: { subscribers } } = this.state;
-        const { users } = this.props;
-        const selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());    
-        const newLocalCompany = merge(localCompany, { subscribers: selectedUsers });
-        CompaniesActions.createCompany(newLocalCompany);
+        const { localDriver } = this.state;   
+        DriversActions.createDriver(localDriver);
     }
 
-     handleUserDropdownChange = event => {
-        const { localCompany, localCompany: { subscribers } } = this.state;
-        const { target: { value } } = event;
-
-        const index = subscribers.findIndex(name => name === value);
-        if (index === -1) {
-            subscribers.push(value); 
-        } else {
-            subscribers.splice(index, 1);
-        }
-
-        const newCompany = merge(localCompany, { subscribers });
-        this.setState({ localCompany: newCompany });
-     };
-
     render() {      
-        const { users, classes } = this.props;
-        const { localCompany : { subscribers } } = this.state;
+        const { classes, companies } = this.props;
+        const { localDriver } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -128,7 +103,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="name"
                         label="Name"
-                        placeholder="Enter company`s name"
+                        placeholder="Enter Driver`s name"
                         className={classes.textField}          
                         onChange={this.handleChange('name')}
                         margin="normal"
@@ -141,7 +116,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="email"
                         label="Email"
-                        placeholder="Enter company`s email"
+                        placeholder="Enter Driver`s email"
                         className={classes.textField}          
                         onChange={this.handleChange('email')}
                         margin="normal"
@@ -154,7 +129,7 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="address"
                         label="Address"
-                        placeholder="Enter company`s address"
+                        placeholder="Enter Driver`s address"
                         className={classes.textField}         
                         onChange={this.handleChange('address')}
                         margin="normal"
@@ -166,32 +141,20 @@ class CreateCompanyContainer extends Component {
                         }}
                         id="phone"
                         label="Phone"
-                        placeholder="Enter company`s phone number"
+                        placeholder="Enter Driver`s phone number"
                         className={classes.textField}         
                         onChange={this.handleChange('telephone')}
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink>Allow access to users</InputLabel>
+                        <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
                         <Select
-                            fullWidth
-                            className={classes.select}
-                            value={subscribers}
-                            input={<Input id="select-multiple-chip" />}
-                            onChange={this.handleUserDropdownChange}
-                            renderValue={selected => (
-                            <div className={classes.chips}>
-                                {selected.map(value => (
-                                <Chip key={value} label={value} className={classes.chip} />
-                                ))}
-                            </div>
-                            )}
+                            displayEmpty
+                            value={localDriver.companyId}
+                            onChange={this.handleChange('companyId')}
                         >
-                            {users.map(user => (
-                            <MenuItem key={user.Id} value={user.UserName}>
-                                <Checkbox checked={subscribers.indexOf(user.UserName) > -1} />
-                                <ListItemText primary={user.UserName} />
-                            </MenuItem>
+                            {companies.map(company => (
+                                <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -213,13 +176,13 @@ class CreateCompanyContainer extends Component {
     }
 }
 
-CreateCompanyContainer.propTypes = {
+CreateDriverContainer.propTypes = {
     classes: PropTypes.object.isRequired,
-    users: PropTypes.instanceOf(Immutable.Iterable),
+    companies: PropTypes.instanceOf(Immutable.Iterable),
 };
 
-CreateCompanyContainer.defaultProps = {
-   users: Immutable.List(),
+CreateDriverContainer.defaultProps = {
+   companies: Immutable.List(),
 };
 
-export default withStyles(styles)(connectToStores(CreateCompanyContainer));
+export default withStyles(styles)(connectToStores(CreateDriverContainer));
