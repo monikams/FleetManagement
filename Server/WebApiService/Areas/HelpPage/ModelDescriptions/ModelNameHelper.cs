@@ -16,7 +16,7 @@ namespace WebApiService.Areas.HelpPage.ModelDescriptions
                 return modelNameAttribute.Name;
             }
 
-            string modelName = type.Name;
+            string modelName = type.FullName;
             if (type.IsGenericType)
             {
                 // Format the generic type name to something like: GenericOfAgurment1AndArgument2
