@@ -94,12 +94,12 @@ class EditCompanyContainer extends Component {
         let selectedUsers;
 
         if(localCompany) {
-             const subscribers = localCompany.get("Subscribers").map(user => user.UserName); 
+             let subscribers = localCompany.get("Subscribers").map(user => user.UserName); 
              const index = subscribers.findIndex(name => name === value);
             if (index === -1) {
-               subscribers.push(value);         
+               subscribers = subscribers.push(value);         
             } else {
-                subscribers.splice(index, 1);
+               subscribers = subscribers.splice(index, 1);
             }
 
             selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
