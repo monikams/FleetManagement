@@ -40,27 +40,71 @@
             return mappedDrivers;
         }
 
-        [Route("companies/{companyId}/Drivers/{DriverId}")]
+        [Route("drivers/{driverId}")]
         [HttpGet]
-        public async Task<Driver> GetDriverById([FromUri] string companyId, [FromUri] string driverId)
+        public async Task<Driver> GetDriverById([FromUri] string driverId)
         {
             var driver = await _driverBusinessService.GetDriverById(driverId);
             var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(driver);
             return mappedDriver;
         }
 
-        [Route("companies/{companyId}/Drivers")]
+        [Route("drivers")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostDriver([FromUri] string companyId, [FromUri] string driverId, [FromBody] Driver driver)
+        public async Task<IHttpActionResult> PostDriver([FromBody] Driver driver)
         {
             if (!ModelState.IsValid)
+            {
                 return this.BadRequest(ModelState);
+            }
 
             var apiDriver = _mapper.Map<Driver, BusinessService.Models.Driver>(driver);
-            var businessServiceDriver = await _driverBusinessService.PostDriver(companyId,
+            var businessServiceDriver = await _driverBusinessService.PostDriver(driver.CompanyId,
               apiDriver);
             var mappedDriver = _mapper.Map<BusinessService.Models.Driver, Driver>(businessServiceDriver);
             return Ok(mappedDriver);
+        }
+
+        [Route("deleteDriver/{driverId}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteDriver([FromUri] string driverId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var driver = await this._driverBusinessService.GetDriverById(driverId);
+            if (driver == null)
+            {
+                return this.BadRequest();
+            }
+
+            await this._driverBusinessService.DeleteDriver(driverId);
+            return this.Ok();
+        }
+
+        [Route("drivers/{driverId}")]
+        [HttpPut]
+        public async Task<IHttpActionResult> EditDriver([FromUri] string driverId, [FromBody] EditDriver driverForEdit)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var driver = await _driverBusinessService.GetDriverById(driverId);
+            if (driver == null)
+            {
+                return this.BadRequest();
+            }
+
+            var businessDriverForEdit = _mapper.Map<BusinessService.Models.EditDriver>(driverForEdit);
+            businessDriverForEdit.Id = driverId;
+
+            var editedDriver = await _driverBusinessService.EditDriver(businessDriverForEdit);
+            var apiDriver = _mapper.Map<EditDriver>(editedDriver);
+            return Ok(apiDriver);
         }
     }
 }

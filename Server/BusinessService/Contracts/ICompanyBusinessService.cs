@@ -15,7 +15,7 @@
 
         Task<IEnumerable<Company>> GetByUserId(string userId);
 
-        Task DeleteItem(string companyId);
+        Task DeleteCompany(string companyId);
 
         Task<Company> EditCompany(EditCompany editCompany);
     }
