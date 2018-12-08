@@ -35,8 +35,8 @@ class CompaniesActions {
         return (dispatch) => {
             CompaniesService.createCompany(company)
             .then((response) => {
-                this.loadCompanies();
-                window.location.href = baseURL + '/companies';                   
+                window.location.href = baseURL + '/companies';
+                this.loadCompanies();                   
             })
             .catch((error) => {
                 console.log(error);
@@ -48,8 +48,8 @@ class CompaniesActions {
         return (dispatch) => {
             CompaniesService.editCompany(company)
             .then((response) => {
+                window.location.href = baseURL + '/companies';
                 this.loadCompanies();
-                window.location.href = baseURL + '/companies';                   
             })
             .catch((error) => {
                 console.log(error);

@@ -38,7 +38,7 @@ class CompaniesService {
 
     static async deleteCompany(companyId){
         if(isLoggedIn()){
-            return await axios.delete(`http://localhost:19631/api/deleteCompany?companyId=${companyId}`);
+            return await axios.delete(`http://localhost:19631/api/deleteCompany/${companyId}`);
         }
 
          logout();

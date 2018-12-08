@@ -76,7 +76,7 @@
             return mappedCompanies;
         }
 
-        [Route("deleteCompany")]
+        [Route("deleteCompany/{companyId}")]
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteCompany([FromUri] string companyId)
         {
