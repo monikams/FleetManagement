@@ -62,9 +62,9 @@
             return mappedCompanies;
         }
 
-        public async Task DeleteItem(string companyId)
+        public async Task DeleteCompany(string companyId)
         {
-            await this._companyDataAccessService.DeleteItem(companyId);
+            await this._companyDataAccessService.DeleteCompany(companyId);
         }
 
         public async Task<Company> EditCompany(EditCompany companyForEdit)

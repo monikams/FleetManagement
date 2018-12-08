@@ -104,7 +104,7 @@ namespace DataAccessService.Service
             return await Task.Run(() => mappedCompanies);
         }
 
-        public async Task DeleteItem(string companyId)
+        public async Task DeleteCompany(string companyId)
         {
             var company = this._context.Companies.FirstOrDefault(x => x.Id == companyId);
             if (company != null)

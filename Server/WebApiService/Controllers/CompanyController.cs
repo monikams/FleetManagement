@@ -91,7 +91,7 @@
                 return this.BadRequest();
             }
 
-            await this._companyBusinessService.DeleteItem(companyId);
+            await this._companyBusinessService.DeleteCompany(companyId);
             return this.Ok();
         }
 
