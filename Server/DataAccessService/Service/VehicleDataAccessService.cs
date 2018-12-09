@@ -1,4 +1,6 @@
-﻿namespace DataAccessService.Service
+﻿using System;
+
+namespace DataAccessService.Service
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -55,18 +57,19 @@
             return await Task.Run(() => mappedVehicle);
         }
 
-        public async Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle)
+        public async Task<Vehicle> PostVehicle(Vehicle vehicle)
         {
-            var company = await this._context.Companies.FindAsync(companyId);
-            var driver = await this._context.Drivers.FindAsync(driverId);
+            var company = await this._context.Companies.FindAsync(vehicle.CompanyId);
+            var driver = await this._context.Drivers.FindAsync(vehicle.DriverId);
             var newVehicle = new Data.Models.Vehicle
                                  {
                                      VIN = vehicle.VIN,
                                      PlateNumber = vehicle.PlateNumber,
+                                     Type = vehicle.Type,
                                      Brand = vehicle.Brand,
                                      Model = vehicle.Model,
                                      Company = company,
-                                     Driver = driver
+                                     Driver = driver,
                                  };
 
             var addedVehicle = this._context.Vehicles.Add(newVehicle);

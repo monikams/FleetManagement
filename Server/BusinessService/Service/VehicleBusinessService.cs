@@ -53,11 +53,11 @@
             return mappedVehicle;
         }
 
-        public async Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle)
+        public async Task<Vehicle> PostVehicle(Vehicle vehicle)
         {
             var dataAccessVehicle = this._mapper.Map<Vehicle, DataAccessService.Models.Vehicle>(vehicle);
             var businessServiceVehicle =
-                await this._vehicleDataAccessService.PostVehicle(companyId, driverId, dataAccessVehicle);
+                await this._vehicleDataAccessService.PostVehicle(dataAccessVehicle);
             var mappedVehicle = this._mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return mappedVehicle;
         }

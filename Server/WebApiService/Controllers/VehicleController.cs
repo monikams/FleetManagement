@@ -52,16 +52,15 @@
             return mappedVehicle;
         }
 
-        [Route("companies/{companyId}/drivers/{driverId}/vehicles")]
+        [Route("vehicles")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostVehicle([FromUri] string companyId, [FromUri] string driverId, [FromBody] Vehicle vehicle)
+        public async Task<IHttpActionResult> PostVehicle([FromBody] Vehicle vehicle)
         {
             if (!ModelState.IsValid)
                 return this.BadRequest(ModelState);
 
             var apiVehicle = _mapper.Map<Vehicle, BusinessService.Models.Vehicle>(vehicle);
-            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(companyId,
-                driverId, apiVehicle);
+            var businessServiceVehicle = await _vehicleBusinessService.PostVehicle(apiVehicle);
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return Ok(mappedVehicle);
         }

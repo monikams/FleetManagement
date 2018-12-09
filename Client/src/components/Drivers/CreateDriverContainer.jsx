@@ -103,7 +103,7 @@ class CreateDriverContainer extends Component {
                         }}
                         id="name"
                         label="Name"
-                        placeholder="Enter Driver`s name"
+                        placeholder="Enter driver`s name"
                         className={classes.textField}          
                         onChange={this.handleChange('name')}
                         margin="normal"
@@ -116,7 +116,7 @@ class CreateDriverContainer extends Component {
                         }}
                         id="email"
                         label="Email"
-                        placeholder="Enter Driver`s email"
+                        placeholder="Enter driver`s email"
                         className={classes.textField}          
                         onChange={this.handleChange('email')}
                         margin="normal"
@@ -129,7 +129,7 @@ class CreateDriverContainer extends Component {
                         }}
                         id="address"
                         label="Address"
-                        placeholder="Enter Driver`s address"
+                        placeholder="Enter driver`s address"
                         className={classes.textField}         
                         onChange={this.handleChange('address')}
                         margin="normal"
@@ -141,13 +141,13 @@ class CreateDriverContainer extends Component {
                         }}
                         id="phone"
                         label="Phone"
-                        placeholder="Enter Driver`s phone number"
+                        placeholder="Enter driver`s phone number"
                         className={classes.textField}         
                         onChange={this.handleChange('telephone')}
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
+                        <InputLabel required shrink htmlFor="age-simple">Select company</InputLabel>
                         <Select
                             displayEmpty
                             value={localDriver.companyId}

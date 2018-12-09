@@ -136,10 +136,12 @@ class VehiclesContainer extends Component {
                     <Table className={classes.table}>
                         <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Address</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Telephone</TableCell>
+                            <TableCell>VIN</TableCell>
+                            <TableCell>Plate Number</TableCell>
+                            <TableCell>Type</TableCell>
+                            <TableCell>Brand</TableCell>
+                            <TableCell>Model</TableCell>
+                            <TableCell>Preview</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
                         </TableRow>
@@ -148,12 +150,12 @@ class VehiclesContainer extends Component {
                         {vehicles.map(vehicle => {
                             return (
                             <TableRow key={vehicle.Id}>
-                                <TableCell component="th" scope="row">
-                                {vehicle.Name}
-                                </TableCell>
-                                <TableCell>{vehicle.Address}</TableCell>
-                                <TableCell>{vehicle.Email}</TableCell>
-                                <TableCell>{vehicle.Telephone}</TableCell>
+                                <TableCell>{vehicle.VIN}</TableCell>
+                                <TableCell>{vehicle.PlateNumber}</TableCell>
+                                <TableCell>{vehicle.Type}</TableCell>
+                                <TableCell>{vehicle.Brand}</TableCell>
+                                <TableCell>{vehicle.Model}</TableCell>
+                                <TableCell>Preview</TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
                                 <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>
                             </TableRow>

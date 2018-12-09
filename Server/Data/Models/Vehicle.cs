@@ -21,7 +21,7 @@ namespace Data.Models
         public string PlateNumber { get; set; }
 
         [Required]
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         [Required]
         public string Brand { get; set; }
@@ -33,7 +33,6 @@ namespace Data.Models
 
         public virtual Company Company { get; set; }
 
-        [Required]
         public string DriverId { get; set; }
 
         public virtual Driver Driver { get; set; }

@@ -5,6 +5,7 @@ import { baseURL } from '../Constants.js';
 class VehiclesActions {
   constructor() {
     this.generateActions('unloadVehicle');
+    this.generateActions('unloadVehicles');
   }
 
     loadVehicles(companyId) {
