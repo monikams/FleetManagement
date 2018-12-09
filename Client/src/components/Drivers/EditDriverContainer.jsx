@@ -17,7 +17,7 @@ class EditDriverContainer extends Component {
      constructor(props) {
         super(props);
         this.state = {
-		driver: Immutable.Map({
+		localDriver: Immutable.Map({
             Id: '',
             Name: '',
             Email: '',
@@ -53,7 +53,7 @@ class EditDriverContainer extends Component {
 
     componentWillReceiveProps = nextProps => {
         if (this.props.driver !== nextProps.driver) {
-          const driver = nextProps.driver.get('driver');
+          const driver = nextProps.driver;
           const localDriver = Immutable.Map({
                 Id: driver.get('Id'),
                 Name: driver.get('Name'),

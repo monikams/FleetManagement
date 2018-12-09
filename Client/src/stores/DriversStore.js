@@ -12,15 +12,11 @@ class DriversStore {
         });
 
         this.defaultDriver = Immutable.Map({
-            driver: Immutable.Map({
-                Id: '',
-                Name: '',
-                Email: '',
-                Address: '',
-                Telephone: '',
-            }),
-            isLoading: true,
-            doneLoading: false,
+            Id: '',
+            Name: '',
+            Email: '',
+            Address: '',
+            Telephone: '',
         });
     }
 
@@ -32,20 +28,8 @@ class DriversStore {
         this.setState(this.state.set('drivers', Immutable.List()));
     }
 
-    loadDriver({ driver, clearList }) {
-        const nextState = this.defaultDriver.withMutations(tempState => {
-            if (clearList) {
-                tempState.set('driver', Immutable.Map());
-                tempState.set('doneLoading', false);
-            }
-            tempState.set('driver', Immutable.Map(driver));
-            tempState.set('isLoading', false);
-            if (!driver.length) {
-                tempState.set('doneLoading', true);
-            }
-        });
-
-        this.setState(this.state.set('driver', nextState));
+    loadDriver(driver) {
+        this.setState(this.state.set('driver', Immutable.Map(driver)));
     }
 
     unloadDriver() {
