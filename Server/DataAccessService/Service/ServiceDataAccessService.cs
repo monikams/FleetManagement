@@ -28,7 +28,12 @@
         {
             this._context = context;
             this._config =
-                new MapperConfiguration(cfg => { cfg.CreateMap<Service, Data.Models.Service>().ReverseMap(); });
+                new MapperConfiguration(
+                    cfg =>
+                        {
+                            cfg.CreateMap<Service, Data.Models.Service>().ReverseMap();
+                            cfg.CreateMap<Data.Models.Service, Service>().ReverseMap();
+                        });
             this._mapper = new Mapper(this._config);
         }
 
@@ -46,6 +51,23 @@
             var mappedServices = this._mapper.Map<IEnumerable<Data.Models.Service>, IEnumerable<Service>>(services);
 
             return mappedServices;
+        }
+
+        public async Task<Service> PostService(Service service)
+        {
+            var vehicle = await this._context.Vehicles.FirstOrDefaultAsync(v => v.Id == service.VehicleId);
+            if (vehicle == null)
+            {
+                return null;
+            }
+
+            var newService = this._mapper.Map<Service, Data.Models.Service>(service);
+
+            this._context.Services.Add(newService);
+            await this._context.SaveChangesAsync();
+
+            var mappedService = this._mapper.Map<Data.Models.Service, Service>(newService);
+            return mappedService;
         }
     }
 }

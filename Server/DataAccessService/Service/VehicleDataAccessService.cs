@@ -70,7 +70,7 @@
                                  };
 
             var addedVehicle = this._context.Vehicles.Add(newVehicle);
-            this._context.SaveChanges();
+            await this._context.SaveChangesAsync();
 
             var mappedVehicle = this._mapper.Map<Data.Models.Vehicle, Vehicle>(addedVehicle);
             return await Task.Run(() => mappedVehicle);
