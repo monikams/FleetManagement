@@ -53,7 +53,6 @@ class EditCompanyContainer extends Component {
     componentWillReceiveProps = nextProps => {
         if (this.props.company !== nextProps.company) {
           const company = nextProps.company;
-          const users = nextProps.users;
           
           const localCompany = Immutable.Map({
                 Id: company.get('Id'),
@@ -62,7 +61,7 @@ class EditCompanyContainer extends Component {
                 Address: company.get('Address'),
                 Telephone: company.get('Telephone'),
                 CreatorId: company.get('CreatorId'),
-                Subscribers: users,
+                Subscribers: company.get('Subscribers'),
             });
           this.setState({ localCompany });
         }
@@ -97,11 +96,12 @@ class EditCompanyContainer extends Component {
              let subscribers = localCompany.get("Subscribers").map(user => user.UserName); 
              const index = subscribers.findIndex(name => name === value);
             if (index === -1) {
-               subscribers = subscribers.push(value);         
+               subscribers.push(value);         
             } else {
-               subscribers = subscribers.splice(index, 1);
+               subscribers.splice(index, 1);
             }
 
+            debugger;
             selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
             updatedCompany = localCompany.update('Subscribers', subscribers => selectedUsers);        
         }
