@@ -10,7 +10,7 @@
 
         public string PlateNumber { get; set; }
 
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         public string Brand { get; set; }
 
@@ -18,6 +18,10 @@
 
         public Company Company { get; set; }
 
+        public string CompanyId { get; set; }
+
         public Driver Driver { get; set; }
+
+        public string DriverId { get; set; }
     }
 }

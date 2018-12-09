@@ -20,11 +20,11 @@ class DriversActions {
         }
     }
     
-    loadDriver(driverId, clearList) {
+    loadDriver(driverId) {
         return (dispatch) => {
              DriversService.getDriver(driverId)
             .then((response) => {   
-                dispatch({ driver: response.data, clearList });
+                dispatch(response.data);
             })
             .catch((error) => {
                console.log(error);

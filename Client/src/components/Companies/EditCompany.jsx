@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
+import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -37,8 +38,11 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
-  select: {
+  formControl: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
     marginTop: '16px',
+    width: '566.375px',
   },
   chips: {
     display: 'flex',
@@ -56,8 +60,8 @@ class EditCompany extends Component {
     }
 
     render() {      
-        const { users, classes, company, onDropownChange, onSaveButtonClick } = this.props; 
-           
+        const { users, classes, company, onDropownChange, onSaveButtonClick } = this.props;
+
         return (
            <div className={classes.form} >  
                 <div className={classes.container} >
@@ -117,7 +121,7 @@ class EditCompany extends Component {
                         margin="normal"
                     />
                     {company.get("CreatorId") === localStorage.getItem('userId') &&
-                        <div>
+                        <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
                             <Select
                                 fullWidth
@@ -139,7 +143,7 @@ class EditCompany extends Component {
                                 </MenuItem>
                                 ))}
                             </Select>
-                        </div>
+                        </FormControl>
                     }
                 </div>
                 <div className={classes.container} >

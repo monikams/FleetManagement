@@ -11,12 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 import EditCompany from './EditCompany';
 
 class EditCompanyContainer extends Component {
@@ -24,19 +18,16 @@ class EditCompanyContainer extends Component {
      constructor(props) {
         super(props);
         this.state = {
-		company: Immutable.Map({
-            Id: '',
-            CreatorId: '',
-            Name: '',
-            Email: '',
-            Address: '',
-            Telephone: '',
-            Subscribers: Immutable.List(),
-            Creator: {},
-        }),
-        subscribers: [],
-        selectedSubscribers: [],
-        subscribersChanged: false,
+            localCompany: Immutable.Map({
+                Id: '',
+                CreatorId: '',
+                Name: '',
+                Email: '',
+                Address: '',
+                Telephone: '',
+                Subscribers: Immutable.List(),
+                Creator: {},
+            }),
 		} 
     }
 
@@ -56,14 +47,25 @@ class EditCompanyContainer extends Component {
     componentWillMount() {
         const { params: { companyId } } = this.props;
         UsersActions.loadUsers();
-        CompaniesActions.loadCompany(companyId, true);
+        CompaniesActions.loadCompany(companyId);
     }
 
-    //  componentDidMount() {
-    //     debugger;
-    //     const company = this.props.company.get('company');
-    //     this.setState({ subscribers: company.get('Subscribers') });
-    //  }
+    componentWillReceiveProps = nextProps => {
+        if (this.props.company !== nextProps.company) {
+          const company = nextProps.company;
+          
+          const localCompany = Immutable.Map({
+                Id: company.get('Id'),
+                Name: company.get('Name'),
+                Email: company.get('Email'),
+                Address: company.get('Address'),
+                Telephone: company.get('Telephone'),
+                CreatorId: company.get('CreatorId'),
+                Subscribers: company.get('Subscribers'),
+            });
+          this.setState({ localCompany });
+        }
+    }
 
     componentWillUnmount() { 
         CompaniesActions.unloadCompany();
@@ -71,93 +73,55 @@ class EditCompanyContainer extends Component {
     }
 
     handleSaveButtonClick = () => {
-        const company = this.props.company.get('company');
-        const updatedCompany = company.update('Subscribers', subscribers => this.state.selectedSubscribers);
-        this.setState({ localCompany: updatedCompany });       
-        const { localCompany } = this.state;
-
-       if (localCompany === undefined) {
-          this.props.router.push('companies');
-       } else {
-          CompaniesActions.editCompany(localCompany);
-       }
+       const { localCompany, localCompany: { subscribers } } = this.state;
+       const { users } = this.props;
+       CompaniesActions.editCompany(localCompany);
     }
 
     handleChange = (name, event) => {
         const { target: { value }} = event;  
-        const { company } = this.props;   
-        const updatedCompany = company.get('company').update(name, oldValue => value);
+        const { localCompany } = this.state;   
+        const updatedCompany = localCompany.update(name, oldValue => value);
         this.setState({ localCompany: updatedCompany });
     };
 
     handleUserDropdownChange = event => {
         const { users } = this.props;
-        const company = this.props.company.get('company');
+        const { localCompany } = this.state;
         const { target: { value } } = event;   
-        
-        // if (this.state.subscribers && this.state.subscribers.length === 0) {
-        //     this.setState({ subscribers: company.get('Subscribers') });
-        // }
-    
-        // if (company) {
-        //      const subscribers = this.state.subscribers.map(user => user.UserName); 
-        //      const index = subscribers.findIndex(name => name === value);
-        //     if (index === -1) {           
-        //         this.state.subscribers.push(value);
-        //     } else {
-        //         this.state.subscribers.splice(index, 1);
-        //     }
-
-        //     const selectedUsers = this.state.subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
-        //     this.setState({ selectedSubscribers: selectedUsers });
-        // }
-
         let updatedCompany;
         let selectedUsers;
-        let subscribers;
-        let subscribersChanged = this.state.subscribersChanged;
 
-        if(company) {
-            if (this.state.subscribers && this.state.subscribers.length === 0 && !subscribersChanged) {
-                subscribers = company.get('Subscribers');
-            } else {
-                subscribers = this.state.subscribers;
-            }
-
-            const updatedSubscribers = subscribers.map(user => user.UserName);
-            const index = updatedSubscribers.findIndex(name => name === value);
+        if(localCompany) {
+             let subscribers = localCompany.get("Subscribers").map(user => user.UserName); 
+             const index = subscribers.findIndex(name => name === value);
             if (index === -1) {
-                updatedSubscribers.push(value);             
+               subscribers.push(value);         
             } else {
-                updatedSubscribers.splice(index, 1);
+               subscribers.splice(index, 1);
             }
 
-            subscribersChanged = true;
-
-            this.setState({ subscribers: updatedSubscribers });
-            this.setState({ subscribersChanged: subscribersChanged });
-
-            selectedUsers = updatedSubscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
-            updatedCompany = company.update('Subscribers', subscribers => selectedUsers);
-            this.setState({ localCompany: updatedCompany });       
+            debugger;
+            selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
+            updatedCompany = localCompany.update('Subscribers', subscribers => selectedUsers);        
         }
+       
+       this.setState({ localCompany: updatedCompany });
      };
 
     render() {      
         const { users, classes, company, params: { companyId  } } = this.props;
         const { localCompany } = this.state;   
-        const doneLoading = company.get('doneLoading');
         
         return (
-            doneLoading ?
             <EditCompany
-                company={localCompany === undefined ? company.get('company') : localCompany}
+                company={localCompany}
                 users={users}
                 companyId={companyId}
                 onDropownChange={this.handleUserDropdownChange} 
                 onSaveButtonClick={this.handleSaveButtonClick}
                 onChange={this.handleChange}
-            /> : null
+            />
         );
     }
 }
@@ -171,18 +135,14 @@ EditCompanyContainer.propTypes = {
 EditCompanyContainer.defaultProps = {
     users: Immutable.List(),
     company: Immutable.Map({
-        company: Immutable.Map({
-            Id: '',
-            CreatorId: '',
-            Name: '',
-            Email: '',
-            Address: '',
-            Telephone: '',
-            Subscribers: Immutable.List(),
-            Creator: {},
-        }),
-        isLoading: true,
-        doneLoading: false,
+        Id: '',
+        CreatorId: '',
+        Name: '',
+        Email: '',
+        Address: '',
+        Telephone: '',
+        Subscribers: Immutable.List(),
+        Creator: {},
     }),
 };
 

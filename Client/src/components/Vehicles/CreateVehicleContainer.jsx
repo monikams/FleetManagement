@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import CompaniesStore from '../../stores/CompaniesStore';
 import CompaniesActions from '../../actions/CompaniesActions.js';
+import DriversStore from '../../stores/DriversStore';
 import DriversActions from '../../actions/DriversActions.js';
+import VehiclesActions from '../../actions/VehiclesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -47,50 +49,55 @@ const styles = theme => ({
   },
 });
 
-class CreateDriverContainer extends Component {
+class CreateVehicleContainer extends Component {
 
      constructor(props) {
         super(props);
         this.state = {
-			localDriver: {
-                name: '',
-                email: '',
-                address: '',
-                telephone: '',
+			localVehicle: {
+                vin: '',
+                plateNumber: '',
+                type: '',
+                brand: '',
+                model: '',
                 companyId: '',
+                driverId: '',
             },
 		} 
     }
 
     static getStores() {
-        return [CompaniesStore];
+        return [CompaniesStore, DriversStore];
     }
 
     static getPropsFromStores() {
         return {
-            companies: CompaniesStore.getCompanies(),           
+            companies: CompaniesStore.getCompanies(),      
+            drivers: DriversStore.getDrivers(),     
         }
     }
 
     componentWillMount() {
         CompaniesActions.loadCompanies();
+        // ????
+        //DriversActions.loadDrivers();
     }
 
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localDriver } = this.state;
-        const newDriver = merge(localDriver, { [name]: value });
-        this.setState({ localDriver: newDriver });
+        const { localVehicle } = this.state;
+        const newVehicle = merge(localVehicle, { [name]: value });
+        this.setState({ localVehicle: newVehicle });
     };
 
     handleSaveButtonClick = () => {
-        const { localDriver } = this.state;   
-        DriversActions.createDriver(localDriver);
+        const { localVehicle } = this.state;   
+        VehiclesActions.createVehicle(localVehicle);
     }
 
     render() {      
-        const { classes, companies } = this.props;
-        const { localDriver } = this.state;
+        const { classes, companies, drivers } = this.props;
+        const { localVehicle } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -101,11 +108,11 @@ class CreateDriverContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="name"
-                        label="Name"
-                        placeholder="Enter driver`s name"
+                        id="VIN"
+                        label="VIN"
+                        placeholder="Enter vehicle`s VIN"
                         className={classes.textField}          
-                        onChange={this.handleChange('name')}
+                        onChange={this.handleChange('VIN')}
                         margin="normal"
                     />
                     <TextField
@@ -114,11 +121,11 @@ class CreateDriverContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="email"
-                        label="Email"
-                        placeholder="Enter driver`s email"
+                        id="plateNumber"
+                        label="Plate Number"
+                        placeholder="Enter vehicle`s plate number"
                         className={classes.textField}          
-                        onChange={this.handleChange('email')}
+                        onChange={this.handleChange('plateNumber')}
                         margin="normal"
                     />
                     <TextField
@@ -127,34 +134,59 @@ class CreateDriverContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="address"
-                        label="Address"
-                        placeholder="Enter driver`s address"
+                        id="type"
+                        label="Type"
+                        placeholder="Enter vehicle`s type"
                         className={classes.textField}         
-                        onChange={this.handleChange('address')}
+                        onChange={this.handleChange('type')}
                         margin="normal"
                     />
                      <TextField
+                        required
                         fullWidth
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="phone"
-                        label="Phone"
-                        placeholder="Enter driver`s phone number"
+                        id="brand"
+                        label="Brand"
+                        placeholder="Enter vehicle`s brand"
                         className={classes.textField}         
-                        onChange={this.handleChange('telephone')}
+                        onChange={this.handleChange('brand')}
+                        margin="normal"
+                    />
+                    <TextField
+                        fullWidth
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="model"
+                        label="Model"
+                        placeholder="Enter vehicle`s model"
+                        className={classes.textField}         
+                        onChange={this.handleChange('model')}
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
                         <InputLabel required shrink>Select company</InputLabel>
                         <Select
                             displayEmpty
-                            value={localDriver.companyId}
+                            value={localVehicle.companyId}
                             onChange={this.handleChange('companyId')}
                         >
                             {companies.map(company => (
                                 <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel shrink>Select driver</InputLabel>
+                        <Select
+                            displayEmpty
+                            value={localVehicle.driverId}
+                            onChange={this.handleChange('driverId')}
+                        >
+                            {drivers.map(driver => (
+                                <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -176,13 +208,13 @@ class CreateDriverContainer extends Component {
     }
 }
 
-CreateDriverContainer.propTypes = {
+CreateVehicleContainer.propTypes = {
     classes: PropTypes.object.isRequired,
     companies: PropTypes.instanceOf(Immutable.Iterable),
 };
 
-CreateDriverContainer.defaultProps = {
+CreateVehicleContainer.defaultProps = {
    companies: Immutable.List(),
 };
 
-export default withStyles(styles)(connectToStores(CreateDriverContainer));
+export default withStyles(styles)(connectToStores(CreateVehicleContainer));

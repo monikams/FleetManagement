@@ -12,16 +12,12 @@ class VehiclesStore {
         });
 
         this.defaultVehicle = Immutable.Map({
-            vehicle: Immutable.Map({
-                Id: '',
-                Vin: '',
-                PlateNumber: '',
-                Type: '',
-                Brand: '',
-                Model: '',
-            }),
-            isLoading: true,
-            doneLoading: false,
+            Id: '',
+            Vin: '',
+            PlateNumber: '',
+            Type: '',
+            Brand: '',
+            Model: '',
         });
     }
 
@@ -29,20 +25,8 @@ class VehiclesStore {
         this.setState(this.state.set('vehicles', Immutable.List(vehicles)));
     }
 
-    loadVehicle({ vehicle, clearList }) {
-        const nextState = this.defaultVehicle.withMutations(tempState => {
-            if (clearList) {
-                tempState.set('vehicle', Immutable.Map());
-                tempState.set('doneLoading', false);
-            }
-            tempState.set('vehicle', Immutable.Map(vehicle));
-            tempState.set('isLoading', false);
-            if (!vehicle.length) {
-                tempState.set('doneLoading', true);
-            }
-        });
-
-        this.setState(this.state.set('vehicle', nextState));
+    loadVehicle(vehicle) {
+        this.setState(this.state.set('vehicle', Immutable.Map(vehicle)));
     }
 
     unloadVehicle() {

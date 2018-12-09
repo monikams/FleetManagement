@@ -1,4 +1,6 @@
-﻿namespace DataAccessService.Service
+﻿using System;
+
+namespace DataAccessService.Service
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -41,7 +43,7 @@
 
         public async Task<IEnumerable<Vehicle>> GetCompanyVehicles(string companyId)
         {
-            var vehicles = this._context.Vehicles.Where(v => v.Id == companyId).ToList();
+            var vehicles = this._context.Vehicles.Where(v => v.CompanyId == companyId).ToList();
             var mappedVehicles = this._mapper.Map<IEnumerable<Data.Models.Vehicle>, IEnumerable<Vehicle>>(vehicles);
 
             return await Task.Run(() => mappedVehicles);
@@ -55,25 +57,36 @@
             return await Task.Run(() => mappedVehicle);
         }
 
-        public async Task<Vehicle> PostVehicle(string companyId, string driverId, Vehicle vehicle)
+        public async Task<Vehicle> PostVehicle(Vehicle vehicle)
         {
-            var company = await this._context.Companies.FindAsync(companyId);
-            var driver = await this._context.Drivers.FindAsync(driverId);
+            var company = await this._context.Companies.FindAsync(vehicle.CompanyId);
+            var driver = await this._context.Drivers.FindAsync(vehicle.DriverId);
             var newVehicle = new Data.Models.Vehicle
                                  {
                                      VIN = vehicle.VIN,
                                      PlateNumber = vehicle.PlateNumber,
+                                     Type = vehicle.Type,
                                      Brand = vehicle.Brand,
                                      Model = vehicle.Model,
                                      Company = company,
-                                     Driver = driver
-                                 };
+                                     Driver = driver,                              
+            };
 
             var addedVehicle = this._context.Vehicles.Add(newVehicle);
             await this._context.SaveChangesAsync();
 
             var mappedVehicle = this._mapper.Map<Data.Models.Vehicle, Vehicle>(addedVehicle);
             return await Task.Run(() => mappedVehicle);
+        }
+
+        public async Task DeleteVehicle(string vehicleId)
+        {
+            var vehicle = this._context.Vehicles.FirstOrDefault(x => x.Id == vehicleId);
+            if (vehicle != null)
+            {
+                this._context.Vehicles.Remove(vehicle);
+                await this._context.SaveChangesAsync();
+            }
         }
     }
 }
