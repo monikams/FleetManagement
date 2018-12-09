@@ -61,5 +61,21 @@
 
             return mappedServices;
         }
+
+        [Route("services")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostService([FromBody] Service service)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var apiService = this._mapper.Map<Service, BusinessService.Models.Service>(service);
+            var newService = await this._serviceBusinessService.PostService(apiService);
+            var mappedCompany = this._mapper.Map<BusinessService.Models.Service, Service>(newService);
+
+            return this.Ok(mappedCompany);
+        }
     }
 }

@@ -46,5 +46,14 @@
 
             return mappedServices;
         }
+
+        public async Task<Service> PostService(Service service)
+        {
+            var dataAccessService = this._mapper.Map<Service, DataAccessService.Models.Service>(service);
+            var newService = await this._serviceDataAccessService.PostService(dataAccessService);
+            var mappedService = this._mapper.Map<DataAccessService.Models.Service, Service>(newService);
+
+            return mappedService;
+        }
     }
 }
