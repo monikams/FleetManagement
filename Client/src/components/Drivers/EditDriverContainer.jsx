@@ -80,7 +80,7 @@ class EditDriverContainer extends Component {
     };
     
     render() {      
-        const { classes, companies, driver, params: { driverId  } } = this.props;
+        const { classes, companies, params: { driverId  } } = this.props;
         const { localDriver } = this.state;   
         
         return (

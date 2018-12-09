@@ -89,7 +89,7 @@ class EditVehicleContainer extends Component {
     };
     
     render() {      
-        const { classes, companies, drivers, vehicle, params: { vehicleId  } } = this.props;
+        const { classes, companies, drivers, params: { vehicleId  } } = this.props;
         const { localVehicle } = this.state;   
         
         return (

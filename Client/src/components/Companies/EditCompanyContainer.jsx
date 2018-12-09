@@ -101,7 +101,6 @@ class EditCompanyContainer extends Component {
                subscribers.splice(index, 1);
             }
 
-            debugger;
             selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());
             updatedCompany = localCompany.update('Subscribers', subscribers => selectedUsers);        
         }
