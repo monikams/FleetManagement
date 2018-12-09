@@ -3,10 +3,10 @@ import * as axios from 'axios';
 
 class VehiclesService {
 
-    static async getVehicles() {   
+    static async getVehicles(companyId) {   
         if (isLoggedIn()) { 
             const userId = localStorage.getItem('userId');
-            return await axios.get(`http://localhost:19631/api/userVehicles/${userId}`);
+            return await axios.get(`http://localhost:19631/api/companies/${companyId}/vehicles`);
         }
 
         logout();

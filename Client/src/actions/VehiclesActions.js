@@ -7,9 +7,9 @@ class VehiclesActions {
     this.generateActions('unloadVehicle');
   }
 
-    loadVehicles() {
+    loadVehicles(companyId) {
         return (dispatch) => {
-             VehiclesService.getVehicles()
+             VehiclesService.getVehicles(companyId)
             .then((response) => {    
                 dispatch(response.data);
             })
@@ -19,11 +19,11 @@ class VehiclesActions {
         }
     }
 
-    loadVehicle(vehicleId, clearList) {
+    loadVehicle(vehicleId) {
         return (dispatch) => {
              VehiclesService.getVehicle(vehicleId)
             .then((response) => {   
-                dispatch({ vehicle: response.data, clearList });
+                dispatch(response.data);
             })
             .catch((error) => {
                console.log(error);

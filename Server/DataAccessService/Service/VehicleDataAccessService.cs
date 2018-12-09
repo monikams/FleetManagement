@@ -41,7 +41,7 @@
 
         public async Task<IEnumerable<Vehicle>> GetCompanyVehicles(string companyId)
         {
-            var vehicles = this._context.Vehicles.Where(v => v.Id == companyId).ToList();
+            var vehicles = this._context.Vehicles.Where(v => v.CompanyId == companyId).ToList();
             var mappedVehicles = this._mapper.Map<IEnumerable<Data.Models.Vehicle>, IEnumerable<Vehicle>>(vehicles);
 
             return await Task.Run(() => mappedVehicles);
