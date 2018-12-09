@@ -19,11 +19,11 @@ class CompaniesActions {
         }
     }
 
-    loadCompany(companyId, clearList) {
+    loadCompany(companyId) {
         return (dispatch) => {
              CompaniesService.getCompany(companyId)
             .then((response) => {   
-                dispatch({ company: response.data, clearList });
+                dispatch(response.data);
             })
             .catch((error) => {
                console.log(error);

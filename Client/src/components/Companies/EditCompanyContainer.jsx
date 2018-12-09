@@ -47,12 +47,12 @@ class EditCompanyContainer extends Component {
     componentWillMount() {
         const { params: { companyId } } = this.props;
         UsersActions.loadUsers();
-        CompaniesActions.loadCompany(companyId, true);
+        CompaniesActions.loadCompany(companyId);
     }
 
     componentWillReceiveProps = nextProps => {
         if (this.props.company !== nextProps.company) {
-          const company = nextProps.company.get('company');
+          const company = nextProps.company;
           const users = nextProps.users;
           
           const localCompany = Immutable.Map({
@@ -135,18 +135,14 @@ EditCompanyContainer.propTypes = {
 EditCompanyContainer.defaultProps = {
     users: Immutable.List(),
     company: Immutable.Map({
-        company: Immutable.Map({
-            Id: '',
-            CreatorId: '',
-            Name: '',
-            Email: '',
-            Address: '',
-            Telephone: '',
-            Subscribers: Immutable.List(),
-            Creator: {},
-        }),
-        isLoading: true,
-        doneLoading: false,
+        Id: '',
+        CreatorId: '',
+        Name: '',
+        Email: '',
+        Address: '',
+        Telephone: '',
+        Subscribers: Immutable.List(),
+        Creator: {},
     }),
 };
 
