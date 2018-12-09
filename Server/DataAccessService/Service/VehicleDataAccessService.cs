@@ -69,8 +69,8 @@ namespace DataAccessService.Service
                                      Brand = vehicle.Brand,
                                      Model = vehicle.Model,
                                      Company = company,
-                                     Driver = driver,
-                                 };
+                                     Driver = driver,                              
+            };
 
             var addedVehicle = this._context.Vehicles.Add(newVehicle);
             this._context.SaveChanges();

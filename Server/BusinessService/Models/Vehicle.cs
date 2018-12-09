@@ -20,6 +20,6 @@
 
         public Driver Driver { get; set; }
 
-        public string VehicleId { get; set; }
+        public string DriverId { get; set; }
     }
 }

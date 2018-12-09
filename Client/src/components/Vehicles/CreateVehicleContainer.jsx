@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import CompaniesStore from '../../stores/CompaniesStore';
 import CompaniesActions from '../../actions/CompaniesActions.js';
+import DriversStore from '../../stores/DriversStore';
+import DriversActions from '../../actions/DriversActions.js';
 import VehiclesActions from '../../actions/VehiclesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
@@ -65,17 +67,20 @@ class CreateVehicleContainer extends Component {
     }
 
     static getStores() {
-        return [CompaniesStore];
+        return [CompaniesStore, DriversStore];
     }
 
     static getPropsFromStores() {
         return {
-            companies: CompaniesStore.getCompanies(),           
+            companies: CompaniesStore.getCompanies(),      
+            drivers: DriversStore.getDrivers(),     
         }
     }
 
     componentWillMount() {
         CompaniesActions.loadCompanies();
+        // ????
+        //DriversActions.loadDrivers();
     }
 
     handleChange = name => event => {
@@ -91,7 +96,7 @@ class CreateVehicleContainer extends Component {
     }
 
     render() {      
-        const { classes, companies } = this.props;
+        const { classes, companies, drivers } = this.props;
         const { localVehicle } = this.state;
     
         return (
@@ -162,7 +167,7 @@ class CreateVehicleContainer extends Component {
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel required shrink htmlFor="age-simple">Select company</InputLabel>
+                        <InputLabel required shrink>Select company</InputLabel>
                         <Select
                             displayEmpty
                             value={localVehicle.companyId}
@@ -170,6 +175,18 @@ class CreateVehicleContainer extends Component {
                         >
                             {companies.map(company => (
                                 <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel shrink>Select driver</InputLabel>
+                        <Select
+                            displayEmpty
+                            value={localVehicle.driverId}
+                            onChange={this.handleChange('driverId')}
+                        >
+                            {drivers.map(driver => (
+                                <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

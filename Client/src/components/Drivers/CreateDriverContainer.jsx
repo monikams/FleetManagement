@@ -147,7 +147,7 @@ class CreateDriverContainer extends Component {
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel required shrink htmlFor="age-simple">Select company</InputLabel>
+                        <InputLabel required shrink>Select company</InputLabel>
                         <Select
                             displayEmpty
                             value={localDriver.companyId}
