@@ -103,16 +103,12 @@ EditDriverContainer.propTypes = {
 
 EditDriverContainer.defaultProps = {
     driver: Immutable.Map({
-        driver: Immutable.Map({
-            Id: '',
-            Name: '',
-            Email: '',
-            Address: '',
-            Telephone: '',
-            CompanyId: '',
-        }),
-        isLoading: true,
-        doneLoading: false,
+        Id: '',
+        Name: '',
+        Email: '',
+        Address: '',
+        Telephone: '',
+        CompanyId: '',
     }),
     companies: Immutable.List(),
 };

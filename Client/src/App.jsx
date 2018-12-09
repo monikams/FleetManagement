@@ -12,6 +12,7 @@ import EditDriverContainer from './components/Drivers/EditDriverContainer.jsx';
 
 import VehiclesContainer from './components/Vehicles/VehiclesContainer.jsx';
 import CreateVehicleContainer from './components/Vehicles/CreateVehicleContainer.jsx';
+import EditVehicleContainer from './components/Vehicles/EditVehicleContainer.jsx';
 
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
@@ -35,6 +36,7 @@ class App extends Component {
                             <Route path='editDriver/(:driverId)' component={EditDriverContainer} />
                         <Route path='vehicles' component={VehiclesContainer} />
                             <Route path='createVehicle' component={CreateVehicleContainer} />
+                            <Route path='editVehicle/(:vehicleId)' component={EditVehicleContainer} />
                     </Route>                                        						
 			</Router>
         );

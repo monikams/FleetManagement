@@ -47,14 +47,14 @@ const styles = theme => ({
   },
 });
 
-class EditDriver extends Component {
+class EditVehicle extends Component {
 
     handleChange = name => event => { 
         this.props.onChange(name, event);
     }
 
     render() {      
-        const { classes, driver, companies, onSaveButtonClick } = this.props;
+        const { classes, vehicle, companies, drivers, onSaveButtonClick } = this.props;
            
         return (
            <div className={classes.form} >  
@@ -65,12 +65,11 @@ class EditDriver extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        value={driver.get("Name")}
-                        id="name"
-                        label="Name"
-                        placeholder="Edit driver`s name"
+                        id="VIN"
+                        label="VIN"
+                        value={vehicle.get("VIN")}
                         className={classes.textField}          
-                        onChange={this.handleChange('Name')}
+                        onChange={this.handleChange('VIN')}
                         margin="normal"
                     />
                     <TextField
@@ -79,12 +78,11 @@ class EditDriver extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        value={driver.get("Email")}
-                        id="email"
-                        label="Email"
-                        placeholder="Edit driver`s email"
+                        id="plateNumber"
+                        label="Plate Number"
+                        value={vehicle.get("PlateNumber")}
                         className={classes.textField}          
-                        onChange={this.handleChange('Email')}
+                        onChange={this.handleChange('plateNumber')}
                         margin="normal"
                     />
                     <TextField
@@ -93,39 +91,62 @@ class EditDriver extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        value={driver.get("Address")}
-                        id="address"
-                        label="Address"
-                        placeholder="Edit driver`s address"
+                        id="type"
+                        label="Type"
+                        value={vehicle.get("Type")}
                         className={classes.textField}         
-                        onChange={this.handleChange('Address')}
+                        onChange={this.handleChange('type')}
                         margin="normal"
                     />
                      <TextField
+                        required
                         fullWidth
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        value={driver.get("Telephone")}
-                        id="phone"
-                        label="Phone"
-                        placeholder="Edit driver`s phone number"
+                        id="brand"
+                        label="Brand"
+                        value={vehicle.get("Brand")}
                         className={classes.textField}         
-                        onChange={this.handleChange('Telephone')}
+                        onChange={this.handleChange('brand')}
                         margin="normal"
                     />
-                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
+                    <TextField
+                        fullWidth
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="model"
+                        label="Model"
+                        value={vehicle.get("Model")}
+                        className={classes.textField}         
+                        onChange={this.handleChange('model')}
+                        margin="normal"
+                    />
+                    <FormControl className={classes.formControl}>
+                        <InputLabel required shrink>Select company</InputLabel>
                         <Select
                             displayEmpty
-                            value={driver.get("CompanyId")}
-                            onChange={this.handleChange('CompanyId')}
+                            value={vehicle.get('CompanyId')}
+                            onChange={this.handleChange('companyId')}
                         >
                             {companies.map(company => (
                                 <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
                             ))}
                         </Select>
-                    </FormControl>                    
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel shrink>Select driver</InputLabel>
+                        <Select
+                            displayEmpty
+                            value={vehicle.get('DriverId')}
+                            onChange={this.handleChange('driverId')}
+                        >
+                            {drivers.map(driver => (
+                                <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>                
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -144,25 +165,30 @@ class EditDriver extends Component {
     }
 }
 
-EditDriver.propTypes = {
+EditVehicle.propTypes = {
     classes: PropTypes.object.isRequired,
-    driver: PropTypes.instanceOf(Immutable.Map),
-    driverId: PropTypes.string.isRequired,
+    vehicle: PropTypes.instanceOf(Immutable.Map),
+    vehicleId: PropTypes.string.isRequired,
     companies: PropTypes.instanceOf(Immutable.List),
+    drivers: PropTypes.instanceOf(Immutable.List),
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
 };
 
-EditDriver.defaultProps = {
-    driverId: '',
-    driver: Immutable.Map({
+EditVehicle.defaultProps = {
+    vehicleId: '',
+    vehicle: Immutable.Map({
         Id: '',
-        Name: '',
-        Email: '',
-        Address: '',
-        Telephone: '',
+        VIN: '',
+        PlateNumber: '',
+        Type: '',
+        Brand: '',
+        Model: '',
+        DriverId: '',
+        CompanyId: '',
     }),
     companies: Immutable.List(),
+    drivers: Immutable.List(),
 };
 
-export default withStyles(styles)(EditDriver);
+export default withStyles(styles)(EditVehicle);
