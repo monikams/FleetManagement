@@ -38,7 +38,7 @@ class VehiclesService {
 
     static async deleteVehicle(vehicleId){
         if(isLoggedIn()){
-            return await axios.delete(`http://localhost:19631/api/deleteVehicle?vehicleId=${vehicleId}`);
+            return await axios.delete(`http://localhost:19631/api/deleteVehicle/${vehicleId}`);
         }
 
          logout();

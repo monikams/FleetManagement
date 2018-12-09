@@ -12,5 +12,7 @@
         Task<Vehicle> GetVehicleById(string vehicleId);
 
         Task<Vehicle> PostVehicle(Vehicle vehicle);
+
+        Task DeleteVehicle(string vehicleId);
     }
 }

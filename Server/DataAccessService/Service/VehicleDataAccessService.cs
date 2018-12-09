@@ -78,5 +78,15 @@ namespace DataAccessService.Service
             var mappedVehicle = this._mapper.Map<Data.Models.Vehicle, Vehicle>(addedVehicle);
             return await Task.Run(() => mappedVehicle);
         }
+
+        public async Task DeleteVehicle(string vehicleId)
+        {
+            var vehicle = this._context.Vehicles.FirstOrDefault(x => x.Id == vehicleId);
+            if (vehicle != null)
+            {
+                this._context.Vehicles.Remove(vehicle);
+                await this._context.SaveChangesAsync();
+            }
+        }
     }
 }

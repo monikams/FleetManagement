@@ -61,5 +61,10 @@
             var mappedVehicle = this._mapper.Map<DataAccessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return mappedVehicle;
         }
+
+        public async Task DeleteVehicle(string vehicleId)
+        {
+            await this._vehicleDataAccessService.DeleteVehicle(vehicleId);
+        }
     }
 }

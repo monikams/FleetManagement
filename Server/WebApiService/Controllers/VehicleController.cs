@@ -64,5 +64,24 @@
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(businessServiceVehicle);
             return Ok(mappedVehicle);
         }
+
+        [Route("deleteVehicle/{vehicleId}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteVehicle([FromUri] string vehicleId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var vehicle = await this._vehicleBusinessService.GetVehicleById(vehicleId);
+            if (vehicle == null)
+            {
+                return this.BadRequest();
+            }
+
+            await this._vehicleBusinessService.DeleteVehicle(vehicleId);
+            return this.Ok();
+        }
     }
 }
