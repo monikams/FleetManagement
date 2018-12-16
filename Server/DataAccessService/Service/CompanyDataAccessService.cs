@@ -2,6 +2,7 @@
 
 namespace DataAccessService.Service
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -46,7 +47,7 @@ namespace DataAccessService.Service
 
         public async Task<Company> GetById(string companyId)
         {
-            var company = await this._context.Companies.FindAsync(companyId);         
+            var company = await this._context.Companies.FindAsync(companyId);
             var companyUsersIds = this._context.UserCompanies.Where(userCompany => userCompany.CompanyId == companyId).Select(uc => uc.UserId).ToList();
             IList<Models.User> companyUsers = new List<Models.User>();
 
@@ -59,7 +60,7 @@ namespace DataAccessService.Service
                     companyUsers.Add(mappedUser);
                 }
             }
-         
+
             var mappedCompany = this._mapper.Map<Data.Models.Company, Company>(company);
             mappedCompany.Subscribers = companyUsers;
             return await Task.Run(() => mappedCompany);
@@ -82,7 +83,7 @@ namespace DataAccessService.Service
                 if (subscriber != null)
                 {
                     this._context.UserCompanies.Add(new UserCompany
-                        {CompanyId = addedCompany.Id, UserId = subscriber.Id});
+                    { CompanyId = addedCompany.Id, UserId = subscriber.Id });
                 }
             }
 
@@ -95,7 +96,9 @@ namespace DataAccessService.Service
         public async Task<IEnumerable<Company>> GetByUserId(string userId)
         {
             var companies = await this._context.Companies.Where(c => c.CreatorId == userId).ToListAsync();
-            var subscriberCompanies = await this._context.UserCompanies.Where(x => x.UserId == userId).Select(u => u.Company).ToListAsync();
+            var subscriberCompanies = await this._context.UserCompanies
+                                                .Where(x => x.UserId == userId)
+                                                .Select(u => u.Company).ToListAsync();
 
             companies.AddRange(subscriberCompanies);
 
@@ -109,10 +112,25 @@ namespace DataAccessService.Service
             var company = this._context.Companies.FirstOrDefault(x => x.Id == companyId);
             if (company != null)
             {
-                var userCompanies = await this._context.UserCompanies.Where(uc => uc.CompanyId == companyId).ToListAsync();
+                var userCompanies = await this._context.UserCompanies
+                                              .Where(uc => uc.CompanyId == companyId).ToListAsync();
                 foreach (var userCompany in userCompanies)
                 {
                     this._context.UserCompanies.Remove(userCompany);
+                }
+
+                var drivers = await this._context.Drivers
+                                        .Where(d => d.CompanyId == companyId).ToListAsync();
+                foreach (var driver in drivers)
+                {
+                    this._context.Drivers.Remove(driver);
+                }
+
+                var vehicles = await this._context.Vehicles
+                                         .Where(v => v.CompanyId == companyId).ToListAsync();
+                foreach (var vehicle in vehicles)
+                {
+                    this._context.Vehicles.Remove(vehicle);
                 }
 
                 this._context.Companies.Remove(company);
@@ -143,12 +161,12 @@ namespace DataAccessService.Service
                 if (subscriber != null && !companySubscribers.Any(s => s.UserId == subscriber.Id))
                 {
                     this._context.UserCompanies.Add(new UserCompany
-                        { CompanyId = company.Id, UserId = subscriber.Id });
+                    { CompanyId = company.Id, UserId = subscriber.Id });
                 }
             }
 
             await _context.SaveChangesAsync();
-            return (Company) _mapper.Map(company, typeof(Data.Models.Company), typeof(Company));        
+            return (Company)_mapper.Map(company, typeof(Data.Models.Company), typeof(Company));
         }
     }
 }
