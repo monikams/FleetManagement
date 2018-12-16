@@ -109,6 +109,12 @@ namespace DataAccessService.Service
             var company = this._context.Companies.FirstOrDefault(x => x.Id == companyId);
             if (company != null)
             {
+                var userCompanies = await this._context.UserCompanies.Where(uc => uc.CompanyId == companyId).ToListAsync();
+                foreach (var userCompany in userCompanies)
+                {
+                    this._context.UserCompanies.Remove(userCompany);
+                }
+
                 this._context.Companies.Remove(company);
                 await this._context.SaveChangesAsync();
             }
