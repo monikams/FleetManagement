@@ -58,3 +58,11 @@
 		0px 4px 5px 2px rgba(0, 0, 0, 0.14),
 		0px 1px 10px 2px rgba(0, 0, 0, 0.12)
 }
+
+#companyName {
+	font-size: 18px;
+	font-family: Arial;
+	color: #3f51b5;
+	text-transform: uppercase;
+	text-decoration: underline;
+}

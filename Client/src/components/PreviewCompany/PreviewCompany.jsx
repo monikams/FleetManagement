@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SideBar from '../SideBar';
+import CompaniesStore from '../../stores/CompaniesStore';
+import CompaniesActions from '../../actions/CompaniesActions.js';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
+import Immutable from 'immutable';
 import { withRouter } from 'react-router';
 import '../../styles/PreviewCompany.css';
 
@@ -15,8 +19,19 @@ const styles = {
 
 class PreviewCompany extends React.Component {
 
+   static getStores() {
+        return [CompaniesStore];
+    }
+
+    static getPropsFromStores() {
+        return {
+            company: CompaniesStore.getCompany(),      
+        }
+    }
+
   componentWillMount() {
     const { params: { companyId } } = this.props;
+    CompaniesActions.loadCompany(companyId);
     localStorage.removeItem('selectedTab');
     localStorage.setItem('selectedTab', 'drivers');
   }
@@ -37,13 +52,14 @@ class PreviewCompany extends React.Component {
   }
 
   render() {
-    const { children, classes, params: { companyId } } = this.props;
+    const { children, classes, company } = this.props;
     const items = ['Companies', 'Drivers', 'Vehicles'];
 
     return (
       <div className={classes.root}>
           <SideBar id='previewCompanySidebar' items={items} onItemClick={this.handleItemClick} />
           <div className='children' >
+            <p id="companyName" >{company.get('Name')}</p>
             {children}
           </div>
       </div>
@@ -53,15 +69,26 @@ class PreviewCompany extends React.Component {
 
 PreviewCompany.propTypes = {
   classes: PropTypes.object.isRequired,
+  company: PropTypes.instanceOf(Immutable.Map),
   children: PropTypes.node.isRequired,
   params: PropTypes.object.isRequired,
 };
 
 PreviewCompany.defaultProps = {
     classes: {},
+    company: Immutable.Map({
+        Id: '',
+        CreatorId: '',
+        Name: '',
+        Email: '',
+        Address: '',
+        Telephone: '',
+        Subscribers: Immutable.List(),
+        Creator: {},
+    }),
     children: null,
     params: {},
 };
 
 
-export default  withStyles(styles)(withRouter(PreviewCompany))
+export default  withStyles(styles)(withRouter(connectToStores(PreviewCompany)));
