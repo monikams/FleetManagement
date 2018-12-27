@@ -6,10 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = theme => ({
   button: {
@@ -32,12 +28,6 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
-  formControl: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginTop: '16px',
-    width: '566.375px',
-  },
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -54,7 +44,7 @@ class EditDriver extends Component {
     }
 
     render() {      
-        const { classes, driver, companies, onSaveButtonClick } = this.props;
+        const { classes, driver, onSaveButtonClick } = this.props;
            
         return (
            <div className={classes.form} >  
@@ -113,19 +103,7 @@ class EditDriver extends Component {
                         className={classes.textField}         
                         onChange={this.handleChange('Telephone')}
                         margin="normal"
-                    />
-                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
-                        <Select
-                            displayEmpty
-                            value={driver.get("CompanyId")}
-                            onChange={this.handleChange('CompanyId')}
-                        >
-                            {companies.map(company => (
-                                <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>                    
+                    />      
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -148,7 +126,6 @@ EditDriver.propTypes = {
     classes: PropTypes.object.isRequired,
     driver: PropTypes.instanceOf(Immutable.Map),
     driverId: PropTypes.string.isRequired,
-    companies: PropTypes.instanceOf(Immutable.List),
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
 };
@@ -162,7 +139,6 @@ EditDriver.defaultProps = {
         Address: '',
         Telephone: '',
     }),
-    companies: Immutable.List(),
 };
 
 export default withStyles(styles)(EditDriver);

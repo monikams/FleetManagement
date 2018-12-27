@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
+import SideBar from '../SideBar';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -19,6 +20,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
+   root: {
+    display: 'flex',
+    flexGrow: 1,
+    height: '100%',
+  },
   button: {
     marginTop: '20px',
     width: '112px',
@@ -26,14 +32,13 @@ const styles = theme => ({
   },
   container: {
     width: '75%',
-    margin: 'auto',
-    display: 'flex',
-    flexWrap: 'wrap',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   form: {
     width: '50%',
-    margin: 'auto',
-    display: 'grid',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -113,100 +118,111 @@ class CreateCompanyContainer extends Component {
         this.setState({ localCompany: newCompany });
      };
 
+     handleItemClick = (event) => {
+        const { target : { textContent } } = event;
+        localStorage.removeItem('selectedTab');
+        localStorage.setItem('selectedTab', textContent.toLowerCase());
+        this.props.router.push(`/companies`);
+    }
+
     render() {      
         const { users, classes } = this.props;
         const { localCompany : { subscribers } } = this.state;
+        const items = ['Companies'];
     
         return (
-            <div className={classes.form} >  
-                <div className={classes.container} >
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="name"
-                        label="Name"
-                        placeholder="Enter company`s name"
-                        className={classes.textField}          
-                        onChange={this.handleChange('name')}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="email"
-                        label="Email"
-                        placeholder="Enter company`s email"
-                        className={classes.textField}          
-                        onChange={this.handleChange('email')}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="address"
-                        label="Address"
-                        placeholder="Enter company`s address"
-                        className={classes.textField}         
-                        onChange={this.handleChange('address')}
-                        margin="normal"
-                    />
-                     <TextField
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="phone"
-                        label="Phone"
-                        placeholder="Enter company`s phone number"
-                        className={classes.textField}         
-                        onChange={this.handleChange('telephone')}
-                        margin="normal"
-                    />
-                    <FormControl className={classes.formControl}>
-                        <InputLabel shrink>Allow access to users</InputLabel>
-                        <Select
+            <div className={classes.root} >
+                <SideBar id='createCompanySidebar' items={items} onItemClick={this.handleItemClick} />
+                <div className={classes.form} >  
+                    <div className={classes.container} >
+                        <TextField
+                            required
                             fullWidth
-                            className={classes.select}
-                            value={subscribers}
-                            input={<Input id="select-multiple-chip" />}
-                            onChange={this.handleUserDropdownChange}
-                            renderValue={selected => (
-                            <div className={classes.chips}>
-                                {selected.map(value => (
-                                <Chip key={value} label={value} className={classes.chip} />
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            id="name"
+                            label="Name"
+                            placeholder="Enter company`s name"
+                            className={classes.textField}          
+                            onChange={this.handleChange('name')}
+                            margin="normal"
+                        />
+                        <TextField
+                            required
+                            fullWidth
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            id="email"
+                            label="Email"
+                            placeholder="Enter company`s email"
+                            className={classes.textField}          
+                            onChange={this.handleChange('email')}
+                            margin="normal"
+                        />
+                        <TextField
+                            required
+                            fullWidth
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            id="address"
+                            label="Address"
+                            placeholder="Enter company`s address"
+                            className={classes.textField}         
+                            onChange={this.handleChange('address')}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            id="phone"
+                            label="Phone"
+                            placeholder="Enter company`s phone number"
+                            className={classes.textField}         
+                            onChange={this.handleChange('telephone')}
+                            margin="normal"
+                        />
+                        <FormControl className={classes.formControl}>
+                            <InputLabel shrink>Allow access to users</InputLabel>
+                            <Select
+                                fullWidth
+                                className={classes.select}
+                                value={subscribers}
+                                input={<Input id="select-multiple-chip" />}
+                                onChange={this.handleUserDropdownChange}
+                                renderValue={selected => (
+                                <div className={classes.chips}>
+                                    {selected.map(value => (
+                                    <Chip key={value} label={value} className={classes.chip} />
+                                    ))}
+                                </div>
+                                )}
+                            >
+                                {users.map(user => (
+                                <MenuItem key={user.Id} value={user.UserName}>
+                                    <Checkbox checked={subscribers.indexOf(user.UserName) > -1} />
+                                    <ListItemText primary={user.UserName} />
+                                </MenuItem>
                                 ))}
-                            </div>
-                            )}
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div className={classes.container} >
+                        <Button 
+                            variant="contained" 
+                            size="large" 
+                            color="primary" 
+                            className={classes.button}
+                            onClick={this.handleSaveButtonClick}
+                            id='saveButton'
                         >
-                            {users.map(user => (
-                            <MenuItem key={user.Id} value={user.UserName}>
-                                <Checkbox checked={subscribers.indexOf(user.UserName) > -1} />
-                                <ListItemText primary={user.UserName} />
-                            </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-                <div className={classes.container} >
-                    <Button 
-                        variant="contained" 
-                        size="large" 
-                        color="primary" 
-                        className={classes.button}
-                        onClick={this.handleSaveButtonClick}
-                        id='saveButton'
-                    >
-                        Save
-                    </Button>
+                            Save
+                        </Button>
+                    </div>
                 </div>
             </div>  
         );

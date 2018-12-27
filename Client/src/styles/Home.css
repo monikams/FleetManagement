@@ -4,14 +4,5 @@
 
 .basic {
     height: 100%;
-    display: flex;
-}
-
-#sideBar {
-   height: 100%;
-}
-
-.children {
-    flex-grow: 4;
-    margin: 30px 40px 30px 40px;
+    width: 100%;
 }

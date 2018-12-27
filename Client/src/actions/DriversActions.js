@@ -37,7 +37,7 @@ class DriversActions {
             DriversService.createDriver(driver)
             .then((response) => {
                 this.loadDrivers();
-                window.location.href = baseURL + '/drivers';                   
+                window.location.href = `${baseURL}/companies/${driver.companyId}`;                   
             })
             .catch((error) => {
                 console.log(error);
@@ -50,7 +50,7 @@ class DriversActions {
             DriversService.editDriver(driver)
             .then((response) => {
                 this.loadDrivers();
-                window.location.href = baseURL + '/drivers';                   
+                window.location.href = `${baseURL}/companies/${driver.get('CompanyId')}`;                   
             })
             .catch((error) => {
                 console.log(error);
@@ -58,11 +58,12 @@ class DriversActions {
         }
     }
 
-    deleteDriver(driverId) {
+    deleteDriver(driverId, companyId) {
         return (dispatch) => {
             DriversService.deleteDriver(driverId)
             .then((response) => {
-                this.loadDrivers();                   
+                this.loadDrivers();
+                window.location.href = `${baseURL}/companies/${companyId}`;                    
             })
             .catch((error) => {
                 console.log(error);

@@ -25,14 +25,13 @@ const styles = theme => ({
   },
   container: {
     width: '75%',
-    margin: 'auto',
-    display: 'flex',
-    flexWrap: 'wrap',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   form: {
     width: '50%',
-    margin: 'auto',
-    display: 'grid',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   textField: {
     marginLeft: theme.spacing.unit,

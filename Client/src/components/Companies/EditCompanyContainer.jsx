@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import shallowEqual from 'shallowequal';
+import { withStyles } from '@material-ui/core/styles';
 import UsersStore from '../../stores/UsersStore';
 import UsersActions from '../../actions/UsersActions.js';
 import CompaniesActions from '../../actions/CompaniesActions.js';
@@ -12,6 +13,15 @@ import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
 import EditCompany from './EditCompany';
+import SideBar from '../SideBar';
+
+const styles = theme => ({
+   root: {
+    display: 'flex',
+    flexGrow: 1,
+    height: '100%',
+  },
+});
 
 class EditCompanyContainer extends Component {
 
@@ -108,19 +118,30 @@ class EditCompanyContainer extends Component {
        this.setState({ localCompany: updatedCompany });
      };
 
+     handleItemClick = (event) => {
+        const { target : { textContent } } = event;
+        localStorage.removeItem('selectedTab');
+        localStorage.setItem('selectedTab', textContent.toLowerCase());
+        this.props.router.push(`/companies`);
+    }
+
     render() {      
         const { users, classes, company, params: { companyId  } } = this.props;
-        const { localCompany } = this.state;   
+        const { localCompany } = this.state;
+        const items = ['Companies'];
         
         return (
-            <EditCompany
-                company={localCompany}
-                users={users}
-                companyId={companyId}
-                onDropownChange={this.handleUserDropdownChange} 
-                onSaveButtonClick={this.handleSaveButtonClick}
-                onChange={this.handleChange}
-            />
+            <div className={classes.root} >
+                <SideBar id='editCompanySidebar' items={items} onItemClick={this.handleItemClick} />
+                <EditCompany
+                    company={localCompany}
+                    users={users}
+                    companyId={companyId}
+                    onDropownChange={this.handleUserDropdownChange} 
+                    onSaveButtonClick={this.handleSaveButtonClick}
+                    onChange={this.handleChange}
+                />
+            </div>    
         );
     }
 }
@@ -145,4 +166,4 @@ EditCompanyContainer.defaultProps = {
     }),
 };
 
-export default connectToStores(EditCompanyContainer);
+export default withStyles(styles)(connectToStores(EditCompanyContainer));

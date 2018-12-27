@@ -13,8 +13,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Search from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 const styles = theme => ({
   root: {
@@ -27,6 +28,9 @@ const styles = theme => ({
   },
   button: {
       marginTop: '15px', 
+  },
+  container: {
+      margin: '30px 40px 30px 40px',
   }
 });
 
@@ -50,6 +54,10 @@ class CompaniesContainer extends Component {
         CompaniesActions.loadCompanies();
     }
 
+    handlePreviewClick(companyId) {
+        this.props.router.push({ pathname: `/companies/${companyId}` });
+    };
+
     handleEditClick(companyId) {
         this.props.router.push({ pathname: `/editCompany/${companyId}` });
     };
@@ -66,7 +74,7 @@ class CompaniesContainer extends Component {
         const { companies, classes } = this.props;
     
         return (
-            <div>
+            <div className={classes.container}>
                 <Button 
                     variant="contained" 
                     size="large" 
@@ -85,6 +93,7 @@ class CompaniesContainer extends Component {
                             <TableCell>Address</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>Telephone</TableCell>
+                            <TableCell>Preview</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
                         </TableRow>
@@ -99,6 +108,7 @@ class CompaniesContainer extends Component {
                                 <TableCell>{company.Address}</TableCell>
                                 <TableCell>{company.Email}</TableCell>
                                 <TableCell>{company.Telephone}</TableCell>
+                                <TableCell><Search onClick={() => this.handlePreviewClick(company.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(company.Id)} /></TableCell>
                                 <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
                             </TableRow>

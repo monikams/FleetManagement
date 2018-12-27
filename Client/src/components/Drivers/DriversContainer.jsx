@@ -18,10 +18,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 const styles = theme => ({
   root: {
@@ -32,14 +28,6 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    marginLeft: '80px',
-    minWidth: 250,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
   button: {
       marginTop: '15px', 
   }
@@ -49,9 +37,6 @@ class DriversContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            companyId: '',
-        };
     }
 
     static getStores() {
@@ -60,13 +45,13 @@ class DriversContainer extends Component {
 
     static getPropsFromStores() {
         return {
-            drivers: DriversStore.getDrivers(),
-            companies: CompaniesStore.getCompanies(),     
+            drivers: DriversStore.getDrivers(), 
         }
     }
 
     componentWillMount() {
-        CompaniesActions.loadCompanies();
+        const { params: { companyId } } = this.props;
+        DriversActions.loadDrivers(companyId);
     }
 
     componentWillUnmount() {
@@ -76,38 +61,24 @@ class DriversContainer extends Component {
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     handleEditClick(driverId) {
-        this.props.router.push({ pathname: `/editDriver/${driverId}` });
+        const { params: { companyId } } = this.props;
+        this.props.router.replace(`/companies/${companyId}/editDriver/${driverId}`);
     };
 
-     handleDeleteClick(driverId) {
-        DriversActions.deleteDriver(driverId);
+    handleDeleteClick(driverId) {
+        const { params: { companyId } } = this.props;
+        DriversActions.deleteDriver(driverId, companyId);
     };
 
     handleCreateDriverClick = () => {
-         this.props.router.push('/createDriver');
+        const { params: { companyId } } = this.props;
+        this.props.router.replace(`/companies/${companyId}/createDriver`);
     };
-
-    handleCompanyChange = event => {
-        const companyId = event.target.value;
-        this.setState({ companyId });
-        DriversActions.loadDrivers(companyId);
-    }
 
     render() {      
         const { drivers, classes } = this.props;
-        const { companyId } = this.state;
-        let companies;
-        if (this.props.companies !== undefined) {
-            if (this.props.companies.size === 1) {
-                companies = this.props.companies.first();
-                DriversActions.loadDrivers(this.props.companies.first().Id);
-            } else {
-                companies = this.props.companies;
-            }
-        }
-              
+        
         return (
-           companies !== undefined ?
             <div>
                 <Button 
                     variant="contained" 
@@ -119,19 +90,6 @@ class DriversContainer extends Component {
                 >
                     Create driver
                 </Button>
-                {companies.size >= 2 &&
-                <FormControl className={classes.formControl}>
-                    <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
-                    <Select
-                        displayEmpty
-                        value={companyId}
-                        onChange={this.handleCompanyChange}
-                    >
-                        {companies.map(company => (
-                            <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>}
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
@@ -154,7 +112,7 @@ class DriversContainer extends Component {
                                 <TableCell>{driver.Address}</TableCell>
                                 <TableCell>{driver.Email}</TableCell>
                                 <TableCell>{driver.Telephone}</TableCell>
-                                <TableCell><EditIcon onClick={() => this.handleEditClick(driver.Id)} /></TableCell>
+                                <TableCell><EditIcon onClick={() => this.handleEditClick(driver.Id)}/></TableCell>
                                 <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(driver.Id)} /></TableCell>
                             </TableRow>
                             );
@@ -162,7 +120,7 @@ class DriversContainer extends Component {
                         </TableBody>
                     </Table>
                 </Paper>
-            </div> : null
+            </div>
         );
     }
 }
@@ -171,11 +129,13 @@ DriversContainer.propTypes = {
     drivers: PropTypes.instanceOf(Immutable.Iterable),
     companies: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 DriversContainer.defaultProps = {
     drivers: Immutable.List(),
     companies: Immutable.List(),
+    params: {},
 };
 
 export default withStyles(styles)(withRouter(connectToStores(DriversContainer)));

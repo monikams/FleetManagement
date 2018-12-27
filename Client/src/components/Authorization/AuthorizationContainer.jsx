@@ -1,15 +1,14 @@
+
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import RegistrationContainer from './RegistrationContainer.jsx';
-import LoginContainer from './LoginContainer.jsx';
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AuthorizationStore from '../../stores/AuthorizationStore';
 import '../../styles/AuthorizationContainer.css';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 const styles = theme => ({
   root: {
@@ -19,10 +18,7 @@ const styles = theme => ({
 
 
 class AuthorizationContainer extends React.Component {
-  componentDidMount() {
-      this.props.router.push('login');
-  }
-
+ 
   state = {
     value: 0,
   };
@@ -30,7 +26,7 @@ class AuthorizationContainer extends React.Component {
   handleChange = (event, value) => {
     this.setState({ value });
     if (value === 0) {
-      this.props.router.push('login');
+      this.props.router.push('/');
     } else {
       this.props.router.push('register');
     }

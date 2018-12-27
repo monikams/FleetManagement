@@ -9,7 +9,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import '../styles/Home.css';
-import SideBar from './SideBar';
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 
 const styles = {
@@ -53,10 +52,7 @@ class Home extends React.Component {
           </Toolbar>
         </AppBar>
         <div className='basic'>
-          <SideBar id='sideBar'/>
-          <div className='children'>
             {this.props.children}
-          </div>
         </div>
       </div>
     );

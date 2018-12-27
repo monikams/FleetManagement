@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import VehiclesStore from '../../stores/VehiclesStore';
-import CompaniesStore from '../../stores/CompaniesStore';
 import VehiclesActions from '../../actions/VehiclesActions.js';
-import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import shallowEqual from 'shallowequal';
 import { withStyles } from '@material-ui/core/styles';
@@ -32,11 +30,6 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    marginLeft: '80px',
-    minWidth: 250,
-  },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
@@ -49,24 +42,21 @@ class VehiclesContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            companyId: '',
-        };
     }
 
     static getStores() {
-        return [CompaniesStore, VehiclesStore];
+        return [VehiclesStore];
     }
 
     static getPropsFromStores() {
         return {
-            vehicles: VehiclesStore.getVehicles(),
-            companies: CompaniesStore.getCompanies(),     
+            vehicles: VehiclesStore.getVehicles(),   
         }
     }
 
     componentWillMount() {
-        CompaniesActions.loadCompanies();
+       const { params: { companyId } } = this.props;
+       VehiclesActions.loadVehicles(companyId);
     }
 
     componentWillUnmount() {
@@ -76,7 +66,8 @@ class VehiclesContainer extends Component {
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     handleEditClick(vehicleId) {
-        this.props.router.push({ pathname: `/editVehicle/${vehicleId}` });
+        const { params: { companyId } } = this.props;
+        this.props.router.replace(`/companies/${companyId}/editVehicle/${vehicleId}`);
     };
 
      handleDeleteClick(vehicleId) {
@@ -84,7 +75,8 @@ class VehiclesContainer extends Component {
     };
 
     handleCreateVehicleClick = () => {
-         this.props.router.push('/createVehicle');
+        const { params: { companyId } } = this.props;
+        this.props.router.replace(`/companies/${companyId}/createVehicle`);
     };
 
     handleCompanyChange = event => {
@@ -95,19 +87,8 @@ class VehiclesContainer extends Component {
 
     render() {      
         const { vehicles, classes } = this.props;
-        const { companyId } = this.state;
-        let companies;
-        if (this.props.companies !== undefined) {
-            if (this.props.companies.size === 1) {
-                companies = this.props.companies.first();
-                VehiclesActions.loadVehicles(this.props.companies.first().Id);
-            } else {
-                companies = this.props.companies;
-            }
-        }
               
         return (
-           companies !== undefined ?
             <div>
                 <Button 
                     variant="contained" 
@@ -119,19 +100,6 @@ class VehiclesContainer extends Component {
                 >
                     Create vehicle
                 </Button>
-                {companies.size >= 2 &&
-                <FormControl className={classes.formControl}>
-                    <InputLabel shrink htmlFor="age-simple">Select company</InputLabel>
-                    <Select
-                        displayEmpty
-                        value={companyId}
-                        onChange={this.handleCompanyChange}
-                    >
-                        {companies.map(company => (
-                            <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>}
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
@@ -164,20 +132,18 @@ class VehiclesContainer extends Component {
                         </TableBody>
                     </Table>
                 </Paper>
-            </div> : null
+            </div>
         );
     }
 }
 
 VehiclesContainer.propTypes = {
     vehicles: PropTypes.instanceOf(Immutable.Iterable),
-    companies: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
 };
 
 VehiclesContainer.defaultProps = {
     vehicles: Immutable.List(),
-    companies: Immutable.List(),
 };
 
 export default withStyles(styles)(withRouter(connectToStores(VehiclesContainer)));
