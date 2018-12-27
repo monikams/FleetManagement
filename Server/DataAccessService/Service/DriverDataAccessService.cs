@@ -6,6 +6,7 @@ using Driver = DataAccessService.Models.Driver;
 namespace DataAccessService.Service
 {
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -78,6 +79,12 @@ namespace DataAccessService.Service
             var driver = this._context.Drivers.FirstOrDefault(x => x.Id == driverId);
             if (driver != null)
             {
+                var vehicles = await this._context.Vehicles.Where(v => v.DriverId == driverId).ToListAsync();
+                foreach (var vehicle in vehicles)
+                {
+                    this._context.Vehicles.Remove(vehicle);
+                }
+
                 this._context.Drivers.Remove(driver);
                 await this._context.SaveChangesAsync();
             }

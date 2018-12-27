@@ -60,7 +60,8 @@ namespace DataAccessService.Service
         public async Task<Vehicle> PostVehicle(Vehicle vehicle)
         {
             var company = await this._context.Companies.FindAsync(vehicle.CompanyId);
-            var driver = await this._context.Drivers.FindAsync(vehicle.DriverId);
+            var driver = !string.IsNullOrWhiteSpace(vehicle.DriverId)
+                             ? await this._context.Drivers.FindAsync(vehicle.DriverId) : null;
             var newVehicle = new Data.Models.Vehicle
                                  {
                                      VIN = vehicle.VIN,
@@ -69,8 +70,8 @@ namespace DataAccessService.Service
                                      Brand = vehicle.Brand,
                                      Model = vehicle.Model,
                                      Company = company,
-                                     Driver = driver,                              
-            };
+                                     Driver = driver,
+                                 };
 
             var addedVehicle = this._context.Vehicles.Add(newVehicle);
             await this._context.SaveChangesAsync();

@@ -44,7 +44,10 @@
                         .HasForeignKey(c => c.CreatorId).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Service>().HasRequired(v => v.Vehicle).WithMany(d => d.Services)
-                .HasForeignKey(v => v.VehicleId).WillCascadeOnDelete(false);
+                        .HasForeignKey(v => v.VehicleId).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Vehicle>().HasOptional(a => a.Driver).WithMany(au => au.Vehicles)
+                        .HasForeignKey(a => a.DriverId);
         }
     }
 }
