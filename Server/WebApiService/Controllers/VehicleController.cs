@@ -43,9 +43,9 @@
             return mappedVehicles;
         }
 
-        [Route("companies/{companyId}/vehicles/{vehicleId}")]
+        [Route("vehicles/{vehicleId}")]
         [HttpGet]
-        public async Task<Vehicle> GetVehicleById([FromUri] string companyId, [FromUri] string vehicleId)
+        public async Task<Vehicle> GetVehicleById([FromUri] string vehicleId)
         {
             var vehicle = await _vehicleBusinessService.GetVehicleById(vehicleId);
             var mappedVehicle = _mapper.Map<BusinessService.Models.Vehicle, Vehicle>(vehicle);

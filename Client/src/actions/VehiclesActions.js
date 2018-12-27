@@ -37,7 +37,7 @@ class VehiclesActions {
             VehiclesService.createVehicle(vehicle)
             .then((response) => {
                 this.loadVehicles();
-                window.location.href = baseURL + '/vehicles';                   
+                window.location.href = `${baseURL}/companies/${vehicle.companyId}/vehicles`;                   
             })
             .catch((error) => {
                 console.log(error);
@@ -58,11 +58,12 @@ class VehiclesActions {
         }
     }
 
-    deleteVehicle(vehicleId) {
+    deleteVehicle(vehicleId, companyId) {
         return (dispatch) => {
             VehiclesService.deleteVehicle(vehicleId)
             .then((response) => {
-                this.loadVehicles();                   
+                this.loadVehicles();
+                window.location.href = `${baseURL}/companies/${companyId}/vehicles`;                   
             })
             .catch((error) => {
                 console.log(error);

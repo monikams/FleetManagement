@@ -54,7 +54,7 @@ class EditVehicle extends Component {
     }
 
     render() {      
-        const { classes, vehicle, companies, drivers, onSaveButtonClick } = this.props;
+        const { classes, vehicle, drivers, onSaveButtonClick } = this.props;
            
         return (
            <div className={classes.form} >  
@@ -124,18 +124,6 @@ class EditVehicle extends Component {
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel required shrink>Select company</InputLabel>
-                        <Select
-                            displayEmpty
-                            value={vehicle.get('CompanyId')}
-                            onChange={this.handleChange('companyId')}
-                        >
-                            {companies.map(company => (
-                                <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
                         <InputLabel shrink>Select driver</InputLabel>
                         <Select
                             displayEmpty
@@ -169,7 +157,6 @@ EditVehicle.propTypes = {
     classes: PropTypes.object.isRequired,
     vehicle: PropTypes.instanceOf(Immutable.Map),
     vehicleId: PropTypes.string.isRequired,
-    companies: PropTypes.instanceOf(Immutable.List),
     drivers: PropTypes.instanceOf(Immutable.List),
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
@@ -187,7 +174,6 @@ EditVehicle.defaultProps = {
         DriverId: '',
         CompanyId: '',
     }),
-    companies: Immutable.List(),
     drivers: Immutable.List(),
 };
 

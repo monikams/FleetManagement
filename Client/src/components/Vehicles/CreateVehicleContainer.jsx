@@ -52,6 +52,7 @@ const styles = theme => ({
 class CreateVehicleContainer extends Component {
 
      constructor(props) {
+        const { params: { companyId } } = props;
         super(props);
         this.state = {
 			localVehicle: {
@@ -60,7 +61,7 @@ class CreateVehicleContainer extends Component {
                 type: '',
                 brand: '',
                 model: '',
-                companyId: '',
+                companyId: companyId,
                 driverId: '',
             },
 		} 
@@ -78,9 +79,9 @@ class CreateVehicleContainer extends Component {
     }
 
     componentWillMount() {
+        const { params: { companyId } } = this.props;
         CompaniesActions.loadCompanies();
-        // ????
-        //DriversActions.loadDrivers();
+        DriversActions.loadDrivers(companyId);
     }
 
     handleChange = name => event => {
@@ -166,18 +167,6 @@ class CreateVehicleContainer extends Component {
                         onChange={this.handleChange('model')}
                         margin="normal"
                     />
-                    <FormControl className={classes.formControl}>
-                        <InputLabel required shrink>Select company</InputLabel>
-                        <Select
-                            displayEmpty
-                            value={localVehicle.companyId}
-                            onChange={this.handleChange('companyId')}
-                        >
-                            {companies.map(company => (
-                                <MenuItem key={company.Id} value={company.Id}>{company.Name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink>Select driver</InputLabel>
                         <Select

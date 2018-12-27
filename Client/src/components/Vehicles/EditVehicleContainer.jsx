@@ -4,8 +4,6 @@ import Immutable from 'immutable';
 import shallowEqual from 'shallowequal';
 import VehiclesActions from '../../actions/VehiclesActions.js';
 import VehiclesStore from '../../stores/VehiclesStore';
-import CompaniesStore from '../../stores/CompaniesStore';
-import CompaniesActions from '../../actions/CompaniesActions.js';
 import DriversStore from '../../stores/DriversStore';
 import DriversActions from '../../actions/DriversActions.js';
 import EditVehicle from './EditVehicle';
@@ -33,13 +31,12 @@ class EditVehicleContainer extends Component {
     }
 
     static getStores() {
-        return [VehiclesStore, DriversStore, CompaniesStore];
+        return [VehiclesStore, DriversStore];
     }
 
     static getPropsFromStores() {
         return {
             vehicle: VehiclesStore.getVehicle(),
-            companies: CompaniesStore.getCompanies(),
             drivers: DriversStore.getDrivers(),                
         }
     }
@@ -47,11 +44,9 @@ class EditVehicleContainer extends Component {
    shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     componentWillMount() {
-        const { params: { vehicleId } } = this.props;
+        const { params: { vehicleId, companyId } } = this.props;
         VehiclesActions.loadVehicle(vehicleId);
-        CompaniesActions.loadCompanies();
-        // TO DO
-        DriversActions.loadDrivers();
+        DriversActions.loadDrivers(companyId);
     }
 
     componentWillUnmount() { 
@@ -89,13 +84,12 @@ class EditVehicleContainer extends Component {
     };
     
     render() {      
-        const { classes, companies, drivers, params: { vehicleId  } } = this.props;
+        const { classes, drivers, params: { vehicleId  } } = this.props;
         const { localVehicle } = this.state;   
         
         return (
             <EditVehicle
                 vehicle={localVehicle}
-                companies={companies}
                 drivers={drivers}
                 vehicleId={vehicleId}
                 onSaveButtonClick={this.handleSaveButtonClick}
@@ -107,7 +101,6 @@ class EditVehicleContainer extends Component {
 
 EditVehicleContainer.propTypes = {
     vehicle: PropTypes.instanceOf(Immutable.Map),
-    companies: PropTypes.instanceOf(Immutable.List),
     drivers: PropTypes.instanceOf(Immutable.List),
     params: PropTypes.object.isRequired,
 };
@@ -123,7 +116,6 @@ EditVehicleContainer.defaultProps = {
         DriverId: '',
         CompanyId: '',
     }),
-    companies: Immutable.List(),
     drivers: Immutable.List(),
 };
 

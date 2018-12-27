@@ -30,9 +30,6 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
   button: {
       marginTop: '15px', 
   }
@@ -71,7 +68,8 @@ class VehiclesContainer extends Component {
     };
 
      handleDeleteClick(vehicleId) {
-        VehiclesActions.deleteVehicle(vehicleId);
+        const { params: { companyId } } = this.props;
+        VehiclesActions.deleteVehicle(vehicleId, companyId);
     };
 
     handleCreateVehicleClick = () => {
