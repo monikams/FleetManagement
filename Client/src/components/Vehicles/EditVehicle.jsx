@@ -82,7 +82,7 @@ class EditVehicle extends Component {
                         label="Plate Number"
                         value={vehicle.get("PlateNumber")}
                         className={classes.textField}          
-                        onChange={this.handleChange('plateNumber')}
+                        onChange={this.handleChange('PlateNumber')}
                         margin="normal"
                     />
                     <TextField
@@ -95,7 +95,7 @@ class EditVehicle extends Component {
                         label="Type"
                         value={vehicle.get("Type")}
                         className={classes.textField}         
-                        onChange={this.handleChange('type')}
+                        onChange={this.handleChange('Type')}
                         margin="normal"
                     />
                      <TextField
@@ -108,7 +108,7 @@ class EditVehicle extends Component {
                         label="Brand"
                         value={vehicle.get("Brand")}
                         className={classes.textField}         
-                        onChange={this.handleChange('brand')}
+                        onChange={this.handleChange('Brand')}
                         margin="normal"
                     />
                     <TextField
@@ -120,7 +120,7 @@ class EditVehicle extends Component {
                         label="Model"
                         value={vehicle.get("Model")}
                         className={classes.textField}         
-                        onChange={this.handleChange('model')}
+                        onChange={this.handleChange('Model')}
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
@@ -128,7 +128,7 @@ class EditVehicle extends Component {
                         <Select
                             displayEmpty
                             value={vehicle.get('DriverId')}
-                            onChange={this.handleChange('driverId')}
+                            onChange={this.handleChange('DriverId')}
                         >
                             {drivers.map(driver => (
                                 <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
