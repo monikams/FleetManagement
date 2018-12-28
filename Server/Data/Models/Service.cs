@@ -12,7 +12,7 @@
         [Required] public string Description { get; set; }
 
         // Time related properties
-        public DateTimeOffset? Created { get; set; }
+        public DateTimeOffset? Created { get; set; } = DateTimeOffset.Now;
 
         public int? TimeRule { get; set; }
 

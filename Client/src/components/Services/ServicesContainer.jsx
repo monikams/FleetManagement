@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import DriversStore from '../../stores/DriversStore';
+import ServicesStore from '../../stores/ServicesStore';
 import CompaniesStore from '../../stores/CompaniesStore';
-import DriversActions from '../../actions/DriversActions.js';
+import ServicesActions from '../../actions/ServicesActions.js';
 import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import shallowEqual from 'shallowequal';
@@ -40,43 +40,43 @@ class ServicesContainer extends Component {
     }
 
     static getStores() {
-        return [CompaniesStore, DriversStore];
+        return [ServicesStore];
     }
 
     static getPropsFromStores() {
         return {
-            drivers: DriversStore.getDrivers(), 
+            services: ServicesStore.getServices(), 
         }
     }
 
     componentWillMount() {
-        const { params: { companyId } } = this.props;
-        DriversActions.loadDrivers(companyId);
+        const { params: { vehicleId } } = this.props;
+        ServicesActions.loadServices(vehicleId);
     }
 
     componentWillUnmount() {
-        DriversActions.unloadDrivers();
+        ServicesActions.unloadServices();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
-    handleEditClick(driverId) {
-        const { params: { companyId } } = this.props;
-        this.props.router.replace(`/companies/${companyId}/editDriver/${driverId}`);
+    handleEditClick(serviceId) {
+        const { params: { vehicleId } } = this.props;
+        //this.props.router.replace(`/companies/${companyId}/editDriver/${driverId}`);
     };
 
-    handleDeleteClick(driverId) {
-        const { params: { companyId } } = this.props;
-        DriversActions.deleteDriver(driverId, companyId);
+    handleDeleteClick(serviceId) {
+        const { params: { vehicleId } } = this.props;
+       // ServicesActions.deleteDriver(driverId, companyId);
     };
 
-    handleCreateDriverClick = () => {
-        const { params: { companyId } } = this.props;
-        this.props.router.replace(`/companies/${companyId}/createDriver`);
+    handleCreateServiceClick = () => {
+        const { params: { vehicleId } } = this.props;
+       // this.props.router.replace(`/companies/${companyId}/createDriver`);
     };
 
     render() {      
-        const { drivers, classes } = this.props;
+        const { services, classes } = this.props;
         
         return (
             <div>
@@ -85,10 +85,10 @@ class ServicesContainer extends Component {
                     size="large" 
                     color="primary" 
                     className={classes.button}
-                    onClick={this.handleCreateDriverClick}
+                    onClick={this.handleCreateServiceClick}
                     id='loginButton'
                 >
-                    Create driver
+                    Create service
                 </Button>
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
@@ -96,27 +96,32 @@ class ServicesContainer extends Component {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Description</TableCell>
-                            <TableCell>Created</TableCell>
                             <TableCell>Mileage Rule</TableCell>
                             <TableCell>Next Service Mileage</TableCell>
                             <TableCell>Mileage Reminder</TableCell>
                             <TableCell>Time Rule</TableCell>
                             <TableCell>Next Service Time</TableCell>
                             <TableCell>Time Reminder</TableCell>
+                            <TableCell>Edit</TableCell>
+                            <TableCell>Delete</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                        {drivers.map(driver => {
+                        {services.map(service => {
                             return (
-                            <TableRow key={driver.Id}>
+                            <TableRow key={service.Id}>
                                 <TableCell component="th" scope="row">
-                                {driver.Name}
+                                {service.Name}
                                 </TableCell>
-                                <TableCell>{driver.Address}</TableCell>
-                                <TableCell>{driver.Email}</TableCell>
-                                <TableCell>{driver.Telephone}</TableCell>
-                                <TableCell><EditIcon onClick={() => this.handleEditClick(driver.Id)}/></TableCell>
-                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(driver.Id)} /></TableCell>
+                                <TableCell>{service.Description}</TableCell>
+                                <TableCell>{service.MileageRule}</TableCell>
+                                <TableCell>{service.NextServiceMileage}</TableCell>
+                                <TableCell>{service.MileageReminder}</TableCell>
+                                <TableCell>{service.TimeRule}</TableCell>
+                                <TableCell>{service.NextServiceTime}</TableCell>
+                                <TableCell>{service.TimeReminder}</TableCell>
+                                <TableCell><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
+                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
@@ -129,15 +134,13 @@ class ServicesContainer extends Component {
 }
 
 ServicesContainer.propTypes = {
-    drivers: PropTypes.instanceOf(Immutable.Iterable),
-    companies: PropTypes.instanceOf(Immutable.Iterable),
+    services: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
 };
 
 ServicesContainer.defaultProps = {
-    drivers: Immutable.List(),
-    companies: Immutable.List(),
+    services: Immutable.List(),
     params: {},
 };
 
