@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import ServicesStore from '../../stores/ServicesStore';
 import CompaniesStore from '../../stores/CompaniesStore';
+import VehiclesStore from '../../stores/VehiclesStore';
 import ServicesActions from '../../actions/ServicesActions.js';
 import CompaniesActions from '../../actions/CompaniesActions.js';
+import VehiclesActions from '../../actions/VehiclesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import shallowEqual from 'shallowequal';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,6 +32,13 @@ const styles = theme => ({
   },
   button: {
       marginTop: '15px', 
+  },
+  vehicleInfo: {
+	fontSize: '18px',
+	fontFamily: 'Arial',
+  },
+  vehicleInfoLabel: {
+	fontWeight: 'bold',
   }
 });
 
@@ -45,17 +54,21 @@ class ServicesContainer extends Component {
 
     static getPropsFromStores() {
         return {
-            services: ServicesStore.getServices(), 
+            services: ServicesStore.getServices(),
+            vehicle: VehiclesStore.getVehicle(), 
         }
     }
 
     componentWillMount() {
         const { params: { vehicleId } } = this.props;
         ServicesActions.loadServices(vehicleId);
+        VehiclesActions.loadVehicle(vehicleId);
     }
 
     componentWillUnmount() {
+        const { params: { vehicleId } } = this.props;
         ServicesActions.unloadServices();
+        VehiclesActions.unloadVehicle(vehicleId);
     }
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
@@ -76,10 +89,12 @@ class ServicesContainer extends Component {
     };
 
     render() {      
-        const { services, classes } = this.props;
+        const { services, vehicle, classes } = this.props;
         
         return (
             <div>
+                <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Model: </span>{vehicle.get('Model')}</p>
+                <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate Number: </span>{vehicle.get('PlateNumber')}</p>
                 <Button 
                     variant="contained" 
                     size="large" 

@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import DriversStore from '../../stores/DriversStore';
-import CompaniesStore from '../../stores/CompaniesStore';
 import DriversActions from '../../actions/DriversActions.js';
-import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import shallowEqual from 'shallowequal';
 import { withStyles } from '@material-ui/core/styles';
@@ -40,7 +38,7 @@ class DriversContainer extends Component {
     }
 
     static getStores() {
-        return [CompaniesStore, DriversStore];
+        return [DriversStore];
     }
 
     static getPropsFromStores() {
@@ -127,14 +125,12 @@ class DriversContainer extends Component {
 
 DriversContainer.propTypes = {
     drivers: PropTypes.instanceOf(Immutable.Iterable),
-    companies: PropTypes.instanceOf(Immutable.Iterable),
     classes: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
 };
 
 DriversContainer.defaultProps = {
     drivers: Immutable.List(),
-    companies: Immutable.List(),
     params: {},
 };
 
