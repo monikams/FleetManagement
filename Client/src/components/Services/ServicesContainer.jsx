@@ -84,8 +84,8 @@ class ServicesContainer extends Component {
     };
 
     handleCreateServiceClick = () => {
-        const { params: { vehicleId } } = this.props;
-       // this.props.router.replace(`/companies/${companyId}/createDriver`);
+        const { params: { companyId, vehicleId } } = this.props;
+        this.props.router.replace(`/companies/${companyId}/vehicles/${vehicleId}/createService`);
     };
 
     render() {      

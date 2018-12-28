@@ -10,7 +10,7 @@ const styles = {
   }
 };
 
-class PreviewVehicle extends React.Component {
+class PreviewService extends React.Component {
 
   render() {
     const { children, classes } = this.props;
@@ -23,17 +23,17 @@ class PreviewVehicle extends React.Component {
   }
 }
 
-PreviewVehicle.propTypes = {
+PreviewService.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   params: PropTypes.object.isRequired,
 };
 
-PreviewVehicle.defaultProps = {
+PreviewService.defaultProps = {
     classes: {},
     children: null,
     params: {},
 };
 
 
-export default  withStyles(styles)(withRouter(PreviewVehicle));
+export default  withStyles(styles)(withRouter(PreviewService));
