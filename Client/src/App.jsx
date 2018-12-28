@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import { Router, IndexRoute , Route, browserHistory } from 'react-router';
 
+import Home from './components/Home.jsx';
+import PreviewCompany from './components/PreviewCompany/PreviewCompany.jsx';
+
+import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
+import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
+import LoginContainer from './components/Authorization/LoginContainer.jsx';
+
 import CompaniesContainer from './components/Companies/CompaniesContainer.jsx';
 import CreateCompanyContainer from './components/Companies/CreateCompanyContainer.jsx';
 import EditCompanyContainer from './components/Companies/EditCompanyContainer.jsx';
@@ -14,12 +21,7 @@ import VehiclesContainer from './components/Vehicles/VehiclesContainer.jsx';
 import CreateVehicleContainer from './components/Vehicles/CreateVehicleContainer.jsx';
 import EditVehicleContainer from './components/Vehicles/EditVehicleContainer.jsx';
 
-import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
-import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
-import LoginContainer from './components/Authorization/LoginContainer.jsx';
-
-import Home from './components/Home.jsx';
-import PreviewCompany from './components/PreviewCompany/PreviewCompany.jsx';
+import ServicesContainer from './components/Services/ServicesContainer.jsx';
 
 class App extends Component {
     render() {
@@ -37,9 +39,10 @@ class App extends Component {
                             <IndexRoute component={DriversContainer} />
                             <Route path='createDriver' component={CreateDriverContainer} />
                             <Route path='editDriver/:driverId' component={EditDriverContainer} />                    
-                            <Route path='vehicles' component={VehiclesContainer} />
                             <Route path='createVehicle' component={CreateVehicleContainer} />
                             <Route path='editVehicle/:vehicleId' component={EditVehicleContainer} />
+                            <Route path='vehicles' component={VehiclesContainer} />
+                            <Route path='/companies/:companyId/vehicles/:vehicleId' component={ServicesContainer} />
                         </Route>
                     </Route>                                        						
 			</Router>

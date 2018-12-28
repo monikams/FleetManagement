@@ -41,7 +41,7 @@ class AuthorizationContainer extends React.Component {
         <AppBar className={classes.root} position="static">
             <Tabs centered value={value} onChange={this.handleChange}>
               <Tab label="Login" />
-              <Tab label="Registration" />
+              <Tab label="Register" />
             </Tabs>   
         </AppBar>     
         {this.props.children}

@@ -14,6 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Search from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -62,6 +63,11 @@ class VehiclesContainer extends Component {
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
+    handlePreviewServicesClick(vehicleId) {
+        const { params: { companyId } } = this.props;
+        this.props.router.push({ pathname: `/companies/${companyId}/vehicles/${vehicleId}` });
+    }
+
     handleEditClick(vehicleId) {
         const { params: { companyId } } = this.props;
         this.props.router.replace(`/companies/${companyId}/editVehicle/${vehicleId}`);
@@ -107,7 +113,7 @@ class VehiclesContainer extends Component {
                             <TableCell>Type</TableCell>
                             <TableCell>Brand</TableCell>
                             <TableCell>Model</TableCell>
-                            <TableCell>Preview</TableCell>
+                            <TableCell>Preview Services</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
                         </TableRow>
@@ -121,7 +127,7 @@ class VehiclesContainer extends Component {
                                 <TableCell>{vehicle.Type}</TableCell>
                                 <TableCell>{vehicle.Brand}</TableCell>
                                 <TableCell>{vehicle.Model}</TableCell>
-                                <TableCell>Preview</TableCell>
+                                <TableCell><Search onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
                                 <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>
                             </TableRow>
