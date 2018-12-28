@@ -6,6 +6,8 @@
     using System.Web.Optimization;
     using System.Web.Routing;
 
+    using WebApiService.Infrastructure.JobScheduler;
+
     public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
@@ -16,6 +18,7 @@
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.RegisterAutofac();
+            JobScheduler.Start();
         }
     }
 }
