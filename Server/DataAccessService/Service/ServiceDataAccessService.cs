@@ -33,6 +33,7 @@
                         {
                             cfg.CreateMap<Service, Data.Models.Service>().ReverseMap();
                             cfg.CreateMap<Data.Models.Service, Service>().ReverseMap();
+                            cfg.CreateMap<EditService, Data.Models.Service>().ReverseMap();
                         });
             this._mapper = new Mapper(this._config);
         }
@@ -68,6 +69,30 @@
 
             var mappedService = this._mapper.Map<Data.Models.Service, Service>(newService);
             return mappedService;
+        }
+
+        public async Task<Service> EditService(EditService serviceForEdit)
+        {
+            var service = await _context.Services.FindAsync(serviceForEdit.Id);
+            if (service == null)
+            {
+                return null;
+            }
+
+            service.Name = serviceForEdit.Name;
+            service.Description = serviceForEdit.Description;
+            service.MileageReminder = serviceForEdit.MileageReminder;
+            service.MileageRule = serviceForEdit.MileageRule;
+            service.NextServiceMileage = serviceForEdit.NextServiceMileage;
+            service.NextServiceTime = serviceForEdit.NextServiceTime;
+            service.TimeReminder = serviceForEdit.TimeReminder;
+            service.TimeReminderEntity = serviceForEdit.TimeReminderEntity;
+            service.TimeRule = serviceForEdit.TimeRule;
+            service.TimeRuleEntity = serviceForEdit.TimeRuleEntity;
+
+            await _context.SaveChangesAsync();
+
+            return this._mapper.Map<Data.Models.Service, Service>(service);
         }
     }
 }

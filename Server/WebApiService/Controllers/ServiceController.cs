@@ -31,7 +31,11 @@
             this._serviceBusinessService = serviceBusinessService;
             this._vehicleBusinessService = vehicleBusinessService;
             this._config = new MapperConfiguration(
-                cfg => { cfg.CreateMap<Service, BusinessService.Models.Service>().ReverseMap(); });
+                cfg =>
+                    {
+                        cfg.CreateMap<Service, BusinessService.Models.Service>().ReverseMap();
+                        cfg.CreateMap<EditService, BusinessService.Models.EditService>().ReverseMap();
+                    });
             this._mapper = new Mapper(this._config);
         }
 
@@ -76,6 +80,28 @@
             var mappedCompany = this._mapper.Map<BusinessService.Models.Service, Service>(newService);
 
             return this.Ok(mappedCompany);
+        }
+
+        [Route("services/{serviceId}")]
+        [HttpPut]
+        public async Task<IHttpActionResult> EditService([FromUri] string serviceId, [FromBody] EditService serviceForEdit)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var service = await this._serviceBusinessService.GetById(serviceId);
+            if (service == null)
+            {
+                return this.BadRequest();
+            }
+
+            var businessServiceForEdit = this._mapper.Map<BusinessService.Models.EditService>(serviceForEdit);
+            var editedService = await this._serviceBusinessService.EditService(businessServiceForEdit);
+            var apiService = this._mapper.Map<EditService>(editedService);
+
+            return this.Ok(apiService);
         }
     }
 }

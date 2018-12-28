@@ -26,7 +26,11 @@
         {
             this._serviceDataAccessService = serviceDataAccessService;
             this._config = new MapperConfiguration(
-                cfg => { cfg.CreateMap<Service, DataAccessService.Models.Service>().ReverseMap(); });
+                cfg =>
+                    {
+                        cfg.CreateMap<Service, DataAccessService.Models.Service>().ReverseMap();
+                        cfg.CreateMap<EditService, DataAccessService.Models.EditService>().ReverseMap();
+                    });
             this._mapper = new Mapper(this._config);
         }
 
@@ -54,6 +58,12 @@
             var mappedService = this._mapper.Map<DataAccessService.Models.Service, Service>(newService);
 
             return mappedService;
+        }
+
+        public async Task<Service> EditService(EditService serviceForEdit)
+        {
+            var editedService = await this._serviceDataAccessService.EditService(this._mapper.Map<DataAccessService.Models.EditService>(serviceForEdit));
+            return _mapper.Map<Service>(editedService);
         }
     }
 }
