@@ -59,7 +59,7 @@ class EditVehicleContainer extends Component {
           const localVehicle = Immutable.Map({
                 Id: vehicle.get('Id'), 
                 VIN: vehicle.get('VIN'),
-                PlateNumber: vehicle.get('PLateNumber'),
+                PlateNumber: vehicle.get('PlateNumber'),
                 Type: vehicle.get('Type'),
                 Brand: vehicle.get('Brand'),
                 Model: vehicle.get('Model'),

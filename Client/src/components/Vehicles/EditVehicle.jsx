@@ -36,7 +36,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     marginTop: '16px',
-    width: '566.375px',
+    width: '100%',
   },
   chips: {
     display: 'flex',
