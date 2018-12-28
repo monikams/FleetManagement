@@ -5,6 +5,7 @@ import { Router, IndexRoute , Route, browserHistory } from 'react-router';
 import Home from './components/Home.jsx';
 import PreviewCompany from './components/PreviewCompany/PreviewCompany.jsx';
 import PreviewVehicle from './components/PreviewVehicle/PreviewVehicle.jsx';
+import PreviewService from './components/PreviewService/PreviewService.jsx';
 
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
@@ -23,6 +24,7 @@ import CreateVehicleContainer from './components/Vehicles/CreateVehicleContainer
 import EditVehicleContainer from './components/Vehicles/EditVehicleContainer.jsx';
 
 import ServicesContainer from './components/Services/ServicesContainer.jsx';
+import CreateServiceContainer from './components/Services/CreateServiceContainer.jsx';
 
 class App extends Component {
     render() {
@@ -44,7 +46,10 @@ class App extends Component {
                             <Route path='editVehicle/:vehicleId' component={EditVehicleContainer} />
                             <Route path='vehicles' component={PreviewVehicle} >
                                 <IndexRoute component={VehiclesContainer} />
-                                <Route path=':vehicleId' component={ServicesContainer} />
+                                <Route path=':vehicleId' component={PreviewService} >
+                                    <IndexRoute component={ServicesContainer} />
+                                    <Route path='createService' component={CreateServiceContainer} />
+                                </Route>    
                             </Route>    
                         </Route>
                     </Route>                                        						
