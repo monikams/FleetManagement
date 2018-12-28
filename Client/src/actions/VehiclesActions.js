@@ -50,7 +50,7 @@ class VehiclesActions {
             VehiclesService.editVehicle(vehicle)
             .then((response) => {
                 this.loadVehicles();
-                window.location.href = baseURL + '/vehicles';                   
+                window.location.href = `${baseURL}/companies/${vehicle.get('CompanyId')}/vehicles`;
             })
             .catch((error) => {
                 console.log(error);
