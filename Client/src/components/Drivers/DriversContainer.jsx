@@ -22,6 +22,7 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    backgroundColor: '#F0F0F0',
   },
   table: {
     minWidth: 700,
@@ -111,7 +112,7 @@ class DriversContainer extends Component {
                                 <TableCell>{driver.Email}</TableCell>
                                 <TableCell>{driver.Telephone}</TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(driver.Id)}/></TableCell>
-                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(driver.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(driver.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}

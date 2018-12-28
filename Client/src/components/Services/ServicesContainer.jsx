@@ -26,6 +26,7 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    backgroundColor: '#F0F0F0',
   },
   table: {
     minWidth: 700,
@@ -140,7 +141,7 @@ class ServicesContainer extends Component {
                                 {service.TimeReminderEntity === 1 ? `${service.TimeReminder} Days` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} Months` : `${service.TimeReminder} Years`}
                                 </TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
-                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}

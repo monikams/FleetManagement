@@ -14,7 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Search from '@material-ui/icons/Search';
+import Build from '@material-ui/icons/Build';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -27,6 +27,7 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    backgroundColor: '#F0F0F0',
   },
   table: {
     minWidth: 700,
@@ -113,7 +114,7 @@ class VehiclesContainer extends Component {
                             <TableCell>Type</TableCell>
                             <TableCell>Brand</TableCell>
                             <TableCell>Model</TableCell>
-                            <TableCell>Preview Services</TableCell>
+                            <TableCell>Services</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
                         </TableRow>
@@ -127,9 +128,9 @@ class VehiclesContainer extends Component {
                                 <TableCell>{vehicle.Type}</TableCell>
                                 <TableCell>{vehicle.Brand}</TableCell>
                                 <TableCell>{vehicle.Model}</TableCell>
-                                <TableCell><Search onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
+                                <TableCell><Build color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
-                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}

@@ -13,7 +13,7 @@ class AuthorizationActions {
         return (dispatch) => {
             AuthorizationService.registerUser(newUser)
             .then((response) => {
-                window.location.href = baseURL + '/login';     
+                window.location.href = baseURL;     
             })
             .catch((error) => {
                 console.log(error);

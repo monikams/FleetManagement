@@ -22,6 +22,7 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    backgroundColor: '#F0F0F0',
   },
   table: {
     minWidth: 700,
@@ -108,9 +109,9 @@ class CompaniesContainer extends Component {
                                 <TableCell>{company.Address}</TableCell>
                                 <TableCell>{company.Email}</TableCell>
                                 <TableCell>{company.Telephone}</TableCell>
-                                <TableCell><Search onClick={() => this.handlePreviewClick(company.Id)} /></TableCell>
+                                <TableCell><Search color="primary" onClick={() => this.handlePreviewClick(company.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(company.Id)} /></TableCell>
-                                <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
