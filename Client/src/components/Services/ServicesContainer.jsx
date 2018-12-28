@@ -117,9 +117,13 @@ class ServicesContainer extends Component {
                                 <TableCell>{service.MileageRule}</TableCell>
                                 <TableCell>{service.NextServiceMileage}</TableCell>
                                 <TableCell>{service.MileageReminder}</TableCell>
-                                <TableCell>{service.TimeRule}</TableCell>
+                                <TableCell>
+                                {service.TimeRuleEntity === 1 ? `${service.TimeRule} Days` : service.TimeRuleEntity === 2 ? `${service.TimeRule} Months` : `${service.TimeRule} Years`}
+                                </TableCell>
                                 <TableCell>{service.NextServiceTime}</TableCell>
-                                <TableCell>{service.TimeReminder}</TableCell>
+                                <TableCell>
+                                {service.TimeReminderEntity === 1 ? `${service.TimeReminder} Days` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} Months` : `${service.TimeReminder} Years`}
+                                </TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
                                 <TableCell><DeleteIcon onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
                             </TableRow>
@@ -134,7 +138,7 @@ class ServicesContainer extends Component {
 }
 
 ServicesContainer.propTypes = {
-    services: PropTypes.instanceOf(Immutable.Iterable),
+    services: PropTypes.instanceOf(Immutable.List),
     classes: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
 };

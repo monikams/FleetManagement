@@ -59,7 +59,7 @@ class PreviewCompany extends React.Component {
       <div className={classes.root}>
           <SideBar id='previewCompanySidebar' items={items} onItemClick={this.handleItemClick} />
           <div className='children' >
-            <p id="companyName" >{company.get('Name')}</p>
+            <p id="companyName" ><span>Company Name: {company.get('Name')}</span></p>
             {children}
           </div>
       </div>

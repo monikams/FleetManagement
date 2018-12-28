@@ -2,3 +2,9 @@
     flex-grow: 4;
     margin: 10px 40px 30px 40px;
 }
+
+#companyName {
+	font-size: 18px;
+	font-family: Arial;
+	color: #3f51b5;
+}
