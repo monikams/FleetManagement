@@ -62,6 +62,12 @@
             return mappedVehicle;
         }
 
+        public async Task<Vehicle> EditVehicle(EditVehicle vehicleForEdit)
+        {
+            var editedVehicle = await _vehicleDataAccessService.EditVehicle(_mapper.Map<DataAccessService.Models.EditVehicle>(vehicleForEdit));
+            return _mapper.Map<Vehicle>(editedVehicle);
+        }
+
         public async Task DeleteVehicle(string vehicleId)
         {
             await this._vehicleDataAccessService.DeleteVehicle(vehicleId);

@@ -34,5 +34,15 @@
 
             return mappedCompanies;
         }
+
+        [Route("users/{userId}")]
+        [HttpGet]
+        public async Task<Models.User> GetUserById()
+        {
+            var user = await this.UsersService.GetUser(this.CurrentUser.Id);
+            var mappedUser = this._mapper.Map<User, Models.User>(user);
+
+            return mappedUser;
+        }
     }
 }

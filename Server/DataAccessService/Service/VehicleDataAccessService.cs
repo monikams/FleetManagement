@@ -89,5 +89,20 @@ namespace DataAccessService.Service
                 await this._context.SaveChangesAsync();
             }
         }
+
+        public async Task<Vehicle> EditVehicle(EditVehicle vehicleForEdit)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(vehicleForEdit.Id);
+            vehicle.VIN = vehicleForEdit.VIN;
+            vehicle.PlateNumber = vehicleForEdit.PlateNumber;
+            vehicle.Type = vehicleForEdit.Type;
+            vehicle.Brand = vehicleForEdit.Brand;
+            vehicle.Model = vehicleForEdit.Model;
+            vehicle.CompanyId = vehicleForEdit.CompanyId;
+            vehicle.DriverId = vehicleForEdit.DriverId;
+
+            await _context.SaveChangesAsync();
+            return (Vehicle)_mapper.Map(vehicle, typeof(Data.Models.Vehicle), typeof(Vehicle));
+        }
     }
 }

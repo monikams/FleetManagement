@@ -46,5 +46,13 @@
 
             return await Task.Run(() => mappedUsers);
         }
+
+        public async Task<User> GetUser(string currentUserId)
+        {
+            var user = await this._context.Users.FirstOrDefaultAsync(u => u.Id == currentUserId);
+            var mappedUser = this._mapper.Map<Data.Models.User, User>(user);
+
+            return await Task.Run(() => mappedUser);
+        }
     }
 }

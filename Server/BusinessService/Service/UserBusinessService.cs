@@ -43,5 +43,14 @@
 
             return mappedUsers;
         }
+
+        public async Task<User> GetUser(string currentUserId)
+        {
+            var user = await this._userDataAccessService.GetUser(currentUserId);
+            var mappedUser =
+                this._mapper.Map<DataAccessService.Models.User, User>(user);
+
+            return mappedUser;
+        }
     }
 }

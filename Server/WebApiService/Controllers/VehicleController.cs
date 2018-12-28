@@ -83,5 +83,28 @@
             await this._vehicleBusinessService.DeleteVehicle(vehicleId);
             return this.Ok();
         }
+
+        [Route("vehicles/{vehicleId}")]
+        [HttpPut]
+        public async Task<IHttpActionResult> EditVehicle([FromUri] string vehicleId, [FromBody] EditVehicle vehicleForEdit)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var vehicle = await _vehicleBusinessService.GetVehicleById(vehicleId);
+            if (vehicle == null)
+            {
+                return this.BadRequest();
+            }
+
+            var businessVehicleForEdit = _mapper.Map<BusinessService.Models.EditVehicle>(vehicleForEdit);
+            businessVehicleForEdit.Id = vehicleId;
+
+            var editedVehicle = await _vehicleBusinessService.EditVehicle(businessVehicleForEdit);
+            var apiVehicle = _mapper.Map<EditVehicle>(editedVehicle);
+            return Ok(apiVehicle);
+        }
     }
 }

@@ -14,5 +14,7 @@
         Task<Vehicle> PostVehicle(Vehicle vehicle);
 
         Task DeleteVehicle(string vehicleId);
+
+        Task<Vehicle> EditVehicle(EditVehicle vehicleForEdit);
     }
 }

@@ -10,5 +10,7 @@
         User ByUsername(string username);
 
         Task<IEnumerable<User>> GetAllUsers(string currentUserId);
+
+        Task<User> GetUser(string currentUserId);
     }
 }
