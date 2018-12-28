@@ -8,8 +8,15 @@ import Switch from '@material-ui/core/Switch';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import '../styles/Home.css';
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
+import UsersActions from '../actions/UsersActions.js';
+import UsersStore from '../stores/UsersStore';
+import Immutable from 'immutable';
+import connectToStores from 'alt-utils/lib/connectToStores';
+import isEmpty from 'lodash';
 
 const styles = {
   root: {
@@ -26,13 +33,47 @@ const styles = {
 };
 
 class Home extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      anchorEl: null,
+    }
+  }
+
+  static getStores() {
+        return [UsersStore];
+    }
+
+  static getPropsFromStores() {
+      return {
+          user: UsersStore.getUser(),          
+      }
+  }
+
+  componentWillMount() {
+      const userId = localStorage.getItem('userId');
+      UsersActions.loadUser(userId);
+  } 
+
   handleLogoutClick = () => {
      logout();
   };
 
+  handleProfileClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+
   render() {
-    const { classes } = this.props;
-    
+    const { classes, user } = this.props;
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+  
     return (
       isLoggedIn() &&
       <div className={classes.root}>
@@ -43,11 +84,39 @@ class Home extends React.Component {
             </Typography>
             <IconButton
               id="profile-button"
-              aria-owns="material-appbar"
+              aria-owns={open ? 'menu-appbar' : undefined}
+              aria-haspopup="true"
               color="inherit"
+              onClick={this.handleProfileClick}
             >
               <AccountCircle />
             </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>
+                <span className='menuItemLabel' >Username:</span>
+                {user.get('UserName')}
+              </MenuItem>
+              <MenuItem onClick={this.handleClose}>
+                <span className='menuItemLabel' >Email:</span>
+                {user.get('Email')} 
+              </MenuItem>
+              {!isEmpty(user.get('Telephone')) &&
+                <MenuItem onClick={this.handleClose}>Telephone: {user.get('Telephone')}</MenuItem>
+              }
+            </Menu>
             <Button color="inherit" onClick={this.handleLogoutClick}>Logout</Button>
           </Toolbar>
         </AppBar>
@@ -62,6 +131,17 @@ class Home extends React.Component {
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
+  user:  PropTypes.instanceOf(Immutable.Map),
 };
 
-export default withStyles(styles)(Home);
+Home.defaultProps = {
+    user: Immutable.Map({
+        Id: '',
+        Name: '',
+        Email: '',
+        Address: '',
+        Telephone: '',
+    }),
+};
+
+export default withStyles(styles)(connectToStores(Home));

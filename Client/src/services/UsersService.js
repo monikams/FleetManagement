@@ -10,6 +10,14 @@ class UsersService {
 
         logout();
     }
+
+     static async getUser(userId) {   
+        if (isLoggedIn()) { 
+            return await axios.get(`http://localhost:19631/api/users/${userId}`);
+        }
+
+        logout();
+    }
 }
 
 export default UsersService;

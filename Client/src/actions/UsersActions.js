@@ -17,6 +17,18 @@ class UsersActions {
             });
         }
     }
+
+    loadUser(userId) {
+        return (dispatch) => {
+             UsersService.getUser(userId)
+            .then((response) => { 
+                dispatch(response.data);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
+        }
+    }
 }
 
 export default alt.createActions(UsersActions);

@@ -8,11 +8,16 @@ class UsersStore {
         this.bindActions(UsersActions);
         this.state = new Immutable.Map({
             users: Immutable.List(),
+            user: Immutable.Map(),
         });
     }
 
     loadUsers(users) {
         this.setState(this.state.set('users', Immutable.List(users)));
+    }
+
+    loadUser(user) {
+        this.setState(this.state.set('user', Immutable.Map(user)));
     }
 
     unloadUsers() {
@@ -21,6 +26,10 @@ class UsersStore {
 
     static getUsers() {
         return this.getState().get('users');
+    }
+
+     static getUser() {
+        return this.getState().get('user');
     }
 }
 
