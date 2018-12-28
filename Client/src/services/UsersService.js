@@ -1,4 +1,4 @@
-import { isLoggedIn, logout, setHeaders } from '../utils/authorized-requests.js';
+import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
 
 class UsersService {

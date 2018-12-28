@@ -1,4 +1,4 @@
-import { isLoggedIn, logout, setHeaders } from '../utils/authorized-requests.js';
+import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
 
 class DriversService {
@@ -21,7 +21,7 @@ class DriversService {
     }
 
     static async createDriver(driver){
-        if(isLoggedIn()){
+        if(isLoggedIn()) {
             return await axios.post('http://localhost:19631/api/drivers', driver);
         }
 
@@ -29,8 +29,7 @@ class DriversService {
     }
 
      static async editDriver(driver){
-        if(isLoggedIn()){
-            console.log(driver.toJS());
+        if(isLoggedIn()) {
             return await axios.put(`http://localhost:19631/api/drivers/${driver.get('Id')}`, driver.toJS());
         }
 
@@ -38,7 +37,7 @@ class DriversService {
     }
 
     static async deleteDriver(driverId){
-        if(isLoggedIn()){
+        if(isLoggedIn()) {
             return await axios.delete(`http://localhost:19631/api/deleteDriver/${driverId}`);
         }
 

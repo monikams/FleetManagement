@@ -45,7 +45,7 @@
             return mappedService;
         }
 
-        [Route("services/vehicle/{vehicleId}")]
+        [Route("vehicles/{vehicleId}/services")]
         [HttpGet]
         public async Task<IEnumerable<Service>> GetByVehicleId([FromUri] string vehicleId)
         {
