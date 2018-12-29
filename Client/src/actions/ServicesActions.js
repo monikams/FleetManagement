@@ -17,7 +17,21 @@ class ServicesActions {
                console.log(error);
             });
         }
-    }    
+    }
+
+    createService(service, companyId) {
+        return (dispatch) => {
+            ServicesService.createService(service)
+            .then((response) => {
+                window.location.href = `${baseURL}/companies/${companyId}/vehicles/${service.vehicleId}/services`;
+                this.loadServices(service.vehicleId);                   
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+    
 }
 
 export default alt.createActions(ServicesActions);

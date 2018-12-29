@@ -13,6 +13,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
@@ -44,6 +47,13 @@ const styles = theme => ({
     marginTop: '16px',
     width: '100%',
   },
+  radioButtonsLabel: {
+    marginTop: '16px',
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: `0.8rem`,
+    fontFamily: "Roboto Helvetica Arial, sans-serif",
+    lineHeight: 1,
+  }
 });
 
 class CreateServiceContainer extends Component {
@@ -63,6 +73,7 @@ class CreateServiceContainer extends Component {
                 timeReminder: 0,
                 timeReminderEntity: 1,
             },
+            selectedValue: '',
 		}
     }
 
@@ -73,14 +84,32 @@ class CreateServiceContainer extends Component {
         this.setState({ localService: newService });
     };
 
+    handleRadioButtonChange = event => {
+        this.setState({ selectedValue: event.target.value });
+        const { localService } = this.state;
+        const newService = merge({}, { 
+            name: localService.name, 
+            description: localService.description,
+            vehicleId: localService.vehicleId,
+            mileageRule: 0,
+            mileageReminder: 0,
+            timeRule: 0,
+            timeRuleEntity: 1,
+            timeReminder: 0,
+            timeReminderEntity: 1,
+        });
+        this.setState({ localService: newService })
+    };
+
     handleSaveButtonClick = () => {
-        const { localService } = this.state;   
-        //ServicesActions.createService(localService);
+        const { localService } = this.state;
+        const { params: { companyId } } = this.props;
+        ServicesActions.createService(localService, companyId);
     }
 
     render() {      
         const { classes } = this.props;
-        const { localService } = this.state;
+        const { localService, selectedValue } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -110,80 +139,97 @@ class CreateServiceContainer extends Component {
                         onChange={this.handleChange('description')}
                         margin="normal"
                     />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="mileageRule"
-                        label="Mileage Rule"
-                        placeholder="Enter service`s mileage rule"
-                        className={classes.textField}         
-                        onChange={this.handleChange('mileageRule')}
-                        margin="normal"
-                    />
-                     <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="mileageReminder"
-                        label="Mileage Reminder"
-                        placeholder="Enter service`s mileage reminder"
-                        className={classes.textField}         
-                        onChange={this.handleChange('mileageReminder')}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="timeRule"
-                        label="Time Rule"
-                        placeholder="Enter service`s time rule"
-                        className={classes.textField}         
-                        onChange={this.handleChange('timeRule')}
-                        margin="normal"
-                    />
-                    <FormControl className={classes.formControl} >
-                        <Select
-                            displayEmpty
-                            value={localService.timeRuleEntity}
-                            onChange={this.handleChange('timeRuleEntity')}
-                        >  
-                            <MenuItem key={1} value={1}>Days</MenuItem>
-                            <MenuItem key={2} value={2}>Months</MenuItem>
-                            <MenuItem key={3} value={3}>Years</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="timeReminder"
-                        label="Time Reminder"
-                        placeholder="Enter service`s time reminder"
-                        className={classes.textField}         
-                        onChange={this.handleChange('timeReminder')}
-                        margin="normal"
-                    />
-                    <FormControl className={classes.formControl} >
-                        <Select
-                            displayEmpty
-                            value={localService.timeReminderEntity}
-                            onChange={this.handleChange('timeReminderEntity')}
-                        >  
-                            <MenuItem key={1} value={1}>Days</MenuItem>
-                            <MenuItem key={2} value={2}>Months</MenuItem>
-                            <MenuItem key={3} value={3}>Years</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <div className={classes.textField} >
+                        <p className={classes.radioButtonsLabel} >Select time-based or mileage-based notifications *</p>
+                        <div>
+                            <FormControlLabel value="time" onChange={this.handleRadioButtonChange} checked={selectedValue === 'time'} control={<Radio />} label="Time" />
+                            <FormControlLabel value="mileage" onChange={this.handleRadioButtonChange} checked={selectedValue === 'mileage'} control={<Radio />} label="Mileage" />
+                        </div>
+                    </div>
+                    {selectedValue === 'mileage' &&
+                        <div>
+                            <TextField
+                                required
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                id="mileageRule"
+                                label="Mileage Rule"
+                                placeholder="Enter service`s mileage rule as an integer"
+                                className={classes.textField}         
+                                onChange={this.handleChange('mileageRule')}
+                                margin="normal"
+                            />
+                            <TextField
+                                required
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                id="mileageReminder"
+                                label="Mileage Reminder"
+                                placeholder="Enter service`s mileage reminder as an integer"
+                                className={classes.textField}         
+                                onChange={this.handleChange('mileageReminder')}
+                                margin="normal"
+                            />
+                        </div>
+                    }
+                    {selectedValue === 'time' &&
+                        <div>
+                            <TextField
+                                required
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                id="timeRule"
+                                label="Time Rule"
+                                placeholder="Enter service`s time rule as an integer"
+                                className={classes.textField}         
+                                onChange={this.handleChange('timeRule')}
+                                margin="normal"
+                            />
+                            <FormControl className={classes.formControl} >
+                                <InputLabel shrink>Time Rule Range</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    value={localService.timeRuleEntity}
+                                    onChange={this.handleChange('timeRuleEntity')}
+                                >  
+                                    <MenuItem key={1} value={1}>Days</MenuItem>
+                                    <MenuItem key={2} value={2}>Months</MenuItem>
+                                    <MenuItem key={3} value={3}>Years</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                required
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                id="timeReminder"
+                                label="Time Reminder"
+                                placeholder="Enter service`s time reminder as an integer"
+                                className={classes.textField}         
+                                onChange={this.handleChange('timeReminder')}
+                                margin="normal"
+                            />
+                            <FormControl className={classes.formControl} >
+                                <InputLabel shrink>Time Reminder Range</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    value={localService.timeReminderEntity}
+                                    onChange={this.handleChange('timeReminderEntity')}
+                                >  
+                                    <MenuItem key={1} value={1}>Days</MenuItem>
+                                    <MenuItem key={2} value={2}>Months</MenuItem>
+                                    <MenuItem key={3} value={3}>Years</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                    }  
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -204,11 +250,7 @@ class CreateServiceContainer extends Component {
 
 CreateServiceContainer.propTypes = {
     classes: PropTypes.object.isRequired,
-    companies: PropTypes.instanceOf(Immutable.Iterable),
 };
 
-CreateServiceContainer.defaultProps = {
-   companies: Immutable.List(),
-};
 
 export default withStyles(styles)(CreateServiceContainer);

@@ -11,6 +11,15 @@ class ServicesService {
         logout();
     }
 
+    static async createService(service){
+        if(isLoggedIn()){
+            debugger;
+            return await axios.post('http://localhost:19631/api/services', service);
+        }
+
+         logout();
+    }
+
 }
 
 export default ServicesService;
