@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import ServicesStore from '../../stores/ServicesStore';
+import shallowEqual from 'shallowequal';
 import ServicesActions from '../../actions/ServicesActions.js';
-import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
+import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
+import FormLabel from '@material-ui/core/FormLabel'; 
 
 const styles = theme => ({
   button: {
@@ -55,64 +52,17 @@ const styles = theme => ({
   }
 });
 
-class CreateServiceContainer extends Component {
+class EditService extends Component {
 
-     constructor(props) {
-        const { params: { vehicleId } } = props;
-        super(props);
-        this.state = {
-			localService: {
-                name: '',
-                description: '',
-                vehicleId: vehicleId,
-                basedOn: '',
-                mileageRule: 0,
-                mileageReminder: 0,
-                timeRule: 0,
-                timeRuleEntity: 1,
-                timeReminder: 0,
-                timeReminderEntity: 1,
-            },
-		}
-    }
-
-    handleChange = name => event => {
-        const { target: { value }} = event; 
-        const { localService } = this.state;
-        const newService = merge(localService, { [name]: value });
-        this.setState({ localService: newService });
-    };
-
-    handleRadioButtonChange = event => {
-        const { target: { value }} = event; 
-        const { localService } = this.state;
-        const newService = merge({}, { 
-            name: localService.name, 
-            description: localService.description,
-            vehicleId: localService.vehicleId,
-            basedOn: value === 'time' ? 0 : 1,
-            mileageRule: 0,
-            mileageReminder: 0,
-            timeRule: 0,
-            timeRuleEntity: 1,
-            timeReminder: 0,
-            timeReminderEntity: 1,
-        });
-        this.setState({ localService: newService })
-    };
-
-    handleSaveButtonClick = () => {
-        const { localService } = this.state;
-        const { params: { companyId } } = this.props;
-        ServicesActions.createService(localService, companyId);
+    handleChange = name => event => { 
+        this.props.onChange(name, event);
     }
 
     render() {      
-        const { classes } = this.props;
-        const { localService, selectedValue } = this.state;
-    
+        const { classes, service, onSaveButtonClick, onRadioButtonChange } = this.props;
+
         return (
-            <div className={classes.form} >  
+           <div className={classes.form} >  
                 <div className={classes.container} >
                     <TextField
                         required
@@ -122,9 +72,10 @@ class CreateServiceContainer extends Component {
                         }}
                         id="name"
                         label="Name"
+                        value={service.get('Name')}
                         placeholder="Enter service`s name"
                         className={classes.textField}          
-                        onChange={this.handleChange('name')}
+                        onChange={this.handleChange('Name')}
                         margin="normal"
                     />
                     <TextField
@@ -134,19 +85,20 @@ class CreateServiceContainer extends Component {
                         }}
                         id="description"
                         label="Description"
+                        value={service.get('Description')}
                         placeholder="Enter service`s description"
                         className={classes.textField}          
-                        onChange={this.handleChange('description')}
+                        onChange={this.handleChange('Description')}
                         margin="normal"
                     />
                     <div className={classes.textField} >
                         <p className={classes.radioButtonsLabel} >Select time-based or mileage-based notifications *</p>
                         <div>
-                            <FormControlLabel value="time" onChange={this.handleRadioButtonChange} checked={localService.basedOn === 0} control={<Radio />} label="Time" />
-                            <FormControlLabel value="mileage" onChange={this.handleRadioButtonChange} checked={localService.basedOn === 1} control={<Radio />} label="Mileage" />
+                            <FormControlLabel value="0" onChange={this.handleChange('BasedOn')} checked={service.get('BasedOn') == 0} control={<Radio />} label="Time" />
+                            <FormControlLabel value="1" onChange={this.handleChange('BasedOn')} checked={service.get('BasedOn') == 1} control={<Radio />} label="Mileage" />
                         </div>
                     </div>
-                    {localService.basedOn === 1 &&
+                    {service.get('BasedOn') == 1 &&
                         <div>
                             <TextField
                                 required
@@ -156,9 +108,10 @@ class CreateServiceContainer extends Component {
                                 }}
                                 id="mileageRule"
                                 label="Mileage Rule"
+                                value={service.get('MileageRule')}
                                 placeholder="Enter service`s mileage rule as an integer"
                                 className={classes.textField}         
-                                onChange={this.handleChange('mileageRule')}
+                                onChange={this.handleChange('MileageRule')}
                                 margin="normal"
                             />
                             <TextField
@@ -169,14 +122,15 @@ class CreateServiceContainer extends Component {
                                 }}
                                 id="mileageReminder"
                                 label="Mileage Reminder"
+                                value={service.get('MileageReminder')}
                                 placeholder="Enter service`s mileage reminder as an integer"
                                 className={classes.textField}         
-                                onChange={this.handleChange('mileageReminder')}
+                                onChange={this.handleChange('MileageReminder')}
                                 margin="normal"
                             />
                         </div>
                     }
-                    {localService.basedOn === 0 &&
+                    {service.get('BasedOn') == 0 &&
                         <div>
                             <TextField
                                 required
@@ -186,17 +140,18 @@ class CreateServiceContainer extends Component {
                                 }}
                                 id="timeRule"
                                 label="Time Rule"
+                                value={service.get('TimeRule')}
                                 placeholder="Enter service`s time rule as an integer"
                                 className={classes.textField}         
-                                onChange={this.handleChange('timeRule')}
+                                onChange={this.handleChange('TimeRule')}
                                 margin="normal"
                             />
                             <FormControl className={classes.formControl} >
                                 <InputLabel shrink>Time Rule Range</InputLabel>
                                 <Select
                                     displayEmpty
-                                    value={localService.timeRuleEntity}
-                                    onChange={this.handleChange('timeRuleEntity')}
+                                    value={service.get('TimeRuleEntity')}
+                                    onChange={this.handleChange('TimeRuleEntity')}
                                 >  
                                     <MenuItem key={1} value={1}>Days</MenuItem>
                                     <MenuItem key={2} value={2}>Months</MenuItem>
@@ -211,17 +166,18 @@ class CreateServiceContainer extends Component {
                                 }}
                                 id="timeReminder"
                                 label="Time Reminder"
+                                value={service.get('TimeReminder')}
                                 placeholder="Enter service`s time reminder as an integer"
                                 className={classes.textField}         
-                                onChange={this.handleChange('timeReminder')}
+                                onChange={this.handleChange('TimeReminder')}
                                 margin="normal"
                             />
                             <FormControl className={classes.formControl} >
                                 <InputLabel shrink>Time Reminder Range</InputLabel>
                                 <Select
                                     displayEmpty
-                                    value={localService.timeReminderEntity}
-                                    onChange={this.handleChange('timeReminderEntity')}
+                                    value={service.get('TimeReminderEntity')}
+                                    onChange={this.handleChange('TimeReminderEntity')}
                                 >  
                                     <MenuItem key={1} value={1}>Days</MenuItem>
                                     <MenuItem key={2} value={2}>Months</MenuItem>
@@ -237,20 +193,37 @@ class CreateServiceContainer extends Component {
                         size="large" 
                         color="primary" 
                         className={classes.button}
-                        onClick={this.handleSaveButtonClick}
+                        onClick={onSaveButtonClick}
                         id='saveButton'
                     >
                         Save
                     </Button>
                 </div>
-            </div>  
+            </div> 
         );
     }
 }
 
-CreateServiceContainer.propTypes = {
+EditService.propTypes = {
     classes: PropTypes.object.isRequired,
+    service: PropTypes.instanceOf(Immutable.Map),
+    onChange: PropTypes.func.isRequired,
+    onSaveButtonClick: PropTypes.func.isRequired,
 };
 
+EditService.defaultProps = {
+    service: Immutable.Map({
+        Id: '',
+        Name: '',
+        Description: '',
+        BasedOn: '',
+        MileageRule: 0,
+        MileageReminder: 0,
+        TimeRule: 0,
+        TimeRuleEntity: 1,
+        TimeReminder: 0,
+        TimeReminderEntity: 1,
+    }),
+};
 
-export default withStyles(styles)(CreateServiceContainer);
+export default withStyles(styles)(EditService);

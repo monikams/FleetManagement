@@ -9,7 +9,10 @@
 
         [Required] public string Name { get; set; }
 
-        [Required] public string Description { get; set; }
+        public string Description { get; set; }
+        
+        // time => 0, mileage => 1
+        [Required] public int BasedOn{ get; set; }
 
         // Time related properties
         public DateTimeOffset? Created { get; set; } = DateTimeOffset.Now;

@@ -25,6 +25,7 @@ import EditVehicleContainer from './components/Vehicles/EditVehicleContainer.jsx
 
 import ServicesContainer from './components/Services/ServicesContainer.jsx';
 import CreateServiceContainer from './components/Services/CreateServiceContainer.jsx';
+import EditServiceContainer from './components/Services/EditServiceContainer.jsx';
 
 class App extends Component {
     render() {
@@ -49,6 +50,7 @@ class App extends Component {
                                 <Route path=':vehicleId' component={PreviewService} >
                                     <IndexRoute component={ServicesContainer} />
                                     <Route path='createService' component={CreateServiceContainer} />
+                                    <Route path='editService/:serviceId' component={EditServiceContainer} />
                                 </Route>    
                             </Route>    
                         </Route>

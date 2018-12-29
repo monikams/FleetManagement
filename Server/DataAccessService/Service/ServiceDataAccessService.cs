@@ -54,7 +54,7 @@
             return mappedServices;
         }
 
-        public async Task<Service> PostService(Service service)
+        public async Task<Service> PostService(PostService service)
         {
             var vehicle = await this._context.Vehicles.FirstOrDefaultAsync(v => v.Id == service.VehicleId);
             if (vehicle == null)
@@ -62,7 +62,7 @@
                 return null;
             }
 
-            var newService = this._mapper.Map<Service, Data.Models.Service>(service);
+            var newService = this._mapper.Map<PostService, Data.Models.Service>(service);
 
             this._context.Services.Add(newService);
             await this._context.SaveChangesAsync();
@@ -83,8 +83,6 @@
             service.Description = serviceForEdit.Description;
             service.MileageReminder = serviceForEdit.MileageReminder;
             service.MileageRule = serviceForEdit.MileageRule;
-            service.NextServiceMileage = serviceForEdit.NextServiceMileage;
-            service.NextServiceTime = serviceForEdit.NextServiceTime;
             service.TimeReminder = serviceForEdit.TimeReminder;
             service.TimeReminderEntity = serviceForEdit.TimeReminderEntity;
             service.TimeRule = serviceForEdit.TimeRule;

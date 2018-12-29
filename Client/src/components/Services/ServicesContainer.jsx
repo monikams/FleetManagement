@@ -75,8 +75,8 @@ class ServicesContainer extends Component {
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     handleEditClick(serviceId) {
-        const { params: { vehicleId } } = this.props;
-        //this.props.router.replace(`/companies/${companyId}/editDriver/${driverId}`);
+        const { params: { companyId, vehicleId } } = this.props;
+        this.props.router.replace(`/companies/${companyId}/vehicles/${vehicleId}/editService/${serviceId}`);
     };
 
     handleDeleteClick(serviceId) {

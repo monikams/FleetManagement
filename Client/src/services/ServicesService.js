@@ -11,15 +11,29 @@ class ServicesService {
         logout();
     }
 
-    static async createService(service){
+    static async getService(serviceId) {   
+        if (isLoggedIn()) { 
+            return await axios.get(`http://localhost:19631/api/services/${serviceId}`);
+        }
+
+        logout();
+    }
+
+    static async createService(service) {
         if(isLoggedIn()){
-            debugger;
             return await axios.post('http://localhost:19631/api/services', service);
         }
 
          logout();
     }
 
+    static async editService(service){
+        if(isLoggedIn()) {
+            return await axios.put(`http://localhost:19631/api/services/${service.get('Id')}`, service.toJS());
+        }
+
+         logout();
+    }
 }
 
 export default ServicesService;

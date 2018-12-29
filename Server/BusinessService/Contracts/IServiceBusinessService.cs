@@ -11,7 +11,7 @@
 
         Task<IEnumerable<Service>> GetByVehicleId(string vehicleId);
 
-        Task<Service> PostService(Service service);
+        Task<Service> PostService(PostService service);
 
         Task<Service> EditService(EditService serviceForEdit);
     }
