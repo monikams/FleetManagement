@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
-import CompaniesStore from '../../stores/CompaniesStore';
-import CompaniesActions from '../../actions/CompaniesActions.js';
-import DriversStore from '../../stores/DriversStore';
-import DriversActions from '../../actions/DriversActions.js';
+import ServicesStore from '../../stores/ServicesStore';
 import ServicesActions from '../../actions/ServicesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
@@ -52,40 +49,25 @@ const styles = theme => ({
 class CreateServiceContainer extends Component {
 
      constructor(props) {
-        const { params: { companyId } } = props;
+        const { params: { vehicleId } } = props;
         super(props);
         this.state = {
 			localService: {
-                vin: '',
-                plateNumber: '',
-                type: '',
-                brand: '',
-                model: '',
-                companyId: companyId,
-                driverId: '',
+                name: '',
+                description: '',
+                vehicleId: vehicleId,
+                mileageRule: 0,
+                mileageReminder: 0,
+                timeRule: 0,
+                timeRuleEntity: 1,
+                timeReminder: 0,
+                timeReminderEntity: 1,
             },
-		} 
-    }
-
-    static getStores() {
-        return [CompaniesStore, DriversStore];
-    }
-
-    static getPropsFromStores() {
-        return {
-            companies: CompaniesStore.getCompanies(),      
-            drivers: DriversStore.getDrivers(),     
-        }
-    }
-
-    componentWillMount() {
-        const { params: { companyId } } = this.props;
-        CompaniesActions.loadCompanies();
-        DriversActions.loadDrivers(companyId);
+		}
     }
 
     handleChange = name => event => {
-        const { target: { value }} = event;     
+        const { target: { value }} = event; 
         const { localService } = this.state;
         const newService = merge(localService, { [name]: value });
         this.setState({ localService: newService });
@@ -93,11 +75,11 @@ class CreateServiceContainer extends Component {
 
     handleSaveButtonClick = () => {
         const { localService } = this.state;   
-        ServicesActions.createService(localService);
+        //ServicesActions.createService(localService);
     }
 
     render() {      
-        const { classes, companies, drivers } = this.props;
+        const { classes } = this.props;
         const { localService } = this.state;
     
         return (
@@ -109,11 +91,23 @@ class CreateServiceContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="VIN"
-                        label="VIN"
-                        placeholder="Enter Service`s VIN"
+                        id="name"
+                        label="Name"
+                        placeholder="Enter service`s name"
                         className={classes.textField}          
-                        onChange={this.handleChange('VIN')}
+                        onChange={this.handleChange('name')}
+                        margin="normal"
+                    />
+                    <TextField
+                        fullWidth
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="description"
+                        label="Description"
+                        placeholder="Enter service`s description"
+                        className={classes.textField}          
+                        onChange={this.handleChange('description')}
                         margin="normal"
                     />
                     <TextField
@@ -122,24 +116,11 @@ class CreateServiceContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="plateNumber"
-                        label="Plate Number"
-                        placeholder="Enter Service`s plate number"
-                        className={classes.textField}          
-                        onChange={this.handleChange('plateNumber')}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        id="type"
-                        label="Type"
-                        placeholder="Enter Service`s type"
+                        id="mileageRule"
+                        label="Mileage Rule"
+                        placeholder="Enter service`s mileage rule"
                         className={classes.textField}         
-                        onChange={this.handleChange('type')}
+                        onChange={this.handleChange('mileageRule')}
                         margin="normal"
                     />
                      <TextField
@@ -148,35 +129,59 @@ class CreateServiceContainer extends Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="brand"
-                        label="Brand"
-                        placeholder="Enter Service`s brand"
+                        id="mileageReminder"
+                        label="Mileage Reminder"
+                        placeholder="Enter service`s mileage reminder"
                         className={classes.textField}         
-                        onChange={this.handleChange('brand')}
+                        onChange={this.handleChange('mileageReminder')}
                         margin="normal"
                     />
                     <TextField
+                        required
                         fullWidth
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        id="model"
-                        label="Model"
-                        placeholder="Enter Service`s model"
+                        id="timeRule"
+                        label="Time Rule"
+                        placeholder="Enter service`s time rule"
                         className={classes.textField}         
-                        onChange={this.handleChange('model')}
+                        onChange={this.handleChange('timeRule')}
                         margin="normal"
                     />
                     <FormControl className={classes.formControl} >
-                        <InputLabel shrink>Select driver</InputLabel>
                         <Select
                             displayEmpty
-                            value={localService.driverId}
-                            onChange={this.handleChange('driverId')}
-                        >
-                            {drivers.map(driver => (
-                                <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
-                            ))}
+                            value={localService.timeRuleEntity}
+                            onChange={this.handleChange('timeRuleEntity')}
+                        >  
+                            <MenuItem key={1} value={1}>Days</MenuItem>
+                            <MenuItem key={2} value={2}>Months</MenuItem>
+                            <MenuItem key={3} value={3}>Years</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        required
+                        fullWidth
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="timeReminder"
+                        label="Time Reminder"
+                        placeholder="Enter service`s time reminder"
+                        className={classes.textField}         
+                        onChange={this.handleChange('timeReminder')}
+                        margin="normal"
+                    />
+                    <FormControl className={classes.formControl} >
+                        <Select
+                            displayEmpty
+                            value={localService.timeReminderEntity}
+                            onChange={this.handleChange('timeReminderEntity')}
+                        >  
+                            <MenuItem key={1} value={1}>Days</MenuItem>
+                            <MenuItem key={2} value={2}>Months</MenuItem>
+                            <MenuItem key={3} value={3}>Years</MenuItem>
                         </Select>
                     </FormControl>
                 </div>
@@ -206,4 +211,4 @@ CreateServiceContainer.defaultProps = {
    companies: Immutable.List(),
 };
 
-export default withStyles(styles)(connectToStores(CreateServiceContainer));
+export default withStyles(styles)(CreateServiceContainer);

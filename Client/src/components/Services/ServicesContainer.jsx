@@ -134,11 +134,11 @@ class ServicesContainer extends Component {
                                 <TableCell>{service.NextServiceMileage}</TableCell>
                                 <TableCell>{service.MileageReminder}</TableCell>
                                 <TableCell>
-                                {service.TimeRuleEntity === 1 ? `${service.TimeRule} Days` : service.TimeRuleEntity === 2 ? `${service.TimeRule} Months` : `${service.TimeRule} Years`}
+                                {service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`}
                                 </TableCell>
                                 <TableCell>{service.NextServiceTime}</TableCell>
                                 <TableCell>
-                                {service.TimeReminderEntity === 1 ? `${service.TimeReminder} Days` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} Months` : `${service.TimeReminder} Years`}
+                                {service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`}
                                 </TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
                                 <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
