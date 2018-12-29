@@ -32,7 +32,6 @@ class EditServiceContainer extends Component {
                 Name: '',
                 Description: '',
                 VehicleId: vehicleId,
-                BasedOn: '',
                 MileageRule: 0,
                 MileageReminder: 0,
                 TimeRule: 0,
