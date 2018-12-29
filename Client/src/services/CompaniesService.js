@@ -20,7 +20,7 @@ class CompaniesService {
         logout();
     }
 
-    static async createCompany(company){
+    static async createCompany(company) {
         if(isLoggedIn()){
             return await axios.post('http://localhost:19631/api/companies', company);
         }
@@ -28,7 +28,7 @@ class CompaniesService {
          logout();
     }
 
-     static async editCompany(company){
+     static async editCompany(company) {
         if(isLoggedIn()){
             return await axios.put(`http://localhost:19631/api/companies/${company.get('Id')}`, company.toJS());
         }
@@ -36,7 +36,7 @@ class CompaniesService {
          logout();
     }
 
-    static async deleteCompany(companyId){
+    static async deleteCompany(companyId) {
         if(isLoggedIn()){
             return await axios.delete(`http://localhost:19631/api/deleteCompany/${companyId}`);
         }

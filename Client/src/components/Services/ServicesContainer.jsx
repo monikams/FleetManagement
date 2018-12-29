@@ -81,7 +81,7 @@ class ServicesContainer extends Component {
 
     handleDeleteClick(serviceId) {
         const { params: { vehicleId } } = this.props;
-       // ServicesActions.deleteDriver(driverId, companyId);
+        ServicesActions.deleteService(vehicleId, serviceId);
     };
 
     handleCreateServiceClick = () => {

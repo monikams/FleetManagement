@@ -45,12 +45,24 @@ class ServicesActions {
         }
     }
 
-    editService(service, companyId){
+    editService(service, companyId) {
         return (dispatch) => {
             ServicesService.editService(service)
             .then((response) => {
                 this.loadServices(service.get('VehicleId'));
                 window.location.href = `${baseURL}/companies/${companyId}/vehicles/${service.get('VehicleId')}`;                   
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
+    deleteService(vehicleId, serviceId) {
+        return (dispatch) => {
+            ServicesService.deleteService(serviceId)
+            .then((response) => {
+                this.loadServices(vehicleId);                   
             })
             .catch((error) => {
                 console.log(error);

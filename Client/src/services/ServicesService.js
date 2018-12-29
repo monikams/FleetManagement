@@ -27,9 +27,17 @@ class ServicesService {
          logout();
     }
 
-    static async editService(service){
+    static async editService(service) {
         if(isLoggedIn()) {
             return await axios.put(`http://localhost:19631/api/services/${service.get('Id')}`, service.toJS());
+        }
+
+         logout();
+    }
+
+    static async deleteService(serviceId) {
+        if(isLoggedIn()){
+            return await axios.delete(`http://localhost:19631/api/deleteService/${serviceId}`);
         }
 
          logout();
