@@ -20,6 +20,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
+import moment from 'moment';
 
 const styles = theme => ({
   root: {
@@ -136,7 +137,7 @@ class ServicesContainer extends Component {
                                 <TableCell>
                                 {service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`}
                                 </TableCell>
-                                <TableCell>{service.NextServiceTime}</TableCell>
+                                <TableCell>{moment(service.NextServiceTime).format('DD/MM/YYYY')}</TableCell>
                                 <TableCell>
                                 {service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`}
                                 </TableCell>
