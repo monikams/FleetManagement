@@ -13,10 +13,11 @@ INSERT INTO dbo.Services
    MileageReminder,
    NextServiceMileage,
    VehicleId,
+   BasedOn
 )
 VALUES
 (
-    'f86655ed-c121-4f80-bd67-5bb57fa52cdc', -- Id - nvarchar
+    'r26655ed-c121-4f80-bd67-5bb57fa52cdc', -- Id - nvarchar
     'Fuel change', -- Name - nvarchar
     'Some description', -- Description - nvarchar
 
@@ -31,5 +32,6 @@ VALUES
 	25000, -- MileageReminder - int
     150000, -- NextServiceMileage - datetimeoffset
        
-    '00bf2ce9-6fcf-4586-b768-e7ee082b32b4' -- VehicleId - nvarchar
+    '00bf2ce9-6fcf-4586-b768-e7ee082b32b4', -- VehicleId - nvarchar
+	0
 )

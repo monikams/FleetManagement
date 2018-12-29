@@ -13,6 +13,8 @@
 
         Task<Service> PostService(PostService service);
 
+        Task DeleteService(string serviceId);
+
         Task<Service> EditService(EditService serviceForEdit);
     }
 }

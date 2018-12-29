@@ -14,5 +14,7 @@
         Task<Service> PostService(PostService service);
 
         Task<Service> EditService(EditService serviceForEdit);
+
+        Task DeleteService(string serviceId);
     }
 }

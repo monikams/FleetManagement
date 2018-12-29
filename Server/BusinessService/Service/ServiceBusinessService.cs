@@ -60,6 +60,11 @@
             return mappedService;
         }
 
+        public async Task DeleteService(string serviceId)
+        {
+            await this._serviceDataAccessService.DeleteService(serviceId);
+        }
+
         public async Task<Service> EditService(EditService serviceForEdit)
         {
             var editedService = await this._serviceDataAccessService.EditService(this._mapper.Map<DataAccessService.Models.EditService>(serviceForEdit));

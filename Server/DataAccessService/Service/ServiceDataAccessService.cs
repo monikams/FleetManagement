@@ -92,5 +92,15 @@
 
             return this._mapper.Map<Data.Models.Service, Service>(service);
         }
+
+        public async Task DeleteService(string serviceId)
+        {
+            var service = this._context.Services.FirstOrDefault(x => x.Id == serviceId);
+            if (service != null)
+            {
+                this._context.Services.Remove(service);
+                await this._context.SaveChangesAsync();
+            }
+        }
     }
 }

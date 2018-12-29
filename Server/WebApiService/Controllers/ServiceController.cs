@@ -103,5 +103,24 @@
 
             return this.Ok(apiService);
         }
+
+        [Route("deleteService/{serviceId}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteService([FromUri] string serviceId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var service = await this._serviceBusinessService.GetById(serviceId);
+            if (service == null)
+            {
+                return this.BadRequest();
+            }
+
+            await this._serviceBusinessService.DeleteService(serviceId);
+            return this.Ok();
+        }
     }
 }
