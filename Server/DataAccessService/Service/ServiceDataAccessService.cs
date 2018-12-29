@@ -34,6 +34,7 @@
                             cfg.CreateMap<Service, Data.Models.Service>().ReverseMap();
                             cfg.CreateMap<Data.Models.Service, Service>().ReverseMap();
                             cfg.CreateMap<EditService, Data.Models.Service>().ReverseMap();
+                            cfg.CreateMap<PostService, Data.Models.Service>().ReverseMap();
                         });
             this._mapper = new Mapper(this._config);
         }
