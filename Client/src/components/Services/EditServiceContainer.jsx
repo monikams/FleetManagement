@@ -98,6 +98,25 @@ class EditServiceContainer extends Component {
         this.setState({ localService: updatedService });
     };
 
+    handleRadioButtonChange = (name, event) => {
+        const { target: { value }} = event; 
+        const { localService } = this.state;
+        const updatedService = Immutable.Map({ 
+            Id: localService.get('Id'),
+            Name: localService.get('Name'), 
+            VehicleId: localService.get('VehicleId'),
+            BasedOn: value,
+            MileageRule: '',
+            MileageReminder: '',
+            TimeRule: '',
+            TimeRuleEntity: 1,
+            TimeReminder: '',
+            TimeReminderEntity: 1,
+        });
+        this.setState({ localService: updatedService });
+    };
+
+
     render() {      
         const { service, classes } = this.props;
         const { localService } = this.state;
@@ -108,6 +127,7 @@ class EditServiceContainer extends Component {
                     service={localService}
                     onSaveButtonClick={this.handleSaveButtonClick}
                     onChange={this.handleChange}
+                    onRadioButtonChange={this.handleRadioButtonChange}
                 />
             </div>    
         );

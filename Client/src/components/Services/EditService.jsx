@@ -58,6 +58,10 @@ class EditService extends Component {
         this.props.onChange(name, event);
     }
 
+    handleRadioButtonChange = name => event => {
+        this.props.onRadioButtonChange(name, event);
+    }
+
     render() {      
         const { classes, service, onSaveButtonClick, onRadioButtonChange } = this.props;
 
@@ -94,8 +98,8 @@ class EditService extends Component {
                     <div className={classes.textField} >
                         <p className={classes.radioButtonsLabel} >Select time-based or mileage-based notifications *</p>
                         <div>
-                            <FormControlLabel value="0" onChange={this.handleChange('BasedOn')} checked={service.get('BasedOn') == 0} control={<Radio />} label="Time" />
-                            <FormControlLabel value="1" onChange={this.handleChange('BasedOn')} checked={service.get('BasedOn') == 1} control={<Radio />} label="Mileage" />
+                            <FormControlLabel value="0" onChange={this.handleRadioButtonChange('BasedOn')} checked={service.get('BasedOn') == 0} control={<Radio />} label="Time" />
+                            <FormControlLabel value="1" onChange={this.handleRadioButtonChange('BasedOn')} checked={service.get('BasedOn') == 1} control={<Radio />} label="Mileage" />
                         </div>
                     </div>
                     {service.get('BasedOn') == 1 &&
@@ -208,6 +212,7 @@ EditService.propTypes = {
     classes: PropTypes.object.isRequired,
     service: PropTypes.instanceOf(Immutable.Map),
     onChange: PropTypes.func.isRequired,
+    onRadioButtonChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
 };
 
