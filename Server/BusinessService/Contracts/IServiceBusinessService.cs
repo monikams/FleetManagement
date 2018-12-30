@@ -16,5 +16,7 @@
         Task DeleteService(string serviceId);
 
         Task<Service> EditService(EditService serviceForEdit);
+
+        Task<Service> MarkServiceAsDone(Service service);
     }
 }

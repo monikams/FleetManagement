@@ -18,6 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import CheckCircle from '@material-ui/icons/CheckCircle';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
 import moment from 'moment';
@@ -42,6 +43,9 @@ const styles = theme => ({
   },
   vehicleInfoLabel: {
 	fontWeight: 'bold',
+  },
+  checkCircle: {
+      fill: 'green',
   }
 });
 
@@ -75,6 +79,10 @@ class ServicesContainer extends Component {
     }
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+
+    handleMarkAsDone(serviceId) {
+        ServicesActions.markServiceAsDone(serviceId);
+    }
 
     handleEditClick(serviceId) {
         const { params: { companyId, vehicleId } } = this.props;
@@ -112,38 +120,40 @@ class ServicesContainer extends Component {
                     <Table className={classes.table}>
                         <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Mileage Rule</TableCell>
-                            <TableCell>Next Service Mileage</TableCell>
-                            <TableCell>Mileage Reminder</TableCell>
-                            <TableCell>Time Rule</TableCell>
-                            <TableCell>Next Service Time</TableCell>
-                            <TableCell>Time Reminder</TableCell>
-                            <TableCell>Edit</TableCell>
-                            <TableCell>Delete</TableCell>
+                            <TableCell padding="dense" >Name</TableCell>
+                            <TableCell padding="dense">Description</TableCell>
+                            <TableCell padding="dense">Mileage Rule</TableCell>
+                            <TableCell padding="dense">Next Service Mileage</TableCell>
+                            <TableCell padding="dense">Mileage Reminder</TableCell>
+                            <TableCell padding="dense">Time Rule</TableCell>
+                            <TableCell padding="dense">Next Service Time</TableCell>
+                            <TableCell padding="dense">Time Reminder</TableCell>
+                            <TableCell padding="dense">Mark as done</TableCell>
+                            <TableCell padding="dense">Edit</TableCell>
+                            <TableCell padding="dense">Delete</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
                         {services.map(service => {
                             return (
                             <TableRow key={service.Id}>
-                                <TableCell component="th" scope="row">
+                                <TableCell component="th" scope="row" padding="dense" >
                                 {service.Name}
                                 </TableCell>
-                                <TableCell>{!isNull(service.Description) && service.Description}</TableCell>
-                                <TableCell>{!isNull(service.MileageRule) && service.MileageRule}</TableCell>
-                                <TableCell>{!isNull(service.NextServiceMileage) && service.NextServiceMileage}</TableCell>
-                                <TableCell>{!isNull(service.MileageReminder) && service.MileageReminder}</TableCell>
-                                <TableCell>
-                                {!isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`)}
+                                <TableCell padding="dense" >{!isNull(service.Description) && service.Description}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageRule) && service.MileageRule}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.NextServiceMileage) && service.NextServiceMileage}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageReminder) && service.MileageReminder}</TableCell>
+                                <TableCell padding="dense" >
+                                {service.BasedOn === 0 && !isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`)}
                                 </TableCell>
-                                <TableCell>{!isNull(service.NextServiceTime) && moment(service.NextServiceTime).format('DD/MM/YYYY')}</TableCell>
-                                <TableCell>
-                                {!isNull(service.TimeReminder) && (service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`)}
+                                <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceTime) && moment(service.NextServiceTime).format('DD/MM/YYYY')}</TableCell>
+                                <TableCell padding="dense" >
+                                {service.BasedOn === 0 && !isNull(service.TimeReminder) && (service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`)}
                                 </TableCell>
-                                <TableCell><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
-                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
+                                <TableCell padding="dense" ><CheckCircle className={classes.checkCircle} onClick={() => this.handleMarkAsDone(service.Id)}/></TableCell>
+                                <TableCell padding="dense" ><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
+                                <TableCell padding="dense" ><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}

@@ -70,5 +70,11 @@
             var editedService = await this._serviceDataAccessService.EditService(this._mapper.Map<DataAccessService.Models.EditService>(serviceForEdit));
             return _mapper.Map<Service>(editedService);
         }
+
+        public async Task<Service> MarkServiceAsDone(Service service)
+        {
+            var doneService = await this._serviceDataAccessService.MarkServiceAsDone(this._mapper.Map<DataAccessService.Models.Service>(service));
+            return _mapper.Map<Service>(doneService);
+        }
     }
 }

@@ -42,6 +42,14 @@ class ServicesService {
 
          logout();
     }
+
+    static async markServiceAsDone(serviceId) {
+        if(isLoggedIn()) {
+            return await axios.put(`http://localhost:19631/api/services/markAsDone/${serviceId}`);
+        }
+
+         logout();
+    }
 }
 
 export default ServicesService;

@@ -104,6 +104,27 @@
             return this.Ok(apiService);
         }
 
+        [Route("services/markAsDone/{serviceId}")]
+        [HttpPut]
+        public async Task<IHttpActionResult> MarkServiceAsDone([FromUri] string serviceId)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var service = await this._serviceBusinessService.GetById(serviceId);
+            if (service == null)
+            {
+                return this.BadRequest();
+            }
+
+            var editedService = await this._serviceBusinessService.MarkServiceAsDone(service);
+            var apiService = this._mapper.Map<EditService>(editedService);
+
+            return this.Ok(apiService);
+        }
+
         [Route("deleteService/{serviceId}")]
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteService([FromUri] string serviceId)

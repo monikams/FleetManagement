@@ -1,4 +1,6 @@
-﻿namespace DataAccessService.Service
+﻿using System;
+
+namespace DataAccessService.Service
 {
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -92,6 +94,20 @@
             await _context.SaveChangesAsync();
 
             return this._mapper.Map<Data.Models.Service, Service>(service);
+        }
+
+        public async Task<Service> MarkServiceAsDone(Service service)
+        {
+            if (service.BasedOn == 0)
+            {
+                var currentTime = await _context.Database.SqlQuery<DateTime>("SELECT GETUTCDATE()").FirstOrDefaultAsync();
+                var newCreatedTime = new DateTimeOffset(new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second, DateTimeKind.Utc));
+                service.Created = newCreatedTime;
+            }
+            else
+            {
+
+            }
         }
 
         public async Task DeleteService(string serviceId)

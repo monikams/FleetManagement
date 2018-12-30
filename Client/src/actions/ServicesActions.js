@@ -69,6 +69,18 @@ class ServicesActions {
             });
         }
     }
+
+    markServiceAsDone(serviceId) {
+        return (dispatch) => {
+            ServicesService.markServiceAsDone(serviceId)
+            .then((response) => {
+               // Do nothing in the UI                 
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
 }
 
 export default alt.createActions(ServicesActions);
