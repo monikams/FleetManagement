@@ -21,6 +21,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
 import moment from 'moment';
+import isNull from 'lodash/isNull';
 
 const styles = theme => ({
   root: {
@@ -130,16 +131,16 @@ class ServicesContainer extends Component {
                                 <TableCell component="th" scope="row">
                                 {service.Name}
                                 </TableCell>
-                                <TableCell>{service.Description}</TableCell>
-                                <TableCell>{service.MileageRule}</TableCell>
-                                <TableCell>{service.NextServiceMileage}</TableCell>
-                                <TableCell>{service.MileageReminder}</TableCell>
+                                <TableCell>{!isNull(service.Description) && service.Description}</TableCell>
+                                <TableCell>{!isNull(service.MileageRule) && service.MileageRule}</TableCell>
+                                <TableCell>{!isNull(service.NextServiceMileage) && service.NextServiceMileage}</TableCell>
+                                <TableCell>{!isNull(service.MileageReminder) && service.MileageReminder}</TableCell>
                                 <TableCell>
-                                {service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`}
+                                {!isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`)}
                                 </TableCell>
-                                <TableCell>{moment(service.NextServiceTime).format('DD/MM/YYYY')}</TableCell>
+                                <TableCell>{!isNull(service.NextServiceTime) && moment(service.NextServiceTime).format('DD/MM/YYYY')}</TableCell>
                                 <TableCell>
-                                {service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`}
+                                {!isNull(service.TimeReminder) && (service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`)}
                                 </TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
                                 <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
