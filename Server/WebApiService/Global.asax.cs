@@ -6,7 +6,7 @@
     using System.Web.Optimization;
     using System.Web.Routing;
 
-    using WebApiService.Infrastructure.JobScheduler;
+    using Infrastructure.JobScheduler;
 
     public class WebApiApplication : HttpApplication
     {

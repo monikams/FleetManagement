@@ -120,9 +120,6 @@
       <HintPath>..\packages\Microsoft.Spatial.7.5.0\lib\portable-net45+win8+wpa81\Microsoft.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -303,8 +300,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\JobScheduler\JobScheduler.cs" />
-    <Compile Include="Infrastructure\JobScheduler\Jobs\SeedTelematicsJob.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\TelematicsData.cs" />
@@ -398,6 +393,10 @@
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{26f22161-4af4-49cd-b441-5f43a3ebc8ad}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{41CF0F1C-5A78-43D7-9D16-F8437394A774}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,4 @@
-﻿namespace WebApiService.Infrastructure.JobScheduler.Jobs
+﻿namespace Infrastructure.JobScheduler.Jobs
 {
     using System;
     using System.Threading.Tasks;

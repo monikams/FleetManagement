@@ -1,11 +1,11 @@
-﻿namespace WebApiService.Infrastructure.JobScheduler
+﻿namespace Infrastructure.JobScheduler
 {
     using System.Collections.Generic;
 
+    using Infrastructure.JobScheduler.Jobs;
+
     using Quartz;
     using Quartz.Impl;
-
-    using WebApiService.Infrastructure.JobScheduler.Jobs;
 
     public static class JobScheduler
     {
@@ -26,7 +26,7 @@
                                                 {
                                                     TriggerBuilder
                                                         .Create().WithDailyTimeIntervalSchedule(
-                                                            s => s.WithIntervalInMinutes(20).OnEveryDay()
+                                                            s => s.WithIntervalInMinutes(1).OnEveryDay()
                                                                   .StartingDailyAt(
                                                                       TimeOfDay.HourAndMinuteOfDay(
                                                                           0,
