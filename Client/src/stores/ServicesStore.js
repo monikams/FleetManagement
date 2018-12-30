@@ -2,6 +2,7 @@ import alt from '../alt.js';
 import ServicesActions from '../actions/ServicesActions.js'
 import Immutable from 'immutable';
 import ImmutableUtil from 'alt-utils/lib/ImmutableUtil.js';
+import moment from 'moment';
 
 class ServicesStore {
     constructor() {
@@ -25,8 +26,14 @@ class ServicesStore {
         });
     }
 
-    loadServices(services) {
-        this.setState(this.state.set('services', Immutable.List(services)));
+    loadServices({ data: services, filterByOverdue }) {
+        if (filterByOverdue === true) {
+            const currentDate = moment().format('X');       
+            const overdueServices = services.filter(service => currentDate > moment(service.NextServiceTime).format('X'));
+            this.setState(this.state.set('services', Immutable.List(overdueServices)));
+        } else {
+            this.setState(this.state.set('services', Immutable.List(services)));
+        }
     }
 
     loadService(service) {

@@ -28,7 +28,8 @@ const styles = theme => ({
     minWidth: 700,
   },
   button: {
-      marginTop: '15px', 
+      marginTop: '15px',
+      height: '40px', 
   },
   container: {
       margin: '30px 40px 30px 40px',
@@ -82,7 +83,7 @@ class CompaniesContainer extends Component {
                     color="primary" 
                     className={classes.button}
                     onClick={this.handleCreateCompanyClick}
-                    id='loginButton'
+                    id='createCompanyButton'
                 >
                     Create company
                 </Button>

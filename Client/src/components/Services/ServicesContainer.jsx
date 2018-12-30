@@ -35,7 +35,13 @@ const styles = theme => ({
     minWidth: 700,
   },
   button: {
-      marginTop: '15px', 
+      marginTop: '15px',
+      height: '40px', 
+  },
+  buttons: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      width: '400px',
   },
   vehicleInfo: {
 	fontSize: '18px',
@@ -99,6 +105,11 @@ class ServicesContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/vehicles/${vehicleId}/createService`);
     };
 
+    handleOverdueServicesClick = () => {
+       const { params: { vehicleId }, services } = this.props;
+       ServicesActions.loadServices(vehicleId, true);
+    }
+
     render() {      
         const { services, vehicle, classes } = this.props;
         
@@ -106,16 +117,28 @@ class ServicesContainer extends Component {
             <div>
                 <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Model: </span>{vehicle.get('Model')}</p>
                 <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate Number: </span>{vehicle.get('PlateNumber')}</p>
-                <Button 
-                    variant="contained" 
-                    size="large" 
-                    color="primary" 
-                    className={classes.button}
-                    onClick={this.handleCreateServiceClick}
-                    id='loginButton'
-                >
-                    Create service
-                </Button>
+                <div className={classes.buttons} >
+                    <Button 
+                        variant="contained" 
+                        size="large" 
+                        color="primary" 
+                        className={classes.button}
+                        onClick={this.handleCreateServiceClick}
+                        id='createServiceButton'
+                    >
+                        Create service
+                    </Button>
+                    <Button 
+                        variant="contained" 
+                        size="large" 
+                        color="secondary" 
+                        className={classes.button}
+                        onClick={this.handleOverdueServicesClick}
+                        id='overdueSericesButton'
+                    >
+                        Overdue services
+                    </Button>
+                </div>
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>

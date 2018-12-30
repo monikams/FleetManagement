@@ -28,7 +28,8 @@ const styles = theme => ({
     minWidth: 700,
   },
   button: {
-      marginTop: '15px', 
+      marginTop: '15px',
+      height: '40px', 
   }
 });
 
@@ -85,7 +86,7 @@ class DriversContainer extends Component {
                     color="primary" 
                     className={classes.button}
                     onClick={this.handleCreateDriverClick}
-                    id='loginButton'
+                    id='createDriverButton'
                 >
                     Create driver
                 </Button>

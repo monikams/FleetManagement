@@ -8,11 +8,11 @@ class ServicesActions {
     this.generateActions('unloadService');
   }
 
-    loadServices(vehicleId) {
+    loadServices(vehicleId, filterByOverdue = false) {
         return (dispatch) => {
              ServicesService.getServices(vehicleId)
-            .then((response) => {    
-                dispatch(response.data);
+            .then((response) => {
+                dispatch({ data: response.data, filterByOverdue });
             })
             .catch((error) => {
                console.log(error);

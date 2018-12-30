@@ -33,7 +33,8 @@ const styles = theme => ({
     minWidth: 700,
   },
   button: {
-      marginTop: '15px', 
+      marginTop: '15px',
+      height: '40px', 
   }
 });
 
@@ -101,7 +102,7 @@ class VehiclesContainer extends Component {
                     color="primary" 
                     className={classes.button}
                     onClick={this.handleCreateVehicleClick}
-                    id='loginButton'
+                    id='createVehicleButton'
                 >
                     Create vehicle
                 </Button>
