@@ -20,6 +20,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router';
 import moment from 'moment';
 import isNull from 'lodash/isNull';
@@ -51,14 +53,20 @@ const styles = theme => ({
 	fontWeight: 'bold',
   },
   checkCircle: {
-      fill: 'green',
-  }
+    fill: 'green',
+  },
+  checkbox: {
+    marginTop: '10px',
+  },
 });
 
 class ServicesContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            overdueServicesSelected: false,
+        }
     }
 
     static getStores() {
@@ -107,11 +115,13 @@ class ServicesContainer extends Component {
 
     handleOverdueServicesClick = () => {
        const { params: { vehicleId }, services } = this.props;
-       ServicesActions.loadServices(vehicleId, true);
+       this.setState({ overdueServicesSelected: !this.state.overdueServicesSelected })
+       ServicesActions.loadServices(vehicleId, !this.state.overdueServicesSelected);
     }
 
     render() {      
         const { services, vehicle, classes } = this.props;
+        const { overdueServicesSelected } = this.state;
         
         return (
             <div>
@@ -128,16 +138,18 @@ class ServicesContainer extends Component {
                     >
                         Create service
                     </Button>
-                    <Button 
-                        variant="contained" 
-                        size="large" 
-                        color="secondary" 
-                        className={classes.button}
-                        onClick={this.handleOverdueServicesClick}
-                        id='overdueSericesButton'
-                    >
-                        Overdue services
-                    </Button>
+                    <FormControlLabel
+                        className={classes.checkbox}
+                        control={
+                            <Checkbox
+                                label="Overdue services"
+                                checked={overdueServicesSelected}
+                                onClick={this.handleOverdueServicesClick}
+                                value={overdueServicesSelected}
+                            />
+                        }
+                       label="Overdue services"
+                    />
                 </div>
                 <Paper className={classes.root}>
                     <Table className={classes.table}>

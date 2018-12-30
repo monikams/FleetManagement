@@ -4,8 +4,8 @@ import { Router, IndexRoute , Route, browserHistory } from 'react-router';
 
 import Home from './components/Home.jsx';
 import PreviewCompany from './components/PreviewCompany/PreviewCompany.jsx';
-import PreviewVehicle from './components/PreviewVehicle/PreviewVehicle.jsx';
-import PreviewService from './components/PreviewService/PreviewService.jsx';
+import PreviewVehicles from './components/PreviewVehicles/PreviewVehicles.jsx';
+import PreviewServices from './components/PreviewServices/PreviewServices.jsx';
 
 import AuthorizationContainer from './components/Authorization/AuthorizationContainer.jsx';
 import RegistrationContainer from './components/Authorization/RegistrationContainer.jsx';
@@ -45,9 +45,9 @@ class App extends Component {
                             <Route path='editDriver/:driverId' component={EditDriverContainer} />                    
                             <Route path='createVehicle' component={CreateVehicleContainer} />
                             <Route path='editVehicle/:vehicleId' component={EditVehicleContainer} />
-                            <Route path='vehicles' component={PreviewVehicle} >
+                            <Route path='vehicles' component={PreviewVehicles} >
                                 <IndexRoute component={VehiclesContainer} />
-                                <Route path=':vehicleId' component={PreviewService} >
+                                <Route path=':vehicleId' component={PreviewServices} >
                                     <IndexRoute component={ServicesContainer} />
                                     <Route path='createService' component={CreateServiceContainer} />
                                     <Route path='editService/:serviceId' component={EditServiceContainer} />
