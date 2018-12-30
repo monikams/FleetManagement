@@ -36,7 +36,7 @@ namespace Infrastructure.Helpers
                 if (mileage != null)
                 {
                     service.NextServiceMileage = CalculateNextServiceMileage(service, mileage.Mileage);
-                    service.NextServiceReminderMileage = CalculateNextServiceReminderMileage(service, mileage.Mileage);
+                    service.NextServiceReminderMileage = CalculateNextServiceReminderMileage(service, service.NextServiceMileage);
                 }
             }
 
@@ -110,9 +110,9 @@ namespace Infrastructure.Helpers
             return nextServiceMileage;
         }
 
-        public static int? CalculateNextServiceReminderMileage(Service service, int? mileage)
+        public static int? CalculateNextServiceReminderMileage(Service service, int? nextServiceMileage)
         {
-            var nextServiceReminderMileage = mileage + service.MileageReminder;
+            var nextServiceReminderMileage = nextServiceMileage - service.MileageReminder;
             return nextServiceReminderMileage;
         }
     }

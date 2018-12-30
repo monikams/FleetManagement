@@ -29,6 +29,8 @@
 
         public DateTimeOffset? NextServiceTime { get; set; }
 
+        public DateTimeOffset? NextServiceReminderTime { get; set; }
+
         // Mileage related properties
         public int? MileageRule { get; set; }
 
@@ -36,12 +38,10 @@
 
         public int? NextServiceMileage { get; set; }
 
+        public int? NextServiceReminderMileage { get; set; }
+
         [Required] public string VehicleId { get; set; }
 
-        public virtual Vehicle Vehicle { get; set; }
-
-        public DateTimeOffset? NextServiceReminderTime { get; set; }
-
-        public int? NextServiceReminderMileage { get; set; }
+        public virtual Vehicle Vehicle { get; set; }        
     }
 }

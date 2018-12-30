@@ -70,6 +70,7 @@ namespace DataAccessService.Service
 
             this._context.Services.Add(newService);
             await this._context.SaveChangesAsync();
+            await NextServiceCalculation.CalculateNextService(newService.Id, _context);
 
             var mappedService = this._mapper.Map<Data.Models.Service, Service>(newService);
             return mappedService;
