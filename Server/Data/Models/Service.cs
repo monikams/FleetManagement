@@ -39,5 +39,9 @@
         [Required] public string VehicleId { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }
+
+        public DateTimeOffset? NextServiceReminderTime { get; set; }
+
+        public int? NextServiceReminderMileage { get; set; }
     }
 }

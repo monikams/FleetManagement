@@ -1,4 +1,5 @@
 ﻿using System;
+using Infrastructure.Helpers;
 
 namespace DataAccessService.Service
 {
@@ -90,24 +91,17 @@ namespace DataAccessService.Service
             service.TimeReminderEntity = serviceForEdit.TimeReminderEntity;
             service.TimeRule = serviceForEdit.TimeRule;
             service.TimeRuleEntity = serviceForEdit.TimeRuleEntity;
+            service.BasedOn = serviceForEdit.BasedOn;
 
             await _context.SaveChangesAsync();
+            await NextServiceCalculation.CalculateNextService(service.Id, _context);
 
             return this._mapper.Map<Data.Models.Service, Service>(service);
         }
 
-        public async Task<Service> MarkServiceAsDone(Service service)
+        public async Task MarkServiceAsDone(string serviceId)
         {
-            if (service.BasedOn == 0)
-            {
-                var currentTime = await _context.Database.SqlQuery<DateTime>("SELECT GETUTCDATE()").FirstOrDefaultAsync();
-                var newCreatedTime = new DateTimeOffset(new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second, DateTimeKind.Utc));
-                service.Created = newCreatedTime;
-            }
-            else
-            {
-
-            }
+            await NextServiceCalculation.CalculateNextService(serviceId, _context);
         }
 
         public async Task DeleteService(string serviceId)

@@ -119,10 +119,8 @@
                 return this.BadRequest();
             }
 
-            var editedService = await this._serviceBusinessService.MarkServiceAsDone(service);
-            var apiService = this._mapper.Map<EditService>(editedService);
-
-            return this.Ok(apiService);
+            await this._serviceBusinessService.MarkServiceAsDone(serviceId);
+            return this.Ok();
         }
 
         [Route("deleteService/{serviceId}")]

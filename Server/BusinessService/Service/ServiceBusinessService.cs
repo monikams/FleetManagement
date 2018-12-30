@@ -71,10 +71,9 @@
             return _mapper.Map<Service>(editedService);
         }
 
-        public async Task<Service> MarkServiceAsDone(Service service)
+        public async Task MarkServiceAsDone(string serviceId)
         {
-            var doneService = await this._serviceDataAccessService.MarkServiceAsDone(this._mapper.Map<DataAccessService.Models.Service>(service));
-            return _mapper.Map<Service>(doneService);
+            await this._serviceDataAccessService.MarkServiceAsDone(serviceId);
         }
     }
 }

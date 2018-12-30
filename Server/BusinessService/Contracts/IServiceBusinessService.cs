@@ -17,6 +17,6 @@
 
         Task<Service> EditService(EditService serviceForEdit);
 
-        Task<Service> MarkServiceAsDone(Service service);
+        Task MarkServiceAsDone(string serviceId);
     }
 }

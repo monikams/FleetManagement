@@ -17,6 +17,6 @@
 
         Task DeleteService(string serviceId);
 
-        Task<Service> MarkServiceAsDone(Service service);
+        Task MarkServiceAsDone(string serviceId);
     }
 }
