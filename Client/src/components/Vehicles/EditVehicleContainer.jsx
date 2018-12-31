@@ -78,8 +78,15 @@ class EditVehicleContainer extends Component {
 
     handleChange = (name, event) => {
         const { target: { value }} = event;  
-        const { localVehicle } = this.state;   
-        const updatedVehicle = localVehicle.update(name, oldValue => value);
+        const { localVehicle } = this.state;
+
+        let updatedVehicle;
+        if (value === 'withoutDriver') {
+            updatedVehicle = localVehicle.update(name, oldValue => '');
+        } else {
+            updatedVehicle = localVehicle.update(name, oldValue => value);
+        }
+        
         this.setState({ localVehicle: updatedVehicle });
     };
     

@@ -49,7 +49,7 @@ const styles = theme => ({
 
 class EditVehicle extends Component {
 
-    handleChange = name => event => { 
+    handleChange = name => event => {
         this.props.onChange(name, event);
     }
 
@@ -62,6 +62,7 @@ class EditVehicle extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -75,6 +76,7 @@ class EditVehicle extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -88,6 +90,7 @@ class EditVehicle extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -101,6 +104,7 @@ class EditVehicle extends Component {
                      <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -113,6 +117,7 @@ class EditVehicle extends Component {
                     />
                     <TextField
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}

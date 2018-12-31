@@ -138,6 +138,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
+                            autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -151,6 +152,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
+                            autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -164,6 +166,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
+                            autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -176,6 +179,7 @@ class CreateCompanyContainer extends Component {
                         />
                         <TextField
                             fullWidth
+                            autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -190,6 +194,7 @@ class CreateCompanyContainer extends Component {
                             <InputLabel shrink>Allow access to users</InputLabel>
                             <Select
                                 fullWidth
+                                autoComplete="off"
                                 className={classes.select}
                                 value={subscribers}
                                 input={<Input id="select-multiple-chip" />}

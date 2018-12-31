@@ -72,6 +72,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -85,6 +86,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -98,6 +100,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -110,6 +113,7 @@ class CreateDriverContainer extends Component {
                     />
                      <TextField
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}

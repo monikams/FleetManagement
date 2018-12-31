@@ -52,6 +52,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -66,6 +67,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -80,6 +82,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -93,6 +96,7 @@ class EditDriver extends Component {
                     />
                      <TextField
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}

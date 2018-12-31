@@ -68,6 +68,7 @@ class RegistrationContainer extends Component {
         <TextField
             required
             fullWidth
+            autoComplete="off"
             InputLabelProps={{
                 shrink: true,
             }}
@@ -81,6 +82,7 @@ class RegistrationContainer extends Component {
         <TextField
             required
             fullWidth
+            autoComplete="off"
             InputLabelProps={{
                 shrink: true,
             }}
@@ -94,6 +96,7 @@ class RegistrationContainer extends Component {
             <TextField
             required
             fullWidth
+            autoComplete="off"
             InputLabelProps={{
                 shrink: true,
             }}
@@ -109,6 +112,7 @@ class RegistrationContainer extends Component {
             <TextField
             required
             fullWidth
+            autoComplete="off"
             InputLabelProps={{
                 shrink: true,
             }}

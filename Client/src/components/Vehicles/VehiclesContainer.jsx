@@ -85,12 +85,6 @@ class VehiclesContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/createVehicle`);
     };
 
-    handleCompanyChange = event => {
-        const companyId = event.target.value;
-        this.setState({ companyId });
-        VehiclesActions.loadVehicles(companyId);
-    }
-
     render() {      
         const { vehicles, classes } = this.props;
               

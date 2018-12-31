@@ -68,6 +68,7 @@ class LoginContainer extends Component {
             <TextField
             required
             fullWidth
+            autoComplete="off"
             InputLabelProps={{
                 shrink: true,
             }}
@@ -81,6 +82,7 @@ class LoginContainer extends Component {
             <TextField
             required
             fullWidth
+            autoComplete="off"
             InputLabelProps={{
                 shrink: true,
             }}

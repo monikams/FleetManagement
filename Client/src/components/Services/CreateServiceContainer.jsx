@@ -117,6 +117,7 @@ class CreateServiceContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -129,6 +130,7 @@ class CreateServiceContainer extends Component {
                     />
                     <TextField
                         fullWidth
+                        autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -151,6 +153,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -164,6 +167,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -181,6 +185,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -206,6 +211,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
