@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles/App.css';
+import { withStyles } from '@material-ui/core/styles';
 import { Router, IndexRoute , Route, browserHistory } from 'react-router';
 
 import Home from './components/Home.jsx';
@@ -27,7 +27,14 @@ import ServicesContainer from './components/Services/ServicesContainer.jsx';
 import CreateServiceContainer from './components/Services/CreateServiceContainer.jsx';
 import EditServiceContainer from './components/Services/EditServiceContainer.jsx';
 
+const styles  = theme => ({ 
+    container: {
+        display: 'flex',
+    }
+});
+
 class App extends Component {
+
     render() {
         return (       
             <Router history={browserHistory}>     
@@ -60,4 +67,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withStyles(styles)(App);

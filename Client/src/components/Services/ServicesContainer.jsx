@@ -45,13 +45,6 @@ const styles = theme => ({
       justifyContent: 'space-between',
       width: '400px',
   },
-  vehicleInfo: {
-	fontSize: '18px',
-	fontFamily: 'Arial',
-  },
-  vehicleInfoLabel: {
-	fontWeight: 'bold',
-  },
   checkCircle: {
     fill: 'green',
   },
@@ -76,20 +69,17 @@ class ServicesContainer extends Component {
     static getPropsFromStores() {
         return {
             services: ServicesStore.getServices(),
-            vehicle: VehiclesStore.getVehicle(), 
         }
     }
 
     componentWillMount() {
         const { params: { vehicleId } } = this.props;
         ServicesActions.loadServices(vehicleId);
-        VehiclesActions.loadVehicle(vehicleId);
     }
 
     componentWillUnmount() {
         const { params: { vehicleId } } = this.props;
         ServicesActions.unloadServices();
-        VehiclesActions.unloadVehicle(vehicleId);
     }
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
@@ -120,13 +110,11 @@ class ServicesContainer extends Component {
     }
 
     render() {      
-        const { services, vehicle, classes } = this.props;
+        const { services, classes } = this.props;
         const { overdueServicesSelected } = this.state;
         
         return (
             <div>
-                <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Model: </span>{vehicle.get('Model')}</p>
-                <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate Number: </span>{vehicle.get('PlateNumber')}</p>
                 <div className={classes.buttons} >
                     <Button 
                         variant="contained" 

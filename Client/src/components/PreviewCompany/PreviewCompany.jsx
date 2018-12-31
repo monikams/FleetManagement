@@ -7,13 +7,23 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
 import Immutable from 'immutable';
 import { withRouter } from 'react-router';
-import '../../styles/PreviewCompany.css';
 
 const styles = {
   root: {
     display: 'flex',
     flexGrow: 1,
     height: '100%',
+  },
+  children: {
+    flexGrow: 4,
+    margin: '10px 30px 30px 30px',
+  },
+  companyName: {
+	  fontSize: '16px',
+	  fontFamily: 'Arial',
+  },
+  companyNameSpan: {
+	  fontWeight: 'bold',
   },
 };
 
@@ -58,8 +68,8 @@ class PreviewCompany extends React.Component {
     return (
       <div className={classes.root}>
           <SideBar id='previewCompanySidebar' items={items} onItemClick={this.handleItemClick} />
-          <div className='children' >
-            <p id="companyName" ><span><span id="companyNameSpan"> Company Name: </span>{company.get('Name')}</span></p>
+          <div className={classes.children} >
+            <p className={classes.companyName} ><span><span className={classes.companyNameSpan}> Company Name: </span>{company.get('Name')}</span></p>
             {children}
           </div>
       </div>

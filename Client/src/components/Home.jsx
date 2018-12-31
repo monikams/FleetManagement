@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import '../styles/Home.css';
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import UsersActions from '../actions/UsersActions.js';
 import UsersStore from '../stores/UsersStore';
@@ -30,6 +29,14 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  basic: {
+    height: '100%',
+    width: '100%',
+ },
+ menuItemLabel: {
+   marginRight: '5px',
+   fontWeight: 'bold', 
+}
 };
 
 class Home extends React.Component {
@@ -106,11 +113,11 @@ class Home extends React.Component {
               onClose={this.handleClose}
             >
               <MenuItem onClick={this.handleClose}>
-                <span className='menuItemLabel' >Username:</span>
+                <span className={classes.menuItemLabel} >Username:</span>
                 {user.get('UserName')}
               </MenuItem>
               <MenuItem onClick={this.handleClose}>
-                <span className='menuItemLabel' >Email:</span>
+                <span className={classes.menuItemLabel} >Email:</span>
                 {user.get('Email')} 
               </MenuItem>
               {!isEmpty(user.get('Telephone')) &&
@@ -120,7 +127,7 @@ class Home extends React.Component {
             <Button color="inherit" onClick={this.handleLogoutClick}>Logout</Button>
           </Toolbar>
         </AppBar>
-        <div className='basic'>
+        <div className={classes.basic} >
             {this.props.children}
         </div>
       </div>
