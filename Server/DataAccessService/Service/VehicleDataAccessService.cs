@@ -99,7 +99,7 @@ namespace DataAccessService.Service
             vehicle.Brand = vehicleForEdit.Brand;
             vehicle.Model = vehicleForEdit.Model;
             vehicle.CompanyId = vehicleForEdit.CompanyId;
-            vehicle.DriverId = vehicleForEdit.DriverId;
+            vehicle.DriverId = string.IsNullOrWhiteSpace(vehicleForEdit.DriverId) ? null : vehicleForEdit.DriverId;
 
             await _context.SaveChangesAsync();
             return (Vehicle)_mapper.Map(vehicle, typeof(Data.Models.Vehicle), typeof(Vehicle));

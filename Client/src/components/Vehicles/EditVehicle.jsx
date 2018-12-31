@@ -135,6 +135,7 @@ class EditVehicle extends Component {
                             value={vehicle.get('DriverId')}
                             onChange={this.handleChange('DriverId')}
                         >
+                            <MenuItem key='withoutDriver' value='withoutDriver' >No driver</MenuItem>
                             {drivers.map(driver => (
                                 <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
                             ))}
