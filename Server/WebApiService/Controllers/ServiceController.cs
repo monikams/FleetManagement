@@ -49,9 +49,10 @@
             return mappedService;
         }
 
-        [Route("vehicles/{vehicleId}/services")]
+        [Route("vehicles/{vehicleId}/services/{filterByOverdue}")]
         [HttpGet]
-        public async Task<IEnumerable<Service>> GetByVehicleId([FromUri] string vehicleId)
+        public async Task<IEnumerable<Service>> GetByVehicleId([FromUri] string vehicleId,
+            [FromUri] bool filterByOverdue = false)
         {
             var vehicle = await this._vehicleBusinessService.GetVehicleById(vehicleId);
             if (vehicle == null)
@@ -59,7 +60,7 @@
                 return null;
             }
 
-            var services = await this._serviceBusinessService.GetByVehicleId(vehicleId);
+            var services = await this._serviceBusinessService.GetByVehicleId(vehicleId, filterByOverdue);
             var mappedServices =
                 this._mapper.Map<IEnumerable<BusinessService.Models.Service>, IEnumerable<Service>>(services);
 

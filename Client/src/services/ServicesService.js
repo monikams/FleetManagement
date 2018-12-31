@@ -3,9 +3,9 @@ import * as axios from 'axios';
 
 class ServicesService {
 
-    static async getServices(vehicleId) {   
+    static async getServices(vehicleId, filterByOverdue) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/services`);
+            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/services/${filterByOverdue}`);
         }
 
         logout();

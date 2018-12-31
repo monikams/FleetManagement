@@ -26,14 +26,8 @@ class ServicesStore {
         });
     }
 
-    loadServices({ data: services, filterByOverdue }) {
-        if (filterByOverdue === true) {
-            const currentDate = moment().format('X');       
-            const overdueServices = services.filter(service => currentDate > moment(service.NextServiceTime).format('X'));
-            this.setState(this.state.set('services', Immutable.List(overdueServices)));
-        } else {
-            this.setState(this.state.set('services', Immutable.List(services)));
-        }
+    loadServices(services) {
+        this.setState(this.state.set('services', Immutable.List(services)));
     }
 
     loadService(service) {

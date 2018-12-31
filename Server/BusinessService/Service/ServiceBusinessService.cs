@@ -1,4 +1,6 @@
-﻿namespace BusinessService.Service
+﻿using System.Linq;
+
+namespace BusinessService.Service
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -42,9 +44,9 @@
             return mappedService;
         }
 
-        public async Task<IEnumerable<Service>> GetByVehicleId(string vehicleId)
+        public async Task<IEnumerable<Service>> GetByVehicleId(string vehicleId, bool filterByOverdue)
         {
-            var services = await this._serviceDataAccessService.GetByVehicleId(vehicleId);
+            var services = await this._serviceDataAccessService.GetByVehicleId(vehicleId, filterByOverdue);
             var mappedServices =
                 this._mapper.Map<IEnumerable<DataAccessService.Models.Service>, IEnumerable<Service>>(services);
 

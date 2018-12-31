@@ -9,7 +9,7 @@
     {
         Task<Service> GetById(string id);
 
-        Task<IEnumerable<Service>> GetByVehicleId(string vehicleId);
+        Task<IEnumerable<Service>> GetByVehicleId(string vehicleId, bool filterByOverdue);
 
         Task<Service> PostService(PostService service);
 

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using System.Data.Entity;
 
     using Data;
     using Data.Models;
@@ -15,12 +16,22 @@
             Random random = new Random();
             using (FleetManagementDbContext dbContext = new FleetManagementDbContext())
             {
-                dbContext.TelematicsDatas.Add(
-                    new TelematicsData
-                        {
-                            FuelLevel = random.Next(0, 100),
-                            VIN = random.Next(10000, 100000).ToString()
-                        });
+                var vehicles = await dbContext.Vehicles.ToListAsync();
+                foreach (var vehicle in vehicles)
+                {
+                    var telematicsData = await dbContext.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicle.VIN);
+                    if (telematicsData == null)
+                    {
+                        dbContext.TelematicsDatas.Add(
+                            new TelematicsData
+                            {
+                                FuelLevel = random.Next(0, 100),
+                                VIN = vehicle.VIN,
+                                Mileage = random.Next(100000, 200000)
+                            });
+                    }
+                }
+
                 await dbContext.SaveChangesAsync();
             }
         }

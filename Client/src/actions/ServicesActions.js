@@ -10,9 +10,9 @@ class ServicesActions {
 
     loadServices(vehicleId, filterByOverdue = false) {
         return (dispatch) => {
-             ServicesService.getServices(vehicleId)
+             ServicesService.getServices(vehicleId, filterByOverdue)
             .then((response) => {
-                dispatch({ data: response.data, filterByOverdue });
+                dispatch(response.data);
             })
             .catch((error) => {
                console.log(error);

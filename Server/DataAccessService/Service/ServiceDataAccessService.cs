@@ -50,9 +50,23 @@ namespace DataAccessService.Service
             return mappedService;
         }
 
-        public async Task<IEnumerable<Service>> GetByVehicleId(string vehicleId)
+        public async Task<IEnumerable<Service>> GetByVehicleId(string vehicleId, bool filterByOverdue)
         {
-            var services = await this._context.Services.Where(s => s.VehicleId == vehicleId).ToListAsync();
+            IList<Data.Models.Service> services = new List<Data.Models.Service>();
+            if (filterByOverdue)
+            {
+                var currentTime = await this._context.Database.SqlQuery<DateTime>("SELECT GETUTCDATE()").FirstOrDefaultAsync();
+                var now = new DateTimeOffset(new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second, DateTimeKind.Utc));
+                var vehicle = await this._context.Vehicles.FirstOrDefaultAsync(v => v.Id == vehicleId);
+                var vehicleTelematics = await this._context.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicle.VIN);
+
+                services = await this._context.Services.Where(s => s.VehicleId == vehicleId && ((s.BasedOn == 0 && s.NextServiceTime != null && s.NextServiceTime < now) || (s.BasedOn == 1 && s.NextServiceMileage != null && s.NextServiceMileage < vehicleTelematics.Mileage))).ToListAsync();
+            }
+            else
+            {
+                services = await this._context.Services.Where(s => s.VehicleId == vehicleId).ToListAsync();
+            }
+
             var mappedServices = this._mapper.Map<IEnumerable<Data.Models.Service>, IEnumerable<Service>>(services);
 
             return mappedServices;
