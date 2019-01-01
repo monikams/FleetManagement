@@ -130,6 +130,7 @@ class CreateServiceContainer extends Component {
                     />
                     <TextField
                         fullWidth
+                        multiline
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,

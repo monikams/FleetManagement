@@ -15,7 +15,7 @@ const styles = {
     flexGrow: 4
   },
   vehicleInfo: {
-	  fontSize: '16px',
+	  fontSize: '15px',
 	  fontFamily: 'Arial',
   },
   vehicleInfoLabel: {

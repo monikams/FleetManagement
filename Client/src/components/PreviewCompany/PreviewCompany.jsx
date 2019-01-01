@@ -19,7 +19,7 @@ const styles = {
     margin: '10px 30px 30px 30px',
   },
   companyName: {
-	  fontSize: '16px',
+	  fontSize: '15px',
 	  fontFamily: 'Arial',
   },
   companyNameSpan: {
