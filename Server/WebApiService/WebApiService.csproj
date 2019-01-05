@@ -305,6 +305,7 @@
     <Compile Include="Models\TelematicsData.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\TelematicsDataHistory.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

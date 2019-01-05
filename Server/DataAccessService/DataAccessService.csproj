@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Contracts\IServiceDataAccessService.cs" />
     <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\TelematicsDataHistory.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Contracts\ICompanyDataAccessService.cs" />
     <Compile Include="Contracts\IVehicleDataAccessService.cs" />

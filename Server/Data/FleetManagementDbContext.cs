@@ -19,6 +19,8 @@
 
         public virtual DbSet<TelematicsData> TelematicsDatas { get; set; }
 
+        public virtual DbSet<TelematicsDataHistory> TelematicsDataHistories { get; set; }
+
         public virtual DbSet<UserCompany> UserCompanies { get; set; }
 
         public virtual DbSet<Vehicle> Vehicles { get; set; }
