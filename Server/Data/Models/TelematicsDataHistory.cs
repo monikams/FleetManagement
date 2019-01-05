@@ -12,7 +12,7 @@
         public string VIN { get; set; }
 
         [Required]
-        public DateTimeOffset Modified { get; set; }
+        public DateTimeOffset Modified { get; set; } = DateTimeOffset.Now;
 
         public int? CurrentSpeed { get; set; }
 

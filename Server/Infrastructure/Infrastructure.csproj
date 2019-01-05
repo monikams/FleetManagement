@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\NextServiceCalculation.cs" />
+    <Compile Include="Helpers\SeedTelematicsHistory.cs" />
     <Compile Include="JobScheduler\JobScheduler.cs" />
     <Compile Include="JobScheduler\Jobs\SeedTelematicsJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
