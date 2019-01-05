@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\MailHelper.cs" />
     <Compile Include="Helpers\NextServiceCalculation.cs" />
     <Compile Include="Helpers\SeedTelematicsHistory.cs" />
     <Compile Include="JobScheduler\JobScheduler.cs" />
