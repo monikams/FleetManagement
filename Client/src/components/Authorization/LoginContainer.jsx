@@ -4,11 +4,14 @@ import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import AuthorizationActions from '../../actions/AuthorizationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
+import { isFieldValid } from '../../utils/validation.js';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../../styles/AuthorizationContainer.css';
+import isEmpty from 'lodash/isEmpty';
+import some from 'lodash/some';
 
 const styles = theme => ({
   button: {
@@ -40,15 +43,24 @@ class LoginContainer extends Component {
                 username: '',
                 password: '',
             },
+            isValid: {
+                'username': true,
+                'password': true,
+            },
+            isButtonDisabled: true,
 		}
 	}
    
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localUser } = this.state;
-        const updatedUser = merge(localUser, { [name]: value });
+        const { localUser, isValid } = this.state;
+        const updatedUser = merge(localUser, { [name]: value }); 
+        isValid[name] = !isEmpty(value);
+
         this.setState({
-            localUser: updatedUser
+            localUser: updatedUser,
+            isValid: isValid,
+            isButtonDisabled: !isFieldValid('button',isValid),
         });
     };
 
@@ -60,7 +72,7 @@ class LoginContainer extends Component {
 
  render() {
     const { classes } = this.props;
-    const { localUser } = this.state;
+    const { localUser, isValid, isButtonDisabled } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -68,6 +80,7 @@ class LoginContainer extends Component {
             <TextField
             required
             fullWidth
+            error={!isFieldValid('username',isValid)}
             autoComplete="off"
             InputLabelProps={{
                 shrink: true,
@@ -82,6 +95,7 @@ class LoginContainer extends Component {
             <TextField
             required
             fullWidth
+            error={!isFieldValid('password',isValid)}
             autoComplete="off"
             InputLabelProps={{
                 shrink: true,
@@ -104,6 +118,7 @@ class LoginContainer extends Component {
                 className={classes.button}
                 onClick={this.handleLoginButtonClick}
                 id='loginButton'
+                disabled={isButtonDisabled}
             >
                 Login
             </Button>
