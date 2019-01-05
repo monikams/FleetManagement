@@ -1,6 +1,11 @@
+import isEmpty from 'lodash/isEmpty';
 
 function isFieldValid(field, isValid) {
-        return field === 'button' ? !Object.values(isValid).some(item => item === false) : isValid[field];
+   return isValid[field];
 }
 
-export { isFieldValid }
+function isButtonDisabled(localItem) {
+   return Object.values(localItem).some(property => isEmpty(property));
+}
+
+export { isFieldValid, isButtonDisabled }

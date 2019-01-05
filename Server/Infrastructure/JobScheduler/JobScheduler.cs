@@ -21,6 +21,7 @@
         {
             var triggersAndJobs = new Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>>();
 
+            // SeedTelematicJob
             var seedTelematicsJob = JobBuilder.Create<SeedTelematicsJob>().Build();
             var seedTelematicsJobTriggers = new List<ITrigger>
                                                 {
@@ -34,6 +35,21 @@
                                                 };
 
             triggersAndJobs.Add(seedTelematicsJob, seedTelematicsJobTriggers);
+
+            //SendEmailsJob
+            var sendEmailsJob = JobBuilder.Create<SendEmailsJob>().Build();
+            var sendEmailsJobTriggers = new List<ITrigger>
+            {
+                TriggerBuilder
+                    .Create().WithDailyTimeIntervalSchedule(
+                        s => s.WithIntervalInSeconds(10).OnEveryDay()
+                            .StartingDailyAt(
+                                TimeOfDay.HourAndMinuteOfDay(
+                                    0,
+                                    0))).Build()
+            };
+
+            triggersAndJobs.Add(sendEmailsJob, sendEmailsJobTriggers);
 
             scheduler.ScheduleJobs(triggersAndJobs, true);
         }

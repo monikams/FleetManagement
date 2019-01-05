@@ -4,14 +4,13 @@ import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import AuthorizationActions from '../../actions/AuthorizationActions.js'
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { isFieldValid } from '../../utils/validation.js';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../../styles/AuthorizationContainer.css';
 import isEmpty from 'lodash/isEmpty';
-import some from 'lodash/some';
 
 const styles = theme => ({
   button: {
@@ -47,7 +46,6 @@ class LoginContainer extends Component {
                 'username': true,
                 'password': true,
             },
-            isButtonDisabled: true,
 		}
 	}
    
@@ -60,7 +58,6 @@ class LoginContainer extends Component {
         this.setState({
             localUser: updatedUser,
             isValid: isValid,
-            isButtonDisabled: !isFieldValid('button',isValid),
         });
     };
 
@@ -72,7 +69,7 @@ class LoginContainer extends Component {
 
  render() {
     const { classes } = this.props;
-    const { localUser, isValid, isButtonDisabled } = this.state;
+    const { localUser, isValid } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -118,7 +115,7 @@ class LoginContainer extends Component {
                 className={classes.button}
                 onClick={this.handleLoginButtonClick}
                 id='loginButton'
-                disabled={isButtonDisabled}
+                disabled={isButtonDisabled(localUser)}
             >
                 Login
             </Button>

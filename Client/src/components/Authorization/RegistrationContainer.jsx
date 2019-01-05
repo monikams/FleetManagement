@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../../styles/AuthorizationContainer.css';
-import { isFieldValid } from '../../utils/validation.js';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
 
 const styles = theme => ({
   button: {
@@ -50,7 +50,6 @@ class RegistrationContainer extends Component {
                 'password': true,
                 'confirmPassword': true,
             },
-            isButtonDisabled: true,
 		}
 	}
    
@@ -59,11 +58,7 @@ class RegistrationContainer extends Component {
         const { localUser, isValid } = this.state;
         const newUser = merge(localUser, { [name]: value });
         isValid[name] = !isEmpty(value);
-
-        this.setState({
-            localUser: newUser,
-            isButtonDisabled: !isFieldValid('button',isValid),
-        });
+        this.setState({ localUser: newUser });
     };
 
     handleRegisterButtonClick = () => {
@@ -72,7 +67,7 @@ class RegistrationContainer extends Component {
 
  render() {
     const { classes } = this.props;
-    const { localUser, isValid, isButtonDisabled } = this.state;
+    const { localUser, isValid } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -149,7 +144,7 @@ class RegistrationContainer extends Component {
                 className={classes.button}
                 onClick={this.handleRegisterButtonClick}
                 id='registerButton'
-                disabled={isButtonDisabled}
+                disabled={isButtonDisabled(localUser)}
             >
                 Register
             </Button>
