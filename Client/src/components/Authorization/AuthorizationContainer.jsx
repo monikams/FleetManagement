@@ -20,7 +20,7 @@ const styles = theme => ({
 class AuthorizationContainer extends React.Component {
  
   state = {
-    value: 0,
+    value: this.props.router.getCurrentLocation().pathname === '/register' ? 1 : 0,
   };
 
   handleChange = (event, value) => {
