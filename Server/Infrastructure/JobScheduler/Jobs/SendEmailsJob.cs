@@ -16,7 +16,7 @@ namespace Infrastructure.JobScheduler.Jobs
         {
             using (FleetManagementDbContext dbContext = new FleetManagementDbContext())
             {
-                var vehiclesVIN = dbContext.Vehicles.Select(v => v.VIN);
+                var vehiclesVIN = dbContext.Vehicles.Select(v => v.VIN).ToList();
                 var currentTime = await dbContext.Database.SqlQuery<DateTime>("SELECT GETUTCDATE()")
                     .FirstOrDefaultAsync();
                 var now = new DateTimeOffset(new DateTime(currentTime.Year, currentTime.Month, currentTime.Day,
@@ -26,14 +26,14 @@ namespace Infrastructure.JobScheduler.Jobs
                 {
                     var vehicleTelematics = await dbContext.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicleVIN);
 
-                    IQueryable<Service> services = dbContext.Services.Where(s =>
+                    var services = dbContext.Services.Where(s =>
                         (s.BasedOn == 0 && s.NextServiceTime != null && s.NextServiceTime < now) ||
                          (s.BasedOn == 1 && s.NextServiceMileage != null &&
-                          s.NextServiceMileage < vehicleTelematics.Mileage));
+                          s.NextServiceMileage < vehicleTelematics.Mileage)).ToList();
 
                     foreach (var service in services)
                     {
-                        await MailHelper.SendEmail("monikaspasova1@gmail.com", "Overdue services", "Test");
+                        await MailHelper.SendEmail("monikaspasova1@gmail.com", "Overdue services", service.Name);
                     }
                 }
             }
