@@ -62,8 +62,11 @@
     <Compile Include="Helpers\NextServiceCalculation.cs" />
     <Compile Include="Helpers\SeedTelematicsHistory.cs" />
     <Compile Include="JobScheduler\JobScheduler.cs" />
-    <Compile Include="JobScheduler\Jobs\SendOverdueServicesEmailsJob.cs" />
+    <Compile Include="JobScheduler\Jobs\SendTimeOverdueEmailsJob.cs" />
+    <Compile Include="JobScheduler\Jobs\SendMileageOverdueEmailsJob.cs" />
     <Compile Include="JobScheduler\Jobs\SeedTelematicsJob.cs" />
+    <Compile Include="JobScheduler\Jobs\SendMileageReminderEmailJob.cs" />
+    <Compile Include="JobScheduler\Jobs\SendTimeReminderEmailJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

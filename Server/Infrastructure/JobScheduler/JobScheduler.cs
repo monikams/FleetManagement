@@ -21,7 +21,7 @@
         {
             var triggersAndJobs = new Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>>();
 
-            // SeedTelematicJob
+            // SeedTelematicsJob
             var seedTelematicsJob = JobBuilder.Create<SeedTelematicsJob>().Build();
             var seedTelematicsJobTriggers = new List<ITrigger>
                                                 {
@@ -36,20 +36,66 @@
 
             triggersAndJobs.Add(seedTelematicsJob, seedTelematicsJobTriggers);
 
-            //SendOverdueServicesEmailsJob
-            var sendOverdueServicesEmailsJob = JobBuilder.Create<SendOverdueServicesEmailsJob>().Build();
-            var sendOverdueServicesEmailsJobTriggers = new List<ITrigger>
+            //SendTimeOverdueEmailsJob
+            var sendTimeOverdueEmailsJob = JobBuilder.Create<SendTimeOverdueEmailsJob>().Build();
+            var sendTimeOverdueEmailsJobTriggers = new List<ITrigger>
             {
                 TriggerBuilder
                     .Create().WithDailyTimeIntervalSchedule(
-                        s => s.WithIntervalInHours(10).OnEveryDay()
+                        s => s.WithIntervalInSeconds(10).OnEveryDay()
                             .StartingDailyAt(
                                 TimeOfDay.HourAndMinuteOfDay(
                                     0,
                                     0))).Build()
             };
 
-            triggersAndJobs.Add(sendOverdueServicesEmailsJob, sendOverdueServicesEmailsJobTriggers);
+            triggersAndJobs.Add(sendTimeOverdueEmailsJob, sendTimeOverdueEmailsJobTriggers);
+
+            //SendTimeReminderEmailJob
+            var sendTimeReminderEmailJob = JobBuilder.Create<SendTimeReminderEmailJob>().Build();
+            var sendTimeReminderEmailJobTriggers = new List<ITrigger>
+            {
+                TriggerBuilder
+                    .Create().WithDailyTimeIntervalSchedule(
+                        s => s.WithIntervalInHours(24).OnEveryDay()
+                            .StartingDailyAt(
+                                TimeOfDay.HourAndMinuteOfDay(
+                                    0,
+                                    0))).Build()
+            };
+
+            triggersAndJobs.Add(sendTimeReminderEmailJob, sendTimeReminderEmailJobTriggers);
+
+
+            //SendMileageOverdueEmailsJob
+            var sendMileageOverdueEmailsJob = JobBuilder.Create<SendMileageOverdueEmailsJob>().Build();
+            var sendMileageOverdueEmailsJobTriggers = new List<ITrigger>
+            {
+                TriggerBuilder
+                    .Create().WithDailyTimeIntervalSchedule(
+                        s => s.WithIntervalInHours(24).OnEveryDay()
+                            .StartingDailyAt(
+                                TimeOfDay.HourAndMinuteOfDay(
+                                    0,
+                                    0))).Build()
+            };
+
+            triggersAndJobs.Add(sendMileageOverdueEmailsJob, sendMileageOverdueEmailsJobTriggers);
+
+            //SendMileageReminderEmailJob
+            var sendMileageReminderEmailJob = JobBuilder.Create<SendMileageReminderEmailJob>().Build();
+            var sendMileageReminderEmailJobTriggers = new List<ITrigger>
+            {
+                TriggerBuilder
+                    .Create().WithDailyTimeIntervalSchedule(
+                        s => s.WithIntervalInHours(24).OnEveryDay()
+                            .StartingDailyAt(
+                                TimeOfDay.HourAndMinuteOfDay(
+                                    0,
+                                    0))).Build()
+            };
+
+            triggersAndJobs.Add(sendMileageReminderEmailJob, sendMileageReminderEmailJobTriggers);
 
             scheduler.ScheduleJobs(triggersAndJobs, true);
         }
