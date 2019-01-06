@@ -42,15 +42,11 @@ class PreviewCompany extends React.Component {
   componentWillMount() {
     const { params: { companyId } } = this.props;
     CompaniesActions.loadCompany(companyId);
-    localStorage.removeItem('selectedTab');
-    localStorage.setItem('selectedTab', 'drivers');
   }
 
    handleItemClick = (event) => {
     const { target : { textContent } } = event;
     const { params: { companyId } } = this.props;
-    localStorage.removeItem('selectedTab');
-    localStorage.setItem('selectedTab', textContent.toLowerCase());
 
     if (textContent.toLowerCase() === 'companies') {
       this.props.router.push('/companies');

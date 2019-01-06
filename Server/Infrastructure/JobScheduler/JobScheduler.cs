@@ -27,7 +27,7 @@
                                                 {
                                                     TriggerBuilder
                                                         .Create().WithDailyTimeIntervalSchedule(
-                                                            s => s.WithIntervalInMinutes(10).OnEveryDay()
+                                                            s => s.WithIntervalInHours(10).OnEveryDay()
                                                                   .StartingDailyAt(
                                                                       TimeOfDay.HourAndMinuteOfDay(
                                                                           0,
@@ -36,20 +36,20 @@
 
             triggersAndJobs.Add(seedTelematicsJob, seedTelematicsJobTriggers);
 
-            //SendEmailsJob
-            var sendEmailsJob = JobBuilder.Create<SendEmailsJob>().Build();
-            var sendEmailsJobTriggers = new List<ITrigger>
+            //SendOverdueServicesEmailsJob
+            var sendOverdueServicesEmailsJob = JobBuilder.Create<SendOverdueServicesEmailsJob>().Build();
+            var sendOverdueServicesEmailsJobTriggers = new List<ITrigger>
             {
                 TriggerBuilder
                     .Create().WithDailyTimeIntervalSchedule(
-                        s => s.WithIntervalInHours(48).OnEveryDay()
+                        s => s.WithIntervalInHours(10).OnEveryDay()
                             .StartingDailyAt(
                                 TimeOfDay.HourAndMinuteOfDay(
                                     0,
                                     0))).Build()
             };
 
-            triggersAndJobs.Add(sendEmailsJob, sendEmailsJobTriggers);
+            triggersAndJobs.Add(sendOverdueServicesEmailsJob, sendOverdueServicesEmailsJobTriggers);
 
             scheduler.ScheduleJobs(triggersAndJobs, true);
         }

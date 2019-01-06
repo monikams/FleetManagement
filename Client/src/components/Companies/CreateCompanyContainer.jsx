@@ -120,8 +120,6 @@ class CreateCompanyContainer extends Component {
 
      handleItemClick = (event) => {
         const { target : { textContent } } = event;
-        localStorage.removeItem('selectedTab');
-        localStorage.setItem('selectedTab', textContent.toLowerCase());
         this.props.router.push(`/companies`);
     }
 

@@ -10,7 +10,7 @@ using Quartz;
 
 namespace Infrastructure.JobScheduler.Jobs
 {
-    public class SendEmailsJob : IJob
+    public class SendOverdueServicesEmailsJob : IJob
     {     
         public async Task Execute(IJobExecutionContext context)
         {
@@ -31,10 +31,10 @@ namespace Infrastructure.JobScheduler.Jobs
                          (s.BasedOn == 1 && s.NextServiceMileage != null &&
                           s.NextServiceMileage < vehicleTelematics.Mileage)).ToList();
 
-                    foreach (var service in services)
-                    {
-                        await MailHelper.SendEmail("monikaspasova1@gmail.com", "Overdue services", service.Name);
-                    }
+                    //foreach (var service in services)
+                    //{
+                    //    await MailHelper.SendEmail("monikaspasova1@gmail.com", "Overdue services", service.Name);
+                    //}
                 }
             }
         }

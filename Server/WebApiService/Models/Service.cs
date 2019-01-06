@@ -91,9 +91,9 @@
         // 1 => Day; 2 => Months; 3 => Years
         public int? TimeReminderEntity { get; set; }
 
-        public DateTimeOffset? NextServiceReminderTime { get; set; }
-
         // Mileage related properties
         public int? MileageRule { get; set; }
+
+        public int? MileageReminder { get; set; }
     }
 }
