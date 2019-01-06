@@ -67,6 +67,9 @@
 
             builder.RegisterType<TelematicsDataBusinessService>().As<ITelematicsBusinessService>();
             builder.RegisterType<TelematicsDataAcessService>().As<ITelematicsDataAccessService>();
+
+            builder.RegisterType<TelematicsDataHistoryBusinessService>().As<ITelematicsHistoryBusinessService>();
+            builder.RegisterType<TelematicsHistoryDataAcessService>().As<ITelematicsHistoryDataAccessService>();
         }
     }
 }

@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IServiceBusinessService.cs" />
+    <Compile Include="Contracts\ITelematicsHistoryBusinessService .cs" />
     <Compile Include="Contracts\ITelematicsBusinessService.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Driver.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Contracts\IUserBusinessService.cs" />
     <Compile Include="Contracts\IVehicleBusinessService.cs" />
     <Compile Include="Service\ServiceBusinessService.cs" />
+    <Compile Include="Service\TelematicsDataHistoryBusinessService.cs" />
     <Compile Include="Service\TelematicsDataBusinessService.cs" />
     <Compile Include="Service\UserBusinessService.cs" />
     <Compile Include="Service\VehicleBusinessService.cs" />

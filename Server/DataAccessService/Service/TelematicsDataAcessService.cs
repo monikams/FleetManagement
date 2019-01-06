@@ -38,7 +38,6 @@ namespace DataAccessService.Service
             var telematicsData = _context.TelematicsDatas.Where(td => td.VIN == vehicleVIN).ToList();
             var mappedTelematicsData = _mapper.Map<IEnumerable<Data.Models.TelematicsData>, IEnumerable<Models.TelematicsData>>(telematicsData);
             return await Task.Run(() => mappedTelematicsData);
-
         }
     }
 }

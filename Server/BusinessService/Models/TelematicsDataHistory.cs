@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessService.Models
 {
-    class TelematicsDataHistory
+    public class TelematicsDataHistory
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 

@@ -42,7 +42,7 @@
             {
                 TriggerBuilder
                     .Create().WithDailyTimeIntervalSchedule(
-                        s => s.WithIntervalInSeconds(10).OnEveryDay()
+                        s => s.WithIntervalInHours(24).OnEveryDay()
                             .StartingDailyAt(
                                 TimeOfDay.HourAndMinuteOfDay(
                                     0,
