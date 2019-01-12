@@ -8,6 +8,7 @@ class TelematicsStore {
         this.bindActions(TelematicsActions);
         this.state = new Immutable.Map({
             telematicsData: Immutable.List(),
+            telematicsDataHistory: Immutable.List(),
         }); 
     }
         
@@ -15,8 +16,16 @@ class TelematicsStore {
         this.setState(this.state.set('telematicsData', Immutable.List(telematicsData)));
     }
 
+    loadTelematicsDataHistory(telematicsDataHistory) {
+        this.setState(this.state.set('telematicsDataHistory', Immutable.List(telematicsDataHistory)));
+    }
+
     static getTelematicsData() {
         return this.getState().get('telematicsData');
+    }
+
+    static getTelematicsDataHistory() {
+        return this.getState().get('telematicsDataHistory');
     }
 }
 

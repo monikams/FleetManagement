@@ -78,7 +78,6 @@ class ServicesContainer extends Component {
     }
 
     componentWillUnmount() {
-        const { params: { vehicleId } } = this.props;
         ServicesActions.unloadServices();
     }
 

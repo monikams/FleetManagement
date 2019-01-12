@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import TelematicsStore from '../../stores/TelematicsStore';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import TelematicsActions from '../../actions/TelematicsActions.js';
+import shallowEqual from 'shallowequal';
 import isEmpty from 'lodash';
 
 class TelematicsContainer extends React.Component {
@@ -20,22 +21,31 @@ class TelematicsContainer extends React.Component {
     static getPropsFromStores() {
         return {
             telematicsData: TelematicsStore.getTelematicsData(),
+            telematicsDataHistory: TelematicsStore.getTelematicsDataHistory(),
         }
     }
 
     componentWillMount() {
         const { params: { vehicleId } } = this.props;
         TelematicsActions.loadTelematicsData(vehicleId);
+        TelematicsActions.loadTelematicsDataHistory(vehicleId);
     }
 
-  render() {
-    const { telematicsData } = this.props;
-    console.log(telematicsData);
+    componentWillUnmount() {
+        TelematicsActions.unloadTelematicsData();
+        TelematicsActions.unloadTelematicsDataHistory();
+    }
 
-    return (
-     <p>Hello World</p>
-    );
-  }
+    shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+
+    render() {
+        const { telematicsData, telematicsDataHistory } = this.props;
+        console.log(telematicsDataHistory);
+
+        return (
+        <p>Hello World</p>
+        );
+    }
 }
 
 TelematicsContainer.propTypes = {
