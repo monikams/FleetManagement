@@ -60,7 +60,7 @@ namespace DataAccessService.Service
                 var vehicle = await this._context.Vehicles.FirstOrDefaultAsync(v => v.Id == vehicleId);
                 var vehicleTelematics = await this._context.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicle.VIN);
 
-                services = await this._context.Services.Where(s => s.VehicleId == vehicleId && ((s.BasedOn == 0 && s.NextServiceTime != null && s.NextServiceTime < now) || (s.BasedOn == 1 && s.NextServiceMileage != null && s.NextServiceMileage < vehicleTelematics.Mileage))).ToListAsync();
+                services = await this._context.Services.Where(s => s.VehicleId == vehicleId && ((s.BasedOn == 0 && s.NextServiceTime != null && DbFunctions.TruncateTime(s.NextServiceTime) < DbFunctions.TruncateTime(now)) || (s.BasedOn == 1 && s.NextServiceMileage != null && s.NextServiceMileage < vehicleTelematics.Mileage))).ToListAsync();
             }
             else
             {

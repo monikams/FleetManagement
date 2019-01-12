@@ -172,11 +172,11 @@ class ServicesContainer extends Component {
                                 <TableCell padding="dense" >
                                 {service.BasedOn === 0 && !isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`)}
                                 </TableCell>
-                                <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceTime) && moment(service.NextServiceTime).format('DD/MM/YYYY')}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceTime) && moment(service.NextServiceTime).format('DD/MM/YY')}</TableCell>
                                 <TableCell padding="dense" >
                                 {service.BasedOn === 0 && !isNull(service.TimeReminder) && (service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`)}
                                 </TableCell>
-                                <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceReminderTime) && moment(service.NextServiceReminderTime).format('DD/MM/YYYY')}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceReminderTime) && moment(service.NextServiceReminderTime).format('DD/MM/YY')}</TableCell>
                                 <TableCell padding="dense" ><CheckCircle className={classes.checkCircle} onClick={() => this.handleMarkAsDone(service.Id)}/></TableCell>
                                 <TableCell padding="dense" ><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
                                 <TableCell padding="dense" ><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>

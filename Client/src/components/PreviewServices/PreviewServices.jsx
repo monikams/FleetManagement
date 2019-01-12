@@ -63,7 +63,7 @@ class PreviewService extends React.Component {
 
     return (
       <div>
-         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Model: </span>{vehicle.get('Model')}</p>
+         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Brand: </span>{vehicle.get('Brand')}</p>
          <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate Number: </span>{vehicle.get('PlateNumber')}</p>
          <AppBar className={classes.root} position="static"> 
           <Tabs centered value={value} onChange={this.handleChange}>
