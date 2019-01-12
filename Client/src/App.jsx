@@ -27,6 +27,8 @@ import ServicesContainer from './components/Services/ServicesContainer.jsx';
 import CreateServiceContainer from './components/Services/CreateServiceContainer.jsx';
 import EditServiceContainer from './components/Services/EditServiceContainer.jsx';
 
+import TelematicsContainer from './components/Telematics/TelematicsContainer.jsx';
+
 const styles  = theme => ({ 
     container: {
         display: 'flex',
@@ -58,6 +60,7 @@ class App extends Component {
                                     <IndexRoute component={ServicesContainer} />
                                     <Route path='createService' component={CreateServiceContainer} />
                                     <Route path='editService/:serviceId' component={EditServiceContainer} />
+                                    <Route path='reports' component={TelematicsContainer} />
                                 </Route>    
                             </Route>    
                         </Route>

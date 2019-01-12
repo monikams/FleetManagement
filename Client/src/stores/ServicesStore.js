@@ -2,7 +2,6 @@ import alt from '../alt.js';
 import ServicesActions from '../actions/ServicesActions.js'
 import Immutable from 'immutable';
 import ImmutableUtil from 'alt-utils/lib/ImmutableUtil.js';
-import moment from 'moment';
 
 class ServicesStore {
     constructor() {
