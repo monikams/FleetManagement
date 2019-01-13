@@ -99,6 +99,7 @@ namespace DataAccessService.Service
             }
 
             service.Name = serviceForEdit.Name;
+            service.Recipient = serviceForEdit.Recipient;
             service.Description = serviceForEdit.Description;
             service.MileageReminder = serviceForEdit.MileageReminder;
             service.MileageRule = serviceForEdit.MileageRule;

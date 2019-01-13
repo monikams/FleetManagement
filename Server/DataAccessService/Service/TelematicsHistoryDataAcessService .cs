@@ -36,6 +36,7 @@ namespace DataAccessService.Service
         public async Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN)
         {
             var telematicsDataHistory = _context.TelematicsDataHistories
+                .ToList()
                 .Where(td => td.VIN == vehicleVIN && td.Modified > DateTimeOffset.Now.AddDays(-7))
                 .OrderBy(td => td.Modified).ToList();
             var mappedTelematicsDataHistory = _mapper.Map<IEnumerable<Data.Models.TelematicsDataHistory>, IEnumerable<Models.TelematicsDataHistory>>(telematicsDataHistory);

@@ -7,12 +7,17 @@
     {
         [Key] public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [Required] public string Name { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Recipient { get; set; }
 
         public string Description { get; set; }
         
         // time => 0, mileage => 1
-        [Required] public int BasedOn{ get; set; }
+        [Required]
+        public int BasedOn{ get; set; }
 
         // Time related properties
         public DateTimeOffset? Created { get; set; } = DateTimeOffset.Now;
@@ -40,7 +45,8 @@
 
         public int? NextServiceReminderMileage { get; set; }
 
-        [Required] public string VehicleId { get; set; }
+        [Required]
+        public string VehicleId { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }        
     }

@@ -30,6 +30,7 @@ class EditServiceContainer extends Component {
             localService: Immutable.Map({
                 Id: '',
                 Name: '',
+                Recipient: '',
                 Description: '',
                 VehicleId: vehicleId,
                 MileageRule: 0,
@@ -66,6 +67,7 @@ class EditServiceContainer extends Component {
           const localService = Immutable.Map({
                 Id: service.get('Id'),
                 Name: service.get('Name'),
+                Recipient: service.get('Recipient'),
                 Description: service.get('Description'),
                 VehicleId: service.get('VehicleId'),
                 BasedOn: service.get('BasedOn'),
@@ -102,7 +104,8 @@ class EditServiceContainer extends Component {
         const { localService } = this.state;
         const updatedService = Immutable.Map({ 
             Id: localService.get('Id'),
-            Name: localService.get('Name'), 
+            Name: localService.get('Name'),
+            Recipient: localService.get('Recipient'),  
             VehicleId: localService.get('VehicleId'),
             BasedOn: value,
             MileageRule: '',
@@ -142,6 +145,7 @@ EditServiceContainer.defaultProps = {
     service: Immutable.Map({
         Id: '',
         Name: '',
+        Recipient: '',
         Description: '',
         BasedOn: '',
         MileageRule: 0,

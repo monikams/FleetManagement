@@ -64,6 +64,7 @@ class CreateServiceContainer extends Component {
 			localService: {
                 name: '',
                 description: '',
+                recipient: '',
                 vehicleId: vehicleId,
                 basedOn: '',
                 mileageRule: 0,
@@ -89,6 +90,7 @@ class CreateServiceContainer extends Component {
         const newService = merge({}, { 
             name: localService.name, 
             description: localService.description,
+            recipient: localService.recipient, 
             vehicleId: localService.vehicleId,
             basedOn: value === 'time' ? 0 : 1,
             mileageRule: 0,
@@ -126,6 +128,20 @@ class CreateServiceContainer extends Component {
                         placeholder="Enter service`s name"
                         className={classes.textField}          
                         onChange={this.handleChange('name')}
+                        margin="normal"
+                    />
+                     <TextField
+                        required
+                        fullWidth
+                        autoComplete="off"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="recipient"
+                        label="Notifications recipient"
+                        placeholder="Enter a valid email"
+                        className={classes.textField}          
+                        onChange={this.handleChange('recipient')}
                         margin="normal"
                     />
                     <TextField

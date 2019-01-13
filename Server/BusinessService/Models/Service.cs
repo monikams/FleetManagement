@@ -8,6 +8,8 @@
 
         public string Name { get; set; }
 
+        public string Recipient { get; set; }
+
         public string Description { get; set; }
 
         // time => 0, mileage => 1
@@ -49,6 +51,8 @@
 
         public string Name { get; set; }
 
+        public string Recipient { get; set; }
+
         public string Description { get; set; }
 
         // time => 0, mileage => 1
@@ -75,6 +79,8 @@
     public class PostService
     {
         public string Name { get; set; }
+
+        public string Recipient { get; set; }
 
         public string Description { get; set; }
 

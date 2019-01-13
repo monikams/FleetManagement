@@ -84,6 +84,21 @@ class EditService extends Component {
                         margin="normal"
                     />
                     <TextField
+                        required
+                        fullWidth
+                        autoComplete="off"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="recipient"
+                        label="Notifications recipient"
+                        value={service.get('Recipient')}
+                        placeholder="Enter a valid email"
+                        className={classes.textField}          
+                        onChange={this.handleChange('Recipient')}
+                        margin="normal"
+                    />
+                    <TextField
                         fullWidth
                         multiline
                         autoComplete="off"

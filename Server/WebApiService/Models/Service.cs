@@ -8,6 +8,8 @@
 
         public string Name { get; set; }
 
+        public string Recipient { get; set; }
+
         public string Description { get; set; }
 
         // time => 0, mileage => 1
@@ -51,6 +53,8 @@
 
         public string Description { get; set; }
 
+        public string Recipient { get; set; }
+
         // time => 0, mileage => 1
         public int BasedOn { get; set; }
 
@@ -73,6 +77,8 @@
     public class PostService
     {
         public string Name { get; set; }
+
+        public string Recipient { get; set; }
 
         public string Description { get; set; }
 
