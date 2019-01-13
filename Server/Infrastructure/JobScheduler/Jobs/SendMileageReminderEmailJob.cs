@@ -21,12 +21,13 @@ namespace Infrastructure.JobScheduler.Jobs
                 foreach (var vehicleVIN in vehiclesVIN.ToList())
                 {
                     var vehicleTelematics = await dbContext.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicleVIN);
+                    var vehicle = await dbContext.Vehicles.FirstOrDefaultAsync(v => v.VIN == vehicleVIN);
 
                     var services = dbContext.Services.Where(s => s.BasedOn == 1 && s.NextServiceReminderMileage != null && s.NextServiceReminderMileage == vehicleTelematics.Mileage).ToList();
 
                     foreach (var service in services.ToList())
                     {
-                        MailHelper.SendEmail("monikaspasova1@gmail.com", "Reminder services", service.Name).RunSynchronously();
+                        MailHelper.SendEmail(service.Recipient, "Reminder for a following service", $"The service {service.Name} for vehicle {vehicle.Brand} with plate number {vehicle.PlateNumber} is following.").RunSynchronously();
                     }
                 }
             }

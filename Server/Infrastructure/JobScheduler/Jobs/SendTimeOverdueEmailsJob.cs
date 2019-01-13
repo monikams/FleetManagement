@@ -25,7 +25,7 @@ namespace Infrastructure.JobScheduler.Jobs
 
                 foreach (var service in services)
                 {
-                   MailHelper.SendEmail("monikaspasova1@gmail.com", "Overdue services", service.Name).RunSynchronously();
+                   MailHelper.SendEmail(service.Recipient, "Overdue services", $"The service {service.Name} for vehicle {service.Vehicle.Brand} with plate number {service.Vehicle.PlateNumber} is overdue.").RunSynchronously();
                 }              
             }
         }

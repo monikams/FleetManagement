@@ -24,7 +24,7 @@ namespace Infrastructure.JobScheduler.Jobs
 
                 foreach (var service in services.ToList())
                 {
-                    MailHelper.SendEmail("monikaspasova1@gmail.com", "Reminder services", service.Name).RunSynchronously();
+                    MailHelper.SendEmail(service.Recipient, "Reminder services", $"The service {service.Name} for vehicle {service.Vehicle.Brand} with plate number {service.Vehicle.PlateNumber} is following.").RunSynchronously();
                 }              
             }
         }
