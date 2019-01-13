@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Helpers;
-using System;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Data;
@@ -12,7 +11,6 @@ namespace Infrastructure.JobScheduler.Jobs
     {
         public async Task Execute(IJobExecutionContext context)
         {
-            Random random = new Random();
             using (FleetManagementDbContext dbContext = new FleetManagementDbContext())
             {
                 var vehicles = await dbContext.Vehicles.ToListAsync();
@@ -22,8 +20,8 @@ namespace Infrastructure.JobScheduler.Jobs
                     TelematicsData newTelematicsData = new TelematicsData
                     {
                         VIN = vehicle.VIN,
-                        Mileage = random.Next(100000, 200000),
-                        FuelLevel = random.Next(0, 100),
+                        Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
+                        FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
                     };
 
                     if (telematicsData == null)

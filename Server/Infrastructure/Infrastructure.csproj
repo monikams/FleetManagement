@@ -61,6 +61,7 @@
     <Compile Include="Helpers\MailHelper.cs" />
     <Compile Include="Helpers\NextServiceCalculation.cs" />
     <Compile Include="Helpers\SeedTelematicsHistory.cs" />
+    <Compile Include="Helpers\TelematicsDataGenerator.cs" />
     <Compile Include="JobScheduler\JobScheduler.cs" />
     <Compile Include="JobScheduler\Jobs\SendTimeOverdueEmailsJob.cs" />
     <Compile Include="JobScheduler\Jobs\SendMileageOverdueEmailsJob.cs" />
