@@ -9,7 +9,10 @@ class TelematicsStore {
         this.state = new Immutable.Map({
             telematicsData: Immutable.List(),
             telematicsDataHistory: Immutable.List(),
-        }); 
+        });
+
+        this.defaultTelematicsData = Immutable.List();
+        this.defaultTelematicsDataHistory = Immutable.List(); 
     }
         
     loadTelematicsData(telematicsData) {
@@ -26,6 +29,14 @@ class TelematicsStore {
 
     static getTelematicsDataHistory() {
         return this.getState().get('telematicsDataHistory');
+    }
+
+    unloadTelematicsData() {
+        this.setState(this.state.set('telematicsData', this.defaultTelematicsData));
+    }
+
+     unloadTelematicsDataHistory() {
+        this.setState(this.state.set('telematicsDataHistory', this.defaultTelematicsDataHistory));
     }
 }
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace WebApiService.Models
 {
@@ -12,6 +9,8 @@ namespace WebApiService.Models
         public string VIN { get; set; }
 
         public DateTimeOffset Modified { get; set; }
+
+        public string FormattedModifiedDate { get; set; }
 
         public int? CurrentSpeed { get; set; }
 

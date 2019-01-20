@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
@@ -44,7 +41,9 @@ namespace WebApiService.Controllers
 
             var telematicsDataHistories = await _telematicsHistoryBusinessService.GetByVehicleVIN(vehicle.VIN);
             var mappedTelematicsDataHistories = _mapper.Map<IEnumerable<BusinessService.Models.TelematicsDataHistory>, IEnumerable<TelematicsDataHistory>>(telematicsDataHistories);
-            return mappedTelematicsDataHistories;
+            var telematicsDataHistory = mappedTelematicsDataHistories.ToList();
+            telematicsDataHistory.ForEach(x => x.FormattedModifiedDate = x.Modified.ToString("MM/dd/yyyy H:mm"));
+            return telematicsDataHistory;
         }
     }
 }
