@@ -5,6 +5,7 @@ import VehiclesStore from '../../stores/VehiclesStore';
 import VehiclesActions from '../../actions/VehiclesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import shallowEqual from 'shallowequal';
+import isNull from 'lodash/isNull';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -109,6 +110,7 @@ class VehiclesContainer extends Component {
                             <TableCell>Type</TableCell>
                             <TableCell>Brand</TableCell>
                             <TableCell>Model</TableCell>
+                            <TableCell>Driver</TableCell>
                             <TableCell>Services</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
@@ -123,6 +125,7 @@ class VehiclesContainer extends Component {
                                 <TableCell>{vehicle.Type}</TableCell>
                                 <TableCell>{vehicle.Brand}</TableCell>
                                 <TableCell>{vehicle.Model}</TableCell>
+                                <TableCell>{!isNull(vehicle.Driver) && vehicle.Driver.Name}</TableCell>
                                 <TableCell><Build color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
                                 <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>

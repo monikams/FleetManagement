@@ -75,7 +75,7 @@ namespace Infrastructure.Helpers
 
         public static DateTimeOffset? CalculateNextServiceReminderTime(Service service)
         {
-            if (!service.Created.HasValue || !service.TimeReminder.HasValue)
+            if (!service.NextServiceTime.HasValue || !service.TimeReminder.HasValue)
             {
                 return null;
             }
@@ -85,17 +85,17 @@ namespace Infrastructure.Helpers
             {
                 case 1:
                     {
-                        nextServiceReminderTime = service.Created.Value.AddDays(service.TimeReminder.Value);
+                        nextServiceReminderTime = service.NextServiceTime.Value.AddDays(-service.TimeReminder.Value);
                         break;
                     }
                 case 2:
                     {
-                        nextServiceReminderTime = service.Created.Value.AddMonths(service.TimeReminder.Value);
+                        nextServiceReminderTime = service.NextServiceTime.Value.AddMonths(-service.TimeReminder.Value);
                         break;
                     }
                 case 3:
                     {
-                        nextServiceReminderTime = service.Created.Value.AddYears(service.TimeReminder.Value);
+                        nextServiceReminderTime = service.NextServiceTime.Value.AddYears(-service.TimeReminder.Value);
                         break;
                     }
             }

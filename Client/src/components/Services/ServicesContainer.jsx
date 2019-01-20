@@ -111,7 +111,7 @@ class ServicesContainer extends Component {
     render() {      
         const { services, classes } = this.props;
         const { overdueServicesSelected } = this.state;
-        
+
         return (
             <div>
                 <div className={classes.buttons} >
@@ -170,11 +170,11 @@ class ServicesContainer extends Component {
                                 <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageReminder) && service.MileageReminder}</TableCell>
                                 <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.NextServiceReminderMileage) && service.NextServiceReminderMileage}</TableCell>
                                 <TableCell padding="dense" >
-                                {service.BasedOn === 0 && !isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : `${service.TimeRule} y`)}
+                                {service.BasedOn === 0 && !isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : service.TimeRuleEntity === 3 ? `${service.TimeRule} y` : null)}
                                 </TableCell>
                                 <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceTime) && moment(service.NextServiceTime).format('DD/MM/YY')}</TableCell>
                                 <TableCell padding="dense" >
-                                {service.BasedOn === 0 && !isNull(service.TimeReminder) && (service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : `${service.TimeReminder} y`)}
+                                {service.BasedOn === 0 && !isNull(service.TimeReminder) && (service.TimeReminderEntity === 1 ? `${service.TimeReminder} d` : service.TimeReminderEntity === 2 ? `${service.TimeReminder} m` : service.TimeReminderEntity === 3 ? `${service.TimeReminder} y` : null)}
                                 </TableCell>
                                 <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceReminderTime) && moment(service.NextServiceReminderTime).format('DD/MM/YY')}</TableCell>
                                 <TableCell padding="dense" ><CheckCircle className={classes.checkCircle} onClick={() => this.handleMarkAsDone(service.Id)}/></TableCell>
