@@ -8,7 +8,7 @@ import TelematicsActions from '../../actions/TelematicsActions.js';
 import shallowEqual from 'shallowequal';
 import { isEmpty, merge } from 'lodash';
 import moment from 'moment';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Label } from 'recharts';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -75,9 +75,9 @@ class TelematicsContainer extends React.Component {
         let chartTelematicsDataHistory = [];
         telematicsDataHistoryArray.forEach(item => 
         {
-            const formattedDate = moment(item.Modified).format('DD/MM/YY/LT');         
-            const updatedItem = merge(item, { 'Modified': formattedDate });
-            chartTelematicsDataHistory.push(updatedItem);
+            const formattedDate = moment(item.Modified).format('DD/MM/YY/HH:mm');         
+            const updatedItem = merge(item, { 'Modified': formattedDate });       
+            chartTelematicsDataHistory.push(updatedItem);          
         });
 
         return (
@@ -99,8 +99,8 @@ class TelematicsContainer extends React.Component {
                 <h4>Week mileage report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={chartTelematicsDataHistory} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey='Modified' angle={-13} textAnchor="end"/>
-                    <YAxis/>
+                    <XAxis dataKey='Modified' angle={-13} textAnchor="end"/>                    
+                    <YAxis unit="km" />
                     <Tooltip/>
                     <Area type='monotone' dataKey='Mileage' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
@@ -112,7 +112,7 @@ class TelematicsContainer extends React.Component {
                 <AreaChart className={classes.chart} width={1000} height={280} data={chartTelematicsDataHistory} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='Modified' angle={-13} textAnchor="end" />
-                    <YAxis />
+                    <YAxis unit="%" />
                     <Tooltip/>
                     <Area type='monotone' dataKey='FuelLevel' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
