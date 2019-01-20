@@ -25,6 +25,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router';
 import moment from 'moment';
 import isNull from 'lodash/isNull';
+import isEmpty from 'lodash/isEmpty';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -65,6 +66,7 @@ class ServicesContainer extends Component {
         this.state = {
             overdueServicesSelected: false,
             markedAsDoneServiceId: "",
+            deletedServiceId: "",
         }
     }
 
@@ -100,9 +102,10 @@ class ServicesContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/vehicles/${vehicleId}/editService/${serviceId}`);
     };
 
-    handleDeleteClick(serviceId) {
+    handleDelete(serviceId) {
         const { params: { vehicleId } } = this.props;
         ServicesActions.deleteService(vehicleId, serviceId);
+        this.handleCloseDeleteModal();
     };
 
     handleCreateServiceClick = () => {
@@ -124,10 +127,19 @@ class ServicesContainer extends Component {
         this.setState({ markedAsDoneServiceId: "" });
     };
 
+    handleOpenDeleteModal = serviceId => {
+        this.setState({ deletedServiceId: serviceId });
+    }
+
+    handleCloseDeleteModal = () => {
+        this.setState({ deletedServiceId: "" });
+    };
+
+
     renderMarkAsDoneModal = serviceId => 
-        (
+    (
         <Dialog
-          open={this.state.markedAsDoneServiceId}
+          open={!isEmpty(this.state.markedAsDoneServiceId)}
           onClose={this.handleCloseMarkAsDoneModal}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -139,7 +151,7 @@ class ServicesContainer extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCloseMarkAsDoneModal} onClick={() => this.handleMarkAsDone(serviceId)} color="primary" variant="contained" className={this.props.classes.button} >
+            <Button onClick={() => this.handleMarkAsDone(serviceId)} color="primary" variant="contained" className={this.props.classes.button} >
                OK
             </Button>
              <Button onClick={this.handleCloseMarkAsDoneModal} variant="contained" className={this.props.classes.button} >
@@ -147,12 +159,37 @@ class ServicesContainer extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-        );
+    );
+
+    renderDeleteModal = serviceId =>
+    (
+        <Dialog
+          open={!isEmpty(this.state.deletedServiceId)}
+          onClose={this.handleCloseDeleteModal}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Delete this service"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure that you want to delete this service?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleDelete(serviceId)} color="primary" variant="contained" className={this.props.classes.button} >
+               Yes
+            </Button>
+             <Button onClick={this.handleCloseDeleteModal} variant="contained" className={this.props.classes.button} >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+    );
     
 
     render() {      
         const { services, classes } = this.props;
-        const { overdueServicesSelected, markedAsDoneServiceId } = this.state;
+        const { overdueServicesSelected, markedAsDoneServiceId, deletedServiceId } = this.state;
 
         return (
             <div>
@@ -221,14 +258,15 @@ class ServicesContainer extends Component {
                                 <TableCell padding="dense" >{service.BasedOn === 0 && !isNull(service.NextServiceReminderTime) && moment(service.NextServiceReminderTime).format('DD/MM/YY')}</TableCell>
                                 <TableCell padding="dense" ><CheckCircle className={classes.checkCircle} onClick={() => this.handleOpenMarkAsDoneModal(service.Id)}/></TableCell>
                                 <TableCell padding="dense" ><EditIcon onClick={() => this.handleEditClick(service.Id)}/></TableCell>
-                                <TableCell padding="dense" ><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(service.Id)} /></TableCell>
+                                <TableCell padding="dense" ><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(service.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
                         </TableBody>
                     </Table>
                 </Paper>
-                {markedAsDoneServiceId !== '' && this.renderMarkAsDoneModal(markedAsDoneServiceId)}
+                {!isEmpty(markedAsDoneServiceId) && this.renderMarkAsDoneModal(markedAsDoneServiceId)}
+                {!isEmpty(deletedServiceId) && this.renderDeleteModal(deletedServiceId)}
             </div>
         );
     }
