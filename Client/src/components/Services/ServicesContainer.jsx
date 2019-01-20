@@ -144,7 +144,7 @@ class ServicesContainer extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Mark this service as done"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">Mark this service as done</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               If you mark this service as done, your next service information will be recalculated based on the time/mileage rules.
@@ -169,10 +169,10 @@ class ServicesContainer extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Delete this service"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure that you want to delete this service?
+              Are you sure you want to permanantly remove this service?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -186,7 +186,6 @@ class ServicesContainer extends Component {
         </Dialog>
     );
     
-
     render() {      
         const { services, classes } = this.props;
         const { overdueServicesSelected, markedAsDoneServiceId, deletedServiceId } = this.state;

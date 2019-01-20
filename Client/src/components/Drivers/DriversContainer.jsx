@@ -16,6 +16,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
+import isEmpty from 'lodash/isEmpty';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
   root: {
@@ -37,6 +43,9 @@ class DriversContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            deletedDriverId: '',
+        }
     }
 
     static getStores() {
@@ -65,7 +74,7 @@ class DriversContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/editDriver/${driverId}`);
     };
 
-    handleDeleteClick(driverId) {
+    handleDelete(driverId) {
         const { params: { companyId } } = this.props;
         DriversActions.deleteDriver(driverId, companyId);
     };
@@ -75,8 +84,42 @@ class DriversContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/createDriver`);
     };
 
+    handleOpenDeleteModal = driverId => {
+        this.setState({ deletedDriverId: driverId });
+    }
+
+    handleCloseDeleteModal = driverId => {
+        this.setState({ deletedDriverId: "" });
+    };
+
+    renderDeleteModal = driverId =>
+    (
+        <Dialog
+          open={!isEmpty(this.state.deletedDriverId)}
+          onClose={this.handleCloseDeleteModal}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to permanantly remove this driver?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleDelete(driverId)} color="primary" variant="contained" className={this.props.classes.button} >
+               Yes
+            </Button>
+            <Button onClick={this.handleCloseDeleteModal} variant="contained" className={this.props.classes.button} >
+                Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+    );
+
     render() {      
         const { drivers, classes } = this.props;
+        const { deletedDriverId } = this.state;
         
         return (
             <div>
@@ -113,13 +156,14 @@ class DriversContainer extends Component {
                                 <TableCell>{driver.Email}</TableCell>
                                 <TableCell>{driver.Telephone}</TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(driver.Id)}/></TableCell>
-                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(driver.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(driver.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
                         </TableBody>
                     </Table>
                 </Paper>
+                {!isEmpty(deletedDriverId) && this.renderDeleteModal(deletedDriverId)}
             </div>
         );
     }

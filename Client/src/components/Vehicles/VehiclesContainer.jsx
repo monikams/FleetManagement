@@ -22,6 +22,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import isEmpty from 'lodash/isEmpty';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
   root: {
@@ -43,6 +49,9 @@ class VehiclesContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            deletedVehicleId: '',
+        };
     }
 
     static getStores() {
@@ -76,7 +85,7 @@ class VehiclesContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/editVehicle/${vehicleId}`);
     };
 
-     handleDeleteClick(vehicleId) {
+     handleDelete(vehicleId) {
         const { params: { companyId } } = this.props;
         VehiclesActions.deleteVehicle(vehicleId, companyId);
     };
@@ -86,8 +95,42 @@ class VehiclesContainer extends Component {
         this.props.router.replace(`/companies/${companyId}/createVehicle`);
     };
 
+     handleOpenDeleteModal = vehicleId => {
+        this.setState({ deletedVehicleId: vehicleId });
+    }
+
+    handleCloseDeleteModal = vehicleId => {
+        this.setState({ deletedVehicleId: "" });
+    };
+
+    renderDeleteModal = vehicleId =>
+    (
+        <Dialog
+          open={!isEmpty(this.state.deletedVehicleId)}
+          onClose={this.handleCloseDeleteModal}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to permanantly remove this vehicle?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleDelete(vehicleId)} color="primary" variant="contained" className={this.props.classes.button} >
+               Yes
+            </Button>
+            <Button onClick={this.handleCloseDeleteModal} variant="contained" className={this.props.classes.button} >
+                Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+    );
+
     render() {      
         const { vehicles, classes } = this.props;
+        const { deletedVehicleId } = this.state;
               
         return (
             <div>
@@ -128,13 +171,14 @@ class VehiclesContainer extends Component {
                                 <TableCell>{!isNull(vehicle.Driver) && vehicle.Driver.Name}</TableCell>
                                 <TableCell><Build color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
-                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(vehicle.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(vehicle.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
                         </TableBody>
                     </Table>
                 </Paper>
+                {!isEmpty(deletedVehicleId) && this.renderDeleteModal(deletedVehicleId)}
             </div>
         );
     }

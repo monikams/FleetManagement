@@ -15,6 +15,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Search from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
+import isEmpty from 'lodash/isEmpty';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { withRouter } from 'react-router';
 
 const styles = theme => ({
@@ -40,6 +46,9 @@ class CompaniesContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            deletedCompanyId: '',
+        }
     }
 
     static getStores() {
@@ -64,16 +73,51 @@ class CompaniesContainer extends Component {
         this.props.router.push({ pathname: `/editCompany/${companyId}` });
     };
 
-     handleDeleteClick(companyId) {
+     handleDelete(companyId) {
         CompaniesActions.deleteCompany(companyId);
+        this.handleCloseDeleteModal();
     };
 
     handleCreateCompanyClick = () => {
-         this.props.router.push('/createCompany');
+        this.props.router.push('/createCompany');
     };
+
+    handleOpenDeleteModal = companyId => {
+        this.setState({ deletedCompanyId: companyId });
+    }
+
+    handleCloseDeleteModal = companyId => {
+        this.setState({ deletedCompanyId: "" });
+    };
+
+    renderDeleteModal = companyId =>
+    (
+        <Dialog
+          open={!isEmpty(this.state.deletedCompanyId)}
+          onClose={this.handleCloseDeleteModal}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to permanantly remove this company?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleDelete(companyId)} color="primary" variant="contained" className={this.props.classes.button} >
+               Yes
+            </Button>
+            <Button onClick={this.handleCloseDeleteModal} variant="contained" className={this.props.classes.button} >
+                Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+    );
 
     render() {      
         const { companies, classes } = this.props;
+        const { deletedCompanyId } = this.state;
     
         return (
             <div className={classes.container}>
@@ -112,13 +156,14 @@ class CompaniesContainer extends Component {
                                 <TableCell>{company.Telephone}</TableCell>
                                 <TableCell><Search color="primary" onClick={() => this.handlePreviewClick(company.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(company.Id)} /></TableCell>
-                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleDeleteClick(company.Id)} /></TableCell>
+                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(company.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}
                         </TableBody>
                     </Table>
                 </Paper>
+                {!isEmpty(deletedCompanyId) && this.renderDeleteModal(deletedCompanyId)}
             </div>
         );
     }
