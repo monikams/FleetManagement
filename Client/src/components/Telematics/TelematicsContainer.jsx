@@ -72,7 +72,6 @@ class TelematicsContainer extends React.Component {
         const { telematicsData, telematicsDataHistory, classes } = this.props;
         const { report } = this.state;
         const telematicsDataHistoryArray = telematicsDataHistory.toJS();
-      
 
         return (
         <div>
@@ -94,7 +93,7 @@ class TelematicsContainer extends React.Component {
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='FormattedModifiedDate' angle={-13} textAnchor="end"/>                    
-                    <YAxis unit="km" />
+                    <YAxis unit="km" type="number" domain={['dataMin', 'dataMax']} />
                     <Tooltip/>
                     <Area type='monotone' dataKey='Mileage' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
