@@ -70,11 +70,11 @@ class ServicesActions {
         }
     }
 
-    markServiceAsDone(serviceId) {
+    markServiceAsDone(vehicleId, serviceId) {
         return (dispatch) => {
             ServicesService.markServiceAsDone(serviceId)
             .then((response) => {
-               // Do nothing in the UI                 
+               this.loadServices(vehicleId, vehicleId);                
             })
             .catch((error) => {
                 console.log(error);
