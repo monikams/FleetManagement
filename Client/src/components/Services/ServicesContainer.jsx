@@ -243,10 +243,10 @@ class ServicesContainer extends Component {
                                 {service.Name}
                                 </TableCell>
                                 <TableCell padding="dense" >{!isNull(service.Description) && service.Description}</TableCell>
-                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageRule) && service.MileageRule}</TableCell>
-                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.NextServiceMileage) && service.NextServiceMileage}</TableCell>
-                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageReminder) && service.MileageReminder}</TableCell>
-                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.NextServiceReminderMileage) && service.NextServiceReminderMileage}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageRule) && <span>{service.MileageRule}km</span>}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.NextServiceMileage) && <span>{service.NextServiceMileage}km</span>}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.MileageReminder) && <span>{service.MileageReminder}km</span>}</TableCell>
+                                <TableCell padding="dense" >{service.BasedOn === 1 && !isNull(service.NextServiceReminderMileage) && <span>{service.NextServiceReminderMileage}km</span>}</TableCell>
                                 <TableCell padding="dense" >
                                 {service.BasedOn === 0 && !isNull(service.TimeRule) && (service.TimeRuleEntity === 1 ? `${service.TimeRule} d` : service.TimeRuleEntity === 2 ? `${service.TimeRule} m` : service.TimeRuleEntity === 3 ? `${service.TimeRule} y` : null)}
                                 </TableCell>

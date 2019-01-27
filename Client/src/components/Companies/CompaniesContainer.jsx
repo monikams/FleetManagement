@@ -156,7 +156,7 @@ class CompaniesContainer extends Component {
                                 <TableCell>{company.Telephone}</TableCell>
                                 <TableCell><Search color="primary" onClick={() => this.handlePreviewClick(company.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(company.Id)} /></TableCell>
-                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(company.Id)} /></TableCell>
+                                <TableCell>{company.CreatorId === localStorage.getItem('userId') && <DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(company.Id)} />}</TableCell>
                             </TableRow>
                             );
                         })}

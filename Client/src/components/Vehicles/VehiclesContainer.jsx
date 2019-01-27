@@ -15,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Build from '@material-ui/icons/Build';
+import Search from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -154,7 +154,7 @@ class VehiclesContainer extends Component {
                             <TableCell>Brand</TableCell>
                             <TableCell>Model</TableCell>
                             <TableCell>Driver</TableCell>
-                            <TableCell>Services</TableCell>
+                            <TableCell>Preview</TableCell>
                             <TableCell>Edit</TableCell>
                             <TableCell>Delete</TableCell>
                         </TableRow>
@@ -169,7 +169,7 @@ class VehiclesContainer extends Component {
                                 <TableCell>{vehicle.Brand}</TableCell>
                                 <TableCell>{vehicle.Model}</TableCell>
                                 <TableCell>{!isNull(vehicle.Driver) && vehicle.Driver.Name}</TableCell>
-                                <TableCell><Build color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
+                                <TableCell><Search color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
                                 <TableCell><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(vehicle.Id)} /></TableCell>
                             </TableRow>
