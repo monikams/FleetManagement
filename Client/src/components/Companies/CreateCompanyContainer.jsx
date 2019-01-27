@@ -6,6 +6,9 @@ import UsersActions from '../../actions/UsersActions.js';
 import CompaniesActions from '../../actions/CompaniesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
@@ -71,6 +74,12 @@ class CreateCompanyContainer extends Component {
                 telephone: '',
                 subscribers: [],
             },
+               isValid: {
+                'name': true,
+                'email': true,
+                'address': true,
+                'telephone': true,
+            },
 		} 
     }
 
@@ -90,9 +99,13 @@ class CreateCompanyContainer extends Component {
 
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localCompany } = this.state;
+        const { localCompany, isValid } = this.state;
         const newCompany = merge(localCompany, { [name]: value });
-        this.setState({ localCompany: newCompany });
+        isValid[name] = !isEmpty(value);
+        this.setState({ 
+            localCompany: newCompany, 
+            isValid: isValid
+        });
     };
 
     handleSaveButtonClick = () => {
@@ -127,7 +140,7 @@ class CreateCompanyContainer extends Component {
 
     render() {      
         const { users, classes } = this.props;
-        const { localCompany : { subscribers } } = this.state;
+        const { localCompany, localCompany : { subscribers }, isValid } = this.state;
         const items = ['Companies'];
     
         return (
@@ -138,6 +151,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
+                            error={!isFieldValid('name',isValid)}
                             autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
@@ -152,6 +166,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
+                            error={!isFieldValid('email',isValid)}
                             autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
@@ -166,6 +181,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
+                            error={!isFieldValid('address',isValid)}
                             autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
@@ -224,6 +240,7 @@ class CreateCompanyContainer extends Component {
                             className={classes.button}
                             onClick={this.handleSaveButtonClick}
                             id='saveButton'
+                            disabled={isButtonDisabled(omit(localCompany, ['subscribers','telephone']))}
                         >
                             Save
                         </Button>
