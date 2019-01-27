@@ -92,7 +92,7 @@ class TelematicsContainer extends React.Component {
                 <h4>Weekly mileage report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey='FormattedModifiedDate' angle={-22} textAnchor="end"/>                    
+                    <XAxis dataKey='FormattedModifiedDate' angle={-10} />                    
                     <YAxis unit="km" type="number" domain={['dataMin', 'dataMax']} />
                     <Tooltip/>
                     <Area type='monotone' dataKey='Mileage' stroke='#8884d8' fill='#8884d8' />
@@ -104,7 +104,7 @@ class TelematicsContainer extends React.Component {
                 <h4>Weekly fuel level report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey='FormattedModifiedDate' angle={-22} textAnchor="end" />
+                    <XAxis dataKey='FormattedModifiedDate' angle={-10} />
                     <YAxis unit="%" />
                     <Tooltip/>
                     <Area type='monotone' dataKey='FuelLevel' stroke='#8884d8' fill='#8884d8' />

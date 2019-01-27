@@ -29,6 +29,16 @@ class PreviewService extends React.Component {
       return [VehiclesStore];
   }
 
+  constructor(props) {
+      super(props);
+      const routes = props.router.routes;
+      const length = routes.length;
+      const lastElement = routes[length - 1];
+      this.state = {
+        value: lastElement.path === "reports" ? 1 : 0,
+      }  
+  }
+
   static getPropsFromStores() {
       return {
           vehicle: VehiclesStore.getVehicle(), 
@@ -39,10 +49,6 @@ class PreviewService extends React.Component {
       const { params: { vehicleId } } = this.props;
       VehiclesActions.loadVehicle(vehicleId);
   }
-
-  state = {
-    value: 0,
-  };
 
   handleChange = (event, value) => {
     const { params: { companyId, vehicleId } } = this.props;
