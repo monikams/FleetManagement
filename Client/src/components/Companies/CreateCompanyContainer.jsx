@@ -78,7 +78,6 @@ class CreateCompanyContainer extends Component {
                 'name': true,
                 'email': true,
                 'address': true,
-                'telephone': true,
             },
 		} 
     }

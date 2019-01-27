@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import DriversActions from '../../actions/DriversActions.js';
 import { withStyles } from '@material-ui/core/styles';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
@@ -47,14 +50,23 @@ class CreateDriverContainer extends Component {
                 telephone: '',
                 companyId: companyId,
             },
+            isValid: {
+                'name': true,
+                'email': true,
+                'address': true,
+            },
 		} 
     }
 
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localDriver } = this.state;
+        const { localDriver,isValid } = this.state;
         const newDriver = merge(localDriver, { [name]: value });
-        this.setState({ localDriver: newDriver });
+        isValid[name] = !isEmpty(value);
+        this.setState({ 
+            localDriver: newDriver,
+            isValid: isValid
+       });
     };
 
     handleSaveButtonClick = () => {
@@ -64,7 +76,7 @@ class CreateDriverContainer extends Component {
 
     render() {      
         const { classes, companies } = this.props;
-        const { localDriver } = this.state;
+        const { localDriver, isValid } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -72,6 +84,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('name',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -86,6 +99,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('email',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -100,6 +114,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('address',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -133,6 +148,7 @@ class CreateDriverContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
+                        disabled={isButtonDisabled(omit(localDriver, ['telephone']))}
                     >
                         Save
                     </Button>
