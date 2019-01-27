@@ -89,7 +89,7 @@ class TelematicsContainer extends React.Component {
             {report === "mileage" && 
             <div>
                 <h4>Current milege: <span>{telematicsData.size !==0 && telematicsData.first().Mileage}</span></h4>
-                <h4>Week mileage report:</h4>
+                <h4>Weekly mileage report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='FormattedModifiedDate' angle={-13} textAnchor="end"/>                    
@@ -101,7 +101,7 @@ class TelematicsContainer extends React.Component {
             {report === "fuelLevel" && 
             <div>
                 <h4>Current fuel level: <span>{telematicsData.size !==0 && telematicsData.first().FuelLevel}</span></h4>
-                <h4>Week fuel level report:</h4>
+                <h4>Weekly fuel level report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='FormattedModifiedDate' angle={-13} textAnchor="end" />
