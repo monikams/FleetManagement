@@ -8,6 +8,9 @@ import DriversActions from '../../actions/DriversActions.js';
 import VehiclesActions from '../../actions/VehiclesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
@@ -56,7 +59,7 @@ class CreateVehicleContainer extends Component {
         super(props);
         this.state = {
 			localVehicle: {
-                vin: '',
+                VIN: '',
                 plateNumber: '',
                 type: '',
                 brand: '',
@@ -64,6 +67,13 @@ class CreateVehicleContainer extends Component {
                 companyId: companyId,
                 driverId: '',
             },
+            isValid: {
+                'VIN': true,
+                'plateNumber': true,
+                'type': true,
+                'brand': true,
+            },
+
 		} 
     }
 
@@ -86,9 +96,13 @@ class CreateVehicleContainer extends Component {
 
     handleChange = name => event => {
         const { target: { value }} = event;     
-        const { localVehicle } = this.state;
+        const { localVehicle, isValid } = this.state;
         const newVehicle = merge(localVehicle, { [name]: value });
-        this.setState({ localVehicle: newVehicle });
+        isValid[name] = !isEmpty(value);
+        this.setState({ 
+            localVehicle: newVehicle,
+            isValid: isValid,        
+        });
     };
 
     handleSaveButtonClick = () => {
@@ -98,7 +112,7 @@ class CreateVehicleContainer extends Component {
 
     render() {      
         const { classes, companies, drivers } = this.props;
-        const { localVehicle } = this.state;
+        const { localVehicle, isValid } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -106,6 +120,7 @@ class CreateVehicleContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('VIN',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -120,6 +135,7 @@ class CreateVehicleContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('plateNumber',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -134,6 +150,7 @@ class CreateVehicleContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('type',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -148,6 +165,7 @@ class CreateVehicleContainer extends Component {
                      <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('brand',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -193,6 +211,7 @@ class CreateVehicleContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
+                        disabled={isButtonDisabled(omit(localVehicle, ['driverId','model']))}
                     >
                         Save
                     </Button>
