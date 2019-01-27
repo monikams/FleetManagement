@@ -81,7 +81,7 @@ namespace Infrastructure.Helpers
             }
 
             DateTimeOffset? nextServiceReminderTime = null;
-            switch (service.TimeRuleEntity)
+            switch (service.TimeReminderEntity)
             {
                 case 1:
                     {

@@ -214,7 +214,7 @@ class CreateServiceContainer extends Component {
                                 margin="normal"
                             />
                             <FormControl className={classes.formControl} >
-                                <InputLabel shrink>Time Rule Range</InputLabel>
+                                <InputLabel shrink>Time Rule Unit</InputLabel>
                                 <Select
                                     displayEmpty
                                     value={localService.timeRuleEntity}
@@ -240,7 +240,7 @@ class CreateServiceContainer extends Component {
                                 margin="normal"
                             />
                             <FormControl className={classes.formControl} >
-                                <InputLabel shrink>Time Reminder Range</InputLabel>
+                                <InputLabel shrink>Time Reminder Unit</InputLabel>
                                 <Select
                                     displayEmpty
                                     value={localService.timeReminderEntity}
