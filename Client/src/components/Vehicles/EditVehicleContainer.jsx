@@ -11,22 +11,29 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
+import isEmpty from 'lodash/isEmpty';
 
 class EditVehicleContainer extends Component {
 
      constructor(props) {
         super(props);
         this.state = {
-		localVehicle: Immutable.Map({
-            Id: '',
-            VIN: '',
-            PlateNumber: '',
-            Type: '',
-            Brand: '',
-            Model: '',
-            DriverId: '',
-            CompanyId: '',
-        }),
+            localVehicle: Immutable.Map({
+                Id: '',
+                VIN: '',
+                PlateNumber: '',
+                Type: '',
+                Brand: '',
+                Model: '',
+                DriverId: '',
+                CompanyId: '',
+            }),
+            isValid: {
+                'VIN': true,
+                'PlateNumber': true,
+                'Type': true,
+                'Brand': true,
+           },
 	  } 
     }
 
@@ -78,7 +85,8 @@ class EditVehicleContainer extends Component {
 
     handleChange = (name, event) => {
         const { target: { value }} = event;  
-        const { localVehicle } = this.state;
+        const { localVehicle, isValid } = this.state;
+        isValid[name] = !isEmpty(value);
 
         let updatedVehicle;
         if (value === 'withoutDriver') {
@@ -87,12 +95,15 @@ class EditVehicleContainer extends Component {
             updatedVehicle = localVehicle.update(name, oldValue => value);
         }
         
-        this.setState({ localVehicle: updatedVehicle });
+        this.setState({ 
+            localVehicle: updatedVehicle,
+            isValid: isValid 
+        });
     };
     
     render() {      
         const { classes, drivers, params: { vehicleId  } } = this.props;
-        const { localVehicle } = this.state;   
+        const { localVehicle, isValid } = this.state;   
         
         return (
             <EditVehicle
@@ -101,6 +112,7 @@ class EditVehicleContainer extends Component {
                 vehicleId={vehicleId}
                 onSaveButtonClick={this.handleSaveButtonClick}
                 onChange={this.handleChange}
+                isValid={isValid}
             />
         );
     }

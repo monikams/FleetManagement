@@ -10,6 +10,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import omit from 'lodash/omit';
 
 const styles = theme => ({
   button: {
@@ -54,7 +56,7 @@ class EditVehicle extends Component {
     }
 
     render() {      
-        const { classes, vehicle, drivers, onSaveButtonClick } = this.props;
+        const { classes, vehicle, drivers, onSaveButtonClick, isValid } = this.props;
            
         return (
            <div className={classes.form} >  
@@ -62,6 +64,7 @@ class EditVehicle extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('VIN',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -76,6 +79,7 @@ class EditVehicle extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('PlateNumber',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -90,6 +94,7 @@ class EditVehicle extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Type',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -104,6 +109,7 @@ class EditVehicle extends Component {
                      <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Brand',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -150,6 +156,7 @@ class EditVehicle extends Component {
                         className={classes.button}
                         onClick={onSaveButtonClick}
                         id='saveButton'
+                        disabled={isButtonDisabled(omit(vehicle.toJS(), ["Model", "Id", "DriverId", "CompanyId"]))}
                     >
                         Save
                     </Button>
@@ -166,6 +173,7 @@ EditVehicle.propTypes = {
     drivers: PropTypes.instanceOf(Immutable.List),
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
+    isValid: PropTypes.array.isRequired,
 };
 
 EditVehicle.defaultProps = {
