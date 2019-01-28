@@ -10,19 +10,25 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
 import { withRouter } from 'react-router';
+import isEmpty from 'lodash/isEmpty';
 
 class EditDriverContainer extends Component {
 
      constructor(props) {
         super(props);
         this.state = {
-		localDriver: Immutable.Map({
-            Id: '',
-            Name: '',
-            Email: '',
-            Address: '',
-            Telephone: '',
-        }),
+            localDriver: Immutable.Map({
+                Id: '',
+                Name: '',
+                Email: '',
+                Address: '',
+                Telephone: '',
+            }),
+            isValid: {
+                    'Name': true,
+                    'Email': true,
+                    'Address': true,
+                },
 	  } 
     }
 
@@ -70,14 +76,18 @@ class EditDriverContainer extends Component {
 
     handleChange = (name, event) => {
         const { target: { value }} = event;  
-        const { localDriver } = this.state;   
+        const { localDriver, isValid } = this.state;  
+        isValid[name] = !isEmpty(value); 
         const updatedDriver = localDriver.update(name, oldValue => value);
-        this.setState({ localDriver: updatedDriver });
+        this.setState({ 
+            localDriver: updatedDriver,
+            isValid: isValid 
+        });
     };
     
     render() {      
         const { classes, params: { driverId  } } = this.props;
-        const { localDriver } = this.state;
+        const { localDriver, isValid } = this.state;
         
         return (
             <EditDriver
@@ -85,6 +95,7 @@ class EditDriverContainer extends Component {
                 driverId={driverId}
                 onSaveButtonClick={this.handleSaveButtonClick}
                 onChange={this.handleChange}
+                isValid={isValid}
             />
         );
     }

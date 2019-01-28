@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import omit from 'lodash/omit';
 
 const styles = theme => ({
   button: {
@@ -44,7 +46,7 @@ class EditDriver extends Component {
     }
 
     render() {      
-        const { classes, driver, onSaveButtonClick } = this.props;
+        const { classes, driver, onSaveButtonClick, isValid } = this.props;
            
         return (
            <div className={classes.form} >  
@@ -52,6 +54,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Name',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -67,6 +70,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Email',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -82,6 +86,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Address',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -117,6 +122,7 @@ class EditDriver extends Component {
                         className={classes.button}
                         onClick={onSaveButtonClick}
                         id='saveButton'
+                        disabled={isButtonDisabled(omit(driver.toJS(), ["Telephone", "Id"]))}
                     >
                         Save
                     </Button>
@@ -132,6 +138,7 @@ EditDriver.propTypes = {
     driverId: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
+    isValid: PropTypes.array.isRequired,
 };
 
 EditDriver.defaultProps = {
