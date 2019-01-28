@@ -180,7 +180,7 @@ EditCompany.propTypes = {
     onDropownChange: PropTypes.func.isRequired, 
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
-    isValid: PropTypes.array.isRequired,
+    isValid: PropTypes.object.isRequired,
 };
 
 EditCompany.defaultProps = {

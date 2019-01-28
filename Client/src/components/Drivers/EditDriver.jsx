@@ -138,7 +138,7 @@ EditDriver.propTypes = {
     driverId: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
-    isValid: PropTypes.array.isRequired,
+    isValid: PropTypes.object.isRequired,
 };
 
 EditDriver.defaultProps = {

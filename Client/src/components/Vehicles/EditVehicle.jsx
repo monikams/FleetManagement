@@ -173,7 +173,7 @@ EditVehicle.propTypes = {
     drivers: PropTypes.instanceOf(Immutable.List),
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
-    isValid: PropTypes.array.isRequired,
+    isValid: PropTypes.object.isRequired,
 };
 
 EditVehicle.defaultProps = {
