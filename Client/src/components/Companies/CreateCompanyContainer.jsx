@@ -42,6 +42,7 @@ const styles = theme => ({
     width: '50%',
     marginLeft: 'auto',
     marginRight: 'auto',
+    marginTop: '30px',
   },
   textField: {
     marginLeft: theme.spacing.unit,
