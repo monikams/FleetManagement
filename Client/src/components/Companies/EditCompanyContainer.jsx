@@ -14,6 +14,7 @@ import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
 import EditCompany from './EditCompany';
 import SideBar from '../SideBar';
+import isEmpty from 'lodash/isEmpty';
 
 const styles = theme => ({
    root: {
@@ -38,6 +39,11 @@ class EditCompanyContainer extends Component {
                 Subscribers: Immutable.List(),
                 Creator: {},
             }),
+            isValid: {
+                'Name': true,
+                'Email': true,
+                'Address': true,
+            },
 		} 
     }
 
@@ -90,9 +96,13 @@ class EditCompanyContainer extends Component {
 
     handleChange = (name, event) => {
         const { target: { value }} = event;  
-        const { localCompany } = this.state;   
+        const { localCompany, isValid } = this.state;
+        isValid[name] = !isEmpty(value);   
         const updatedCompany = localCompany.update(name, oldValue => value);
-        this.setState({ localCompany: updatedCompany });
+        this.setState({ 
+            localCompany: updatedCompany,
+            isValid: isValid
+        });
     };
 
     handleUserDropdownChange = event => {
@@ -127,6 +137,7 @@ class EditCompanyContainer extends Component {
 
     render() {      
         const { users, classes, company, params: { companyId  } } = this.props;
+        const { isValid } = this.state;
         const { localCompany } = this.state;
         const items = ['Companies'];
         
@@ -140,6 +151,7 @@ class EditCompanyContainer extends Component {
                     onDropownChange={this.handleUserDropdownChange} 
                     onSaveButtonClick={this.handleSaveButtonClick}
                     onChange={this.handleChange}
+                    isValid={isValid}
                 />
             </div>    
         );

@@ -16,6 +16,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import omit from 'lodash/omit';
 
 const styles = theme => ({
   button: {
@@ -59,7 +61,7 @@ class EditCompany extends Component {
     }
 
     render() {      
-        const { users, classes, company, onDropownChange, onSaveButtonClick } = this.props;
+        const { users, classes, company, onDropownChange, onSaveButtonClick, isValid } = this.props;
 
         return (
            <div className={classes.form} >  
@@ -67,6 +69,7 @@ class EditCompany extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Name',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -82,6 +85,7 @@ class EditCompany extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Email',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -97,6 +101,7 @@ class EditCompany extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Address',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -157,6 +162,7 @@ class EditCompany extends Component {
                         className={classes.button}
                         onClick={onSaveButtonClick}
                         id='saveButton'
+                        disabled={isButtonDisabled(omit(company.toJS(), ["CreatorId", "Id"]))}
                     >
                         Save
                     </Button>
@@ -174,6 +180,7 @@ EditCompany.propTypes = {
     onDropownChange: PropTypes.func.isRequired, 
     onChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
+    isValid: PropTypes.array.isRequired,
 };
 
 EditCompany.defaultProps = {
