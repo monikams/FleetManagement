@@ -5,6 +5,9 @@ import ServicesStore from '../../stores/ServicesStore';
 import ServicesActions from '../../actions/ServicesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
+import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
@@ -75,14 +78,28 @@ class CreateServiceContainer extends Component {
                 timeReminder: 0,
                 timeReminderEntity: 1,
             },
+            isValid: {
+                'name': true,
+                'recipient': true,
+                'mileageRule': true,
+                'mileageReminder': true,
+                'timeRule': true,
+                'timeRuleEntity': true,
+                'timeReminder': true,
+                'timeReminderEntity': true,
+            },
 		}
     }
 
     handleChange = name => event => {
         const { target: { value }} = event; 
-        const { localService } = this.state;
+        const { localService, isValid } = this.state;
+        isValid[name] = !isEmpty(value);
         const newService = merge(localService, { [name]: value });
-        this.setState({ localService: newService });
+        this.setState({ 
+            localService: newService,
+            isValid: isValid
+        });
     };
 
     handleRadioButtonChange = event => {
@@ -101,7 +118,9 @@ class CreateServiceContainer extends Component {
             timeReminder: 0,
             timeReminderEntity: 1,
         });
-        this.setState({ localService: newService })
+        this.setState({ 
+            localService: newService,
+        })
     };
 
     handleSaveButtonClick = () => {
@@ -112,7 +131,7 @@ class CreateServiceContainer extends Component {
 
     render() {      
         const { classes } = this.props;
-        const { localService, selectedValue } = this.state;
+        const { localService, selectedValue, isValid } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -120,6 +139,7 @@ class CreateServiceContainer extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('name',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -134,6 +154,7 @@ class CreateServiceContainer extends Component {
                      <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('recipient',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -171,6 +192,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('mileageRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -185,6 +207,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('mileageReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -203,6 +226,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('timeRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -229,6 +253,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('timeReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -263,6 +288,7 @@ class CreateServiceContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
+                        disabled={isButtonDisabled(omit(localService, ['description','vehicleId']))}
                     >
                         Save
                     </Button>
