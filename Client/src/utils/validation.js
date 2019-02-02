@@ -17,8 +17,6 @@ function isServicesSaveButtonDisabled(localItem) {
 function isCreateServicesSaveButtonDisabled(localItem) {
    const omittedProps = localItem.basedOn == 1 ? ['timeRule', 'timeReminder', 'timeRuleEntity', 'timeReminderEntity'] : ['mileageRule', 'mileageReminder'];        
    const result = Object.values(omit(localItem, omittedProps)).some(property => property === '');
-   console.log(localItem);
-   console.log(omittedProps);
    return result;
 }
 
