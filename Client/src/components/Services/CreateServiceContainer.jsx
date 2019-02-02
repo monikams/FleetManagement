@@ -5,7 +5,7 @@ import ServicesStore from '../../stores/ServicesStore';
 import ServicesActions from '../../actions/ServicesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { withStyles } from '@material-ui/core/styles';
-import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import { isFieldValid, isCreateServicesSaveButtonDisabled } from '../../utils/validation.js';
 import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
 import TextField from '@material-ui/core/TextField';
@@ -71,11 +71,11 @@ class CreateServiceContainer extends Component {
                 recipient: '',
                 vehicleId: vehicleId,
                 basedOn: '',
-                mileageRule: 0,
-                mileageReminder: 0,
-                timeRule: 0,
+                mileageRule: '',
+                mileageReminder: '',
+                timeRule: '',
                 timeRuleEntity: 1,
-                timeReminder: 0,
+                timeReminder: '',
                 timeReminderEntity: 1,
             },
             isValid: {
@@ -111,11 +111,11 @@ class CreateServiceContainer extends Component {
             recipient: localService.recipient, 
             vehicleId: localService.vehicleId,
             basedOn: value === 'time' ? 0 : 1,
-            mileageRule: 0,
-            mileageReminder: 0,
-            timeRule: 0,
+            mileageRule: '',
+            mileageReminder: '',
+            timeRule: '',
             timeRuleEntity: 1,
-            timeReminder: 0,
+            timeReminder: '',
             timeReminderEntity: 1,
         });
         this.setState({ 
@@ -288,7 +288,7 @@ class CreateServiceContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
-                        disabled={isButtonDisabled(omit(localService, ['description','vehicleId']))}
+                        disabled={isCreateServicesSaveButtonDisabled(omit(localService, ['description','vehicleId']))}
                     >
                         Save
                     </Button>
