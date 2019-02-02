@@ -14,7 +14,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel'; 
+import FormLabel from '@material-ui/core/FormLabel';
+import { isFieldValid, isServicesSaveButtonDisabled } from '../../utils/validation.js';
+import omit from 'lodash/omit'; 
 
 const styles = theme => ({
   button: {
@@ -64,7 +66,7 @@ class EditService extends Component {
     }
 
     render() {      
-        const { classes, service, onSaveButtonClick, onRadioButtonChange } = this.props;
+        const { classes, service, onSaveButtonClick, onRadioButtonChange, isValid } = this.props;
 
         return (
            <div className={classes.form} >  
@@ -72,6 +74,7 @@ class EditService extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Name',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -87,6 +90,7 @@ class EditService extends Component {
                     <TextField
                         required
                         fullWidth
+                        error={!isFieldValid('Recipient',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -126,6 +130,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('MileageRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -141,6 +146,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('MileageReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -160,6 +166,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('TimeRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -187,6 +194,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
+                                error={!isFieldValid('TimeReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -222,6 +230,7 @@ class EditService extends Component {
                         className={classes.button}
                         onClick={onSaveButtonClick}
                         id='saveButton'
+                        disabled={isServicesSaveButtonDisabled(omit(service.toJS(), ['Description','VehicleId']))}
                     >
                         Save
                     </Button>
@@ -237,6 +246,7 @@ EditService.propTypes = {
     onChange: PropTypes.func.isRequired,
     onRadioButtonChange: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
+    isValid: PropTypes.object.isRequired,
 };
 
 EditService.defaultProps = {

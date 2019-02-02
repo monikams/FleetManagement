@@ -12,6 +12,7 @@ import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
 import EditService from './EditService';
 import SideBar from '../SideBar';
+import isEmpty from 'lodash/isEmpty';
 
 const styles = theme => ({
    root: {
@@ -40,6 +41,16 @@ class EditServiceContainer extends Component {
                 TimeReminder: 0,
                 TimeReminderEntity: 1,
             }),
+             isValid: {
+                'Name': true,
+                'Recipient': true,
+                'MileageRule': true,
+                'MileageReminder': true,
+                'TimeRule': true,
+                'TimeRuleEntity': true,
+                'TimeReminder': true,
+                'TimeReminderEntity': true,
+            },
 		} 
     }
 
@@ -94,9 +105,13 @@ class EditServiceContainer extends Component {
 
     handleChange = (name, event) => {
         const { target: { value }} = event; 
-        const { localService } = this.state;  
+        const { localService, isValid } = this.state;
+        isValid[name] = !isEmpty(value);   
         const updatedService = localService.update(name, oldValue => value);
-        this.setState({ localService: updatedService });
+        this.setState({ 
+            localService: updatedService,
+            isValid: isValid
+        });
     };
 
     handleRadioButtonChange = (name, event) => {
@@ -121,7 +136,7 @@ class EditServiceContainer extends Component {
 
     render() {      
         const { service, classes } = this.props;
-        const { localService } = this.state;
+        const { localService, isValid } = this.state;
         
         return (
             <div className={classes.root} >
@@ -130,6 +145,7 @@ class EditServiceContainer extends Component {
                     onSaveButtonClick={this.handleSaveButtonClick}
                     onChange={this.handleChange}
                     onRadioButtonChange={this.handleRadioButtonChange}
+                    isValid={isValid}
                 />
             </div>    
         );
