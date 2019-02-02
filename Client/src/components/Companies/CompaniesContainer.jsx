@@ -22,6 +22,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withRouter } from 'react-router';
+import { setSideBarItem } from '../../utils/authorized-requests.js';
 
 const styles = theme => ({
   root: {
@@ -63,6 +64,7 @@ class CompaniesContainer extends Component {
 
     componentWillMount() {
         CompaniesActions.loadCompanies();
+        setSideBarItem('drivers');
     }
 
     handlePreviewClick(companyId) {

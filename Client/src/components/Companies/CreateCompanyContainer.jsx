@@ -21,6 +21,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import { setSideBarItem } from '../../utils/authorized-requests.js';
 
 const styles = theme => ({
    root: {
@@ -95,6 +96,7 @@ class CreateCompanyContainer extends Component {
 
     componentWillMount() {
         UsersActions.loadUsers();
+        setSideBarItem('companies');
     }
 
     handleChange = name => event => {
@@ -133,8 +135,6 @@ class CreateCompanyContainer extends Component {
 
      handleItemClick = (event) => {
         const { target : { textContent } } = event;
-        localStorage.removeItem('selectedTab');
-        localStorage.setItem('selectedTab', textContent.toLowerCase());
         this.props.router.push(`/companies`);
     }
 

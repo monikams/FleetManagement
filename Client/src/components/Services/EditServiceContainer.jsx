@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
 import Input from '@material-ui/core/Input';
 import EditService from './EditService';
-import SideBar from '../SideBar';
 import isEmpty from 'lodash/isEmpty';
 
 const styles = theme => ({

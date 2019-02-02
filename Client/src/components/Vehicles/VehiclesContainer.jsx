@@ -28,6 +28,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { setSideBarItem } from '../../utils/authorized-requests.js';
 
 const styles = theme => ({
   root: {
@@ -67,6 +68,7 @@ class VehiclesContainer extends Component {
     componentWillMount() {
        const { params: { companyId } } = this.props;
        VehiclesActions.loadVehicles(companyId);
+       setSideBarItem('vehicles');
     }
 
     componentWillUnmount() {

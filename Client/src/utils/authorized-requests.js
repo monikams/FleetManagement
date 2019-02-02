@@ -34,8 +34,12 @@ const setLocalStorageItems = response => {
    localStorage.setItem('token', response.data.access_token);
    localStorage.setItem('expiration', response.data['.expires']);
    localStorage.setItem('userId', response.data.user_id);
-   localStorage.setItem('selectedTab', 'companies');
+}
+
+const setSideBarItem = item => {
+   localStorage.removeItem('selectedTab');
+   localStorage.setItem('selectedTab', item);
 }
 
 
-export { isLoggedIn, logout, setHeaders, setLocalStorageItems };
+export { isLoggedIn, logout, setHeaders, setLocalStorageItems, setSideBarItem };

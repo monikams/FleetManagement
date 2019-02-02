@@ -15,6 +15,7 @@ import Input from '@material-ui/core/Input';
 import EditCompany from './EditCompany';
 import SideBar from '../SideBar';
 import isEmpty from 'lodash/isEmpty';
+import { setSideBarItem } from '../../utils/authorized-requests.js';
 
 const styles = theme => ({
    root: {
@@ -64,6 +65,7 @@ class EditCompanyContainer extends Component {
         const { params: { companyId } } = this.props;
         UsersActions.loadUsers();
         CompaniesActions.loadCompany(companyId);
+        setSideBarItem('companies');
     }
 
     componentWillReceiveProps = nextProps => {
@@ -130,8 +132,6 @@ class EditCompanyContainer extends Component {
 
      handleItemClick = (event) => {
         const { target : { textContent } } = event;
-        localStorage.removeItem('selectedTab');
-        localStorage.setItem('selectedTab', textContent.toLowerCase());
         this.props.router.push(`/companies`);
     }
 
