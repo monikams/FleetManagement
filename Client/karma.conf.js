@@ -29,17 +29,7 @@ module.exports = function(config) {
 
 	// list of files / patterns to load in the browser
 	files: [
-		 "test/*tests.js",
-		 "test/components/CreateDish/*tests.js",
-		 "test/components/CreateRestaurant/*tests.js",
-		 "test/components/Dishes/*tests.js",
-		 "test/components/Restaurants/*tests.js",
-		 "test/components/Form/*tests.js",
-		 "test/components/Header/*tests.js",
-		 "test/stores/*tests.js",
-		 "test/components/common/Button/*tests.js/",
-		 "test/components/common/List/*tests.js/",
-		 "test/components/common/Modal/*tests.js/",
+		 "tests/components/Services/CreateServiceContainer-tests.js",
 	],
 
 
@@ -57,18 +47,7 @@ module.exports = function(config) {
 	preprocessors: {
 		  'src/**/*.jsx': ['browserify'],
 		  'src/**/*.js': ['browserify'],
-		  'test/*tests.js': ["browserify"],
-		  "test/*tests.js" : ["browserify"],
-		  "test/components/CreateDish/*tests.js" : ["browserify"],
-		  "test/components/CreateRestaurant/*tests.js" : ["browserify"],
-		  "test/components/Dishes/*tests.js" : ["browserify"],
-		  "test/components/Restaurants/*tests.js" : ["browserify"],
-		  "test/components/Form/*tests.js" : ["browserify"],
-		  "test/components/Header/*tests.js" : ["browserify"],
-		  "test/stores/*tests.js" : ["browserify"],
-		  "test/components/common/Button/*tests.js/" : ["browserify"],
-		  "test/components/common/List/*tests.js/" : ["browserify"],
-		  "test/components/common/Modal/*tests.js/" : ["browserify"],
+		  'tests/components/Services/CreateServiceContainer-tests.js' : ['browserify'],
 		  '**/lib/*.js': 'coverage'
 	},
 	
