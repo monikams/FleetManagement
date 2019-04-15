@@ -1,6 +1,7 @@
 import alt from '../alt.js';
 import ServicesService from '../services/ServicesService';
 import { baseURL } from '../Constants.js';
+import "babel-polyfill";
 
 class ServicesActions {
   constructor() {

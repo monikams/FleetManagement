@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "@material-ui/core": "^3.3.2",
     "@material-ui/icons": "^3.0.1",
     "alt": "^0.18.6",

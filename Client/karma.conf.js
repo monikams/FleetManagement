@@ -29,7 +29,7 @@ module.exports = function(config) {
 
 	// list of files / patterns to load in the browser
 	files: [
-		 "tests/components/Services/CreateServiceContainer-tests.js",
+		{pattern: 'tests/**', included: true}
 	],
 
 
@@ -47,7 +47,7 @@ module.exports = function(config) {
 	preprocessors: {
 		  'src/**/*.jsx': ['browserify'],
 		  'src/**/*.js': ['browserify'],
-		  'tests/components/Services/CreateServiceContainer-tests.js' : ['browserify'],
+		  'tests/**': ['browserify'],
 		  '**/lib/*.js': 'coverage'
 	},
 	

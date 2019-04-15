@@ -1,5 +1,6 @@
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
+import "babel-polyfill";
 
 class ServicesService {
 
