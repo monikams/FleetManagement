@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using AutoMapper;
 using BusinessService.Contracts;
 using BusinessService.Models;
 using BusinessService.Service;
-using Castle.Core.Internal;
 using DataAccessService.Contracts;
 using Moq;
 using Xunit;
@@ -56,14 +53,12 @@ namespace BusinessServiceTests
             Assert.Equal(expected.VehicleId, service.VehicleId);
         }
 
-
         public void AsserEqualServicesList(IEnumerable<Service> actual, DataAccessService.Models.Service expected)
         {
             foreach (var service in actual)
             {
                 AsserEqualServices(service, expected);
             }
-
         }
 
         // <summary>
@@ -114,9 +109,7 @@ namespace BusinessServiceTests
             // Arrange
             var serviceId = TestData.Services[0].Id;
             _dataAccessService.Setup(a => a.PostService(TestData.PostServices[0])).ReturnsAsync(TestData.Services[0]);
-            IServiceBusinessService svc = new ServiceBusinessService(_dataAccessService.Object);         
-
-            // Act
+            IServiceBusinessService svc = new ServiceBusinessService(_dataAccessService.Object);
             var vehicle = new Vehicle
             {
                 Id = Guid.NewGuid().ToString(),
@@ -125,7 +118,6 @@ namespace BusinessServiceTests
                 Type = "car",
                 Brand = "Toyota",
             };
-
             var newService = new PostService
             {
                 BasedOn = 0,
@@ -140,6 +132,8 @@ namespace BusinessServiceTests
                 TimeRuleEntity = 2,
                 VehicleId = vehicle.Id
             };
+
+            // Act         
             var actual = svc.PostService(newService);
 
             // Assert
@@ -155,8 +149,6 @@ namespace BusinessServiceTests
             // Arrange
             _dataAccessService.Setup(a => a.EditService(TestData.EditServices[0])).ReturnsAsync(TestData.Services[0]);
             IServiceBusinessService svc = new ServiceBusinessService(_dataAccessService.Object);
-          
-            // Act
             var editService = new EditService
             {
                 BasedOn = 0,
@@ -168,8 +160,10 @@ namespace BusinessServiceTests
                 TimeReminder = 2,
                 TimeReminderEntity = 1,
                 TimeRule = 1,
-                TimeRuleEntity = 2,              
+                TimeRuleEntity = 2,
             };
+
+            // Act          
             var actual = svc.EditService(editService);
 
             // Assert
