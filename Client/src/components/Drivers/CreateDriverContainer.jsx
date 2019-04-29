@@ -56,6 +56,7 @@ class CreateDriverContainer extends Component {
                 'email': true,
                 'address': true,
             },
+            isSaveButtonDisabled: false,
 		} 
     }
 
@@ -73,11 +74,12 @@ class CreateDriverContainer extends Component {
     handleSaveButtonClick = () => {
         const { localDriver } = this.state;   
         DriversActions.createDriver(localDriver);
+        this.setState({ isSaveButtonDisabled: true });
     }
 
     render() {      
         const { classes, companies } = this.props;
-        const { localDriver, isValid } = this.state;
+        const { localDriver, isValid, isSaveButtonDisabled } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -149,7 +151,7 @@ class CreateDriverContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
-                        disabled={isButtonDisabled(omit(localDriver, ['telephone']))}
+                        disabled={isButtonDisabled(omit(localDriver, ['telephone'])) || isSaveButtonDisabled}
                     >
                         Save
                     </Button>

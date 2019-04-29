@@ -81,6 +81,7 @@ class CreateCompanyContainer extends Component {
                 'email': true,
                 'address': true,
             },
+            isSaveButtonDisabled: false,
 		} 
     }
 
@@ -116,6 +117,7 @@ class CreateCompanyContainer extends Component {
         const selectedUsers = subscribers.map(name => users.filter(user => user.UserName === name)).map(user => user.first());    
         const newLocalCompany = merge(localCompany, { subscribers: selectedUsers });
         CompaniesActions.createCompany(newLocalCompany);
+        this.setState({ isSaveButtonDisabled: true });
     }
 
      handleUserDropdownChange = event => {
@@ -140,7 +142,7 @@ class CreateCompanyContainer extends Component {
 
     render() {      
         const { users, classes } = this.props;
-        const { localCompany, localCompany : { subscribers }, isValid } = this.state;
+        const { localCompany, localCompany : { subscribers }, isValid, isSaveButtonDisabled } = this.state;
         const items = ['Companies'];
     
         return (
@@ -240,7 +242,7 @@ class CreateCompanyContainer extends Component {
                             className={classes.button}
                             onClick={this.handleSaveButtonClick}
                             id='saveButton'
-                            disabled={isButtonDisabled(omit(localCompany, ['subscribers','telephone']))}
+                            disabled={isButtonDisabled(omit(localCompany, ['subscribers','telephone'])) || isSaveButtonDisabled}
                         >
                             Save
                         </Button>

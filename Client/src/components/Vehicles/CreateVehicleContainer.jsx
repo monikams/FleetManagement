@@ -74,7 +74,7 @@ class CreateVehicleContainer extends Component {
                 'type': true,
                 'brand': true,
             },
-
+            isSaveButtonDisabled: false,
 		} 
     }
 
@@ -109,11 +109,12 @@ class CreateVehicleContainer extends Component {
     handleSaveButtonClick = () => {
         const { localVehicle } = this.state;   
         VehiclesActions.createVehicle(localVehicle);
+        this.setState({ isSaveButtonDisabled: true });
     }
 
     render() {      
         const { classes, companies, drivers } = this.props;
-        const { localVehicle, isValid } = this.state;
+        const { localVehicle, isValid, isSaveButtonDisabled } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -212,7 +213,7 @@ class CreateVehicleContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
-                        disabled={isButtonDisabled(omit(localVehicle, ['driverId','model']))}
+                        disabled={isButtonDisabled(omit(localVehicle, ['driverId','model'])) || isSaveButtonDisabled}
                     >
                         Save
                     </Button>

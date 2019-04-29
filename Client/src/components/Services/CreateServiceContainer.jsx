@@ -88,6 +88,7 @@ class CreateServiceContainer extends Component {
                 'timeReminder': true,
                 'timeReminderEntity': true,
             },
+            isSaveButtonDisabled: false,
 		}
     }
 
@@ -127,11 +128,12 @@ class CreateServiceContainer extends Component {
         const { localService } = this.state;
         const { params: { companyId } } = this.props;
         ServicesActions.createService(localService, companyId);
+        this.setState({ isSaveButtonDisabled: true });
     }
 
     render() {      
         const { classes } = this.props;
-        const { localService, selectedValue, isValid } = this.state;
+        const { localService, selectedValue, isValid, isSaveButtonDisabled } = this.state;
     
         return (
             <div className={classes.form} >  
@@ -288,7 +290,7 @@ class CreateServiceContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
-                        disabled={isCreateServicesSaveButtonDisabled(omit(localService, ['description','vehicleId']))}
+                        disabled={isCreateServicesSaveButtonDisabled(omit(localService, ['description','vehicleId'])) || isSaveButtonDisabled}
                     >
                         Save
                     </Button>

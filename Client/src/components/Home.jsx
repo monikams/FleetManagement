@@ -75,6 +75,13 @@ class Home extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleIsAuthorized = () => {
+    if (isLoggedIn()) {
+      return true;
+    }
+
+    logout();
+  }
 
   render() {
     const { classes, user } = this.props;
@@ -82,7 +89,7 @@ class Home extends React.Component {
     const open = Boolean(anchorEl);
   
     return (
-      isLoggedIn() &&
+      this.handleIsAuthorized() &&
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
