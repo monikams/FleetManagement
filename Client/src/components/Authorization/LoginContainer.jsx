@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
-import AuthorizationActions from '../../actions/AuthorizationActions.js'
+import AuthorizationActions from '../../actions/AuthorizationActions.js';
+import MessagesStore from '../../stores/MessagesStore';
+import MessagesActions from '../../actions/MessagesActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
 import classNames from 'classnames';
@@ -11,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../../styles/AuthorizationContainer.css';
 import isEmpty from 'lodash/isEmpty';
+import SnackbarContentWrapper from '../common/SnackbarContentWrapper.jsx'
 
 const styles = theme => ({
   button: {
@@ -32,6 +35,11 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  snackBar: {
+    width: '100%',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  }
 });
 
 class LoginContainer extends Component {
@@ -46,9 +54,23 @@ class LoginContainer extends Component {
                 'username': true,
                 'password': true,
             },
+            showErrorMessage: false,
 		}
 	}
    
+    static getStores() {
+        return [MessagesStore];
+    }
+
+    static getPropsFromStores() {
+        return {
+            showErrorMessage: MessagesStore.getShowErrorMessage(),           
+        }
+    }
+      componentWillReceiveProps(nextProps) {
+        this.setState({ showErrorMessage: nextProps.showErrorMessage });
+    }
+
     handleChange = name => event => {
         const { target: { value }} = event;     
         const { localUser, isValid } = this.state;
@@ -61,6 +83,10 @@ class LoginContainer extends Component {
         });
     };
 
+    handleClose = () => {
+        this.setState({ showErrorMessage: false });
+    }
+
     handleLoginButtonClick = () => {
         const { localUser } = this.state;
         const updatedUser = merge(localUser, { 'grant_type': 'password' });
@@ -69,7 +95,8 @@ class LoginContainer extends Component {
 
  render() {
     const { classes } = this.props;
-    const { localUser, isValid } = this.state;
+    const { localUser, isValid, showErrorMessage } = this.state;
+
 
     return (
       <div className={classes.form} >  
@@ -106,6 +133,13 @@ class LoginContainer extends Component {
             onChange={this.handleChange('password')}
             margin="normal"
             />
+           <SnackbarContentWrapper
+            variant="error"
+            message="The username or password is incorrect!"
+            onClose={this.handleClose}
+            open={showErrorMessage}
+            className={classes.snackBar}
+             />   
         </div>
         <div className={classes.container} >
             <Button 
@@ -128,10 +162,12 @@ class LoginContainer extends Component {
 LoginContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   users: PropTypes.instanceOf(Immutable.Iterable),
+  showErrorMessage: PropTypes.bool.isRequired,
 };
 
 LoginContainer.defaultProps = {
     users: Immutable.List(),
+    showErrorMessage: false,
 };
 
-export default withStyles(styles)(LoginContainer);
+export default withStyles(styles)(connectToStores(LoginContainer));

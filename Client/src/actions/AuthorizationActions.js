@@ -1,5 +1,6 @@
 import alt from '../alt.js';
 import AuthorizationService from '../services/AuthorizationService';
+import MessagesActions from './MessagesActions.js'
 import { baseURL } from '../Constants.js';
 import { setLocalStorageItems } from '../utils/authorized-requests.js';
 
@@ -29,7 +30,7 @@ class AuthorizationActions {
                 window.location.href = baseURL + '/companies';           
             })
             .catch((error) => {
-                console.log(error);
+                MessagesActions.setShowErrorMessage();
             });
         }
     }  
