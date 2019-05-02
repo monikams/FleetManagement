@@ -193,7 +193,7 @@ class CreateVehicleContainer extends Component {
                         margin="normal"
                     />
                     <FormControl className={classes.formControl} >
-                        <InputLabel shrink>Select driver</InputLabel>
+                        <InputLabel shrink>Select Driver</InputLabel>
                         <Select
                             displayEmpty
                             value={localVehicle.driverId}

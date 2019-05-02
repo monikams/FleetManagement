@@ -136,13 +136,13 @@ class EditVehicle extends Component {
                         margin="normal"
                     />
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink>Select driver</InputLabel>
+                        <InputLabel shrink>Select Driver</InputLabel>
                         <Select
                             displayEmpty
                             value={vehicle.get('DriverId')}
                             onChange={this.handleChange('DriverId')}
                         >
-                            <MenuItem key='withoutDriver' value='withoutDriver' >No driver</MenuItem>
+                            <MenuItem key='withoutDriver' value='withoutDriver' >No Driver</MenuItem>
                             {drivers.map(driver => (
                                 <MenuItem key={driver.Id} value={driver.Id}>{driver.Name}</MenuItem>
                             ))}
