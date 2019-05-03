@@ -49,6 +49,11 @@ class EditServiceContainer extends Component {
                 'TimeRuleEntity': true,
                 'TimeReminder': true,
                 'TimeReminderEntity': true,
+                'ValidRecipient': true,
+                'ValidTimeReminder': true,
+                'ValidTimeRule': true,
+                'ValidMileageReminder': true,
+                'ValidMileageRule': true,
             },
 		} 
     }
@@ -113,9 +118,32 @@ class EditServiceContainer extends Component {
         });
     };
 
+     handleBlur = (name, event) => {
+        const { target: { value }} = event;     
+        const { localService, isValid } = this.state;
+        const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;   
+
+        let updatedService;
+        if (name === 'ValidRecipient') {
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else {
+            isValid[name] = value >= 0;
+        }
+
+        if (!isValid[name]) {
+            updatedService = localService.update(name, oldValue => '');  
+        } else {
+            updatedService = localService.update(name, oldValue => value);  
+        }
+
+        this.setState({ localService: updatedService });
+    };
+
     handleRadioButtonChange = (name, event) => {
         const { target: { value }} = event; 
-        const { localService } = this.state;
+        const { localService, isValid } = this.state;
+        const isValidRecipient = isValid['ValidRecipient'];
+
         const updatedService = Immutable.Map({ 
             Id: localService.get('Id'),
             Name: localService.get('Name'),
@@ -129,7 +157,24 @@ class EditServiceContainer extends Component {
             TimeReminder: '',
             TimeReminderEntity: 1,
         });
-        this.setState({ localService: updatedService });
+        this.setState({ 
+            localService: updatedService,
+            isValid: {
+                'Name': true,
+                'Recipient': true,
+                'MileageRule': true,
+                'MileageReminder': true,
+                'TimeRule': true,
+                'TimeRuleEntity': true,
+                'TimeReminder': true,
+                'TimeReminderEntity': true,
+                'ValidRecipient': isValidRecipient,
+                'ValidTimeReminder': true,
+                'ValidTimeRule': true,
+                'ValidMileageReminder': true,
+                'ValidMileageRule': true,
+            } 
+        });
     };
 
 
@@ -143,6 +188,7 @@ class EditServiceContainer extends Component {
                     service={localService}
                     onSaveButtonClick={this.handleSaveButtonClick}
                     onChange={this.handleChange}
+                    onBlur={this.handleBlur}
                     onRadioButtonChange={this.handleRadioButtonChange}
                     isValid={isValid}
                 />

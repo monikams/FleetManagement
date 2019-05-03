@@ -118,7 +118,7 @@ class CreateServiceContainer extends Component {
         if (name === 'validRecipient') {
             isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
         } else {
-             isValid[name] = value >= 0;
+            isValid[name] = value >= 0;
         }
 
         if (!isValid[name]) {
@@ -132,7 +132,9 @@ class CreateServiceContainer extends Component {
 
     handleRadioButtonChange = event => {
         const { target: { value }} = event; 
-        const { localService } = this.state;
+        const { localService, isValid } = this.state;
+        const isValidRecipient = isValid['ValidRecipient'];
+
         const newService = merge({}, { 
             name: localService.name, 
             description: localService.description,
@@ -148,6 +150,21 @@ class CreateServiceContainer extends Component {
         });
         this.setState({ 
             localService: newService,
+            isValid: {
+                'name': true,
+                'recipient': true,
+                'mileageRule': true,
+                'mileageReminder': true,
+                'timeRule': true,
+                'timeRuleEntity': true,
+                'timeReminder': true,
+                'timeReminderEntity': true,
+                'validRecipient': isValidRecipient,
+                'validTimeReminder': true,
+                'validTimeRule': true,
+                'validMileageReminder': true,
+                'validMileageRule': true,
+            }
         })
     };
 

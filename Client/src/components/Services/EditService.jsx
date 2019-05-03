@@ -15,6 +15,7 @@ import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
 import { isFieldValid, isServicesSaveButtonDisabled } from '../../utils/validation.js';
 import omit from 'lodash/omit'; 
 
@@ -61,6 +62,10 @@ class EditService extends Component {
         this.props.onChange(name, event);
     }
 
+    handleBlur = name => event => { 
+        this.props.onBlur(name, event);
+    }
+
     handleRadioButtonChange = name => event => {
         this.props.onRadioButtonChange(name, event);
     }
@@ -90,7 +95,7 @@ class EditService extends Component {
                     <TextField
                         required
                         fullWidth
-                        error={!isFieldValid('Recipient',isValid)}
+                        error={!isFieldValid('Recipient',isValid) || !isFieldValid('ValidRecipient',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -101,8 +106,10 @@ class EditService extends Component {
                         placeholder="Enter a valid email"
                         className={classes.textField}          
                         onChange={this.handleChange('Recipient')}
+                        onBlur={this.handleBlur('ValidRecipient')}
                         margin="normal"
                     />
+                    {!isValid['ValidRecipient'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
                     <TextField
                         fullWidth
                         multiline
@@ -130,7 +137,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('MileageRule',isValid)}
+                                error={!isFieldValid('MileageRule',isValid) || !isFieldValid('ValidMileageRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -141,12 +148,14 @@ class EditService extends Component {
                                 placeholder="Enter service`s mileage rule as an integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('MileageRule')}
+                                onBlur={this.handleBlur('ValidMileageRule')}
                                 margin="normal"
                             />
+                            {!isValid['ValidMileageRule'] && <TextfieldValidationMessage message="Please enter a positive mileage rule!" />}
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('MileageReminder',isValid)}
+                                error={!isFieldValid('MileageReminder',isValid) || !isFieldValid('ValidMileageReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -157,8 +166,10 @@ class EditService extends Component {
                                 placeholder="Enter service`s mileage reminder as an integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('MileageReminder')}
+                                onBlur={this.handleBlur('ValidMileageReminder')}
                                 margin="normal"
                             />
+                            {!isValid['ValidMileageReminder'] && <TextfieldValidationMessage message="Please enter a positive mileage reminder!" />}
                         </div>
                     }
                     {service.get('BasedOn') == 0 &&
@@ -166,7 +177,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('TimeRule',isValid)}
+                                error={!isFieldValid('TimeRule',isValid) || !isFieldValid('ValidTimeRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -177,8 +188,10 @@ class EditService extends Component {
                                 placeholder="Enter service`s time rule as an integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('TimeRule')}
+                                onBlur={this.handleBlur('ValidTimeRule')}
                                 margin="normal"
                             />
+                            {!isValid['ValidTimeRule'] && <TextfieldValidationMessage message="Please enter a positive time rule!" />}
                             <FormControl className={classes.formControl} >
                                 <InputLabel shrink>Time Rule Unit</InputLabel>
                                 <Select
@@ -194,7 +207,7 @@ class EditService extends Component {
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('TimeReminder',isValid)}
+                                error={!isFieldValid('TimeReminder',isValid) || !isFieldValid('ValidTimeReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -205,8 +218,10 @@ class EditService extends Component {
                                 placeholder="Enter service`s time reminder as an integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('TimeReminder')}
+                                onBlur={this.handleBlur('ValidTimeReminder')}
                                 margin="normal"
                             />
+                            {!isValid['ValidTimeReminder'] && <TextfieldValidationMessage message="Please enter a positive time reminder!" />}
                             <FormControl className={classes.formControl} >
                                 <InputLabel shrink>Time Reminder Unit</InputLabel>
                                 <Select
