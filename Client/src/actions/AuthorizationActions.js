@@ -17,7 +17,7 @@ class AuthorizationActions {
                 window.location.href = baseURL;     
             })
             .catch((error) => {
-                console.log(error);
+                MessagesActions.setShowErrorMessage(error.response.data.ModelState[""][0]);
             });
         }
     }
@@ -30,7 +30,7 @@ class AuthorizationActions {
                 window.location.href = baseURL + '/companies';           
             })
             .catch((error) => {
-                MessagesActions.setShowErrorMessage();
+                MessagesActions.setShowErrorMessage(error.response.data.error_description);
             });
         }
     }  

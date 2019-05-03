@@ -4,6 +4,8 @@ import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import isEmpty from 'lodash/isEmpty';
 import AuthorizationActions from '../../actions/AuthorizationActions.js'
+import MessagesActions from '../../actions/MessagesActions.js';
+import MessagesStore from '../../stores/MessagesStore';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,7 +13,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../../styles/AuthorizationContainer.css';
 import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
-import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx'
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
+import SnackbarContentWrapper from '../common/SnackbarContentWrapper.jsx';
 
 const styles = theme => ({
   button: {
@@ -33,6 +36,11 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  snackBar: {
+    width: '100%',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  }
 });
 
 class RegistrationContainer extends Component {
@@ -53,8 +61,25 @@ class RegistrationContainer extends Component {
                 'confirmPassword': true,
                 'validConfirmPassword': true,
             },
+            showErrorMessage: false,
+            errorMessage: '',
 		}
 	}
+
+    static getStores() {
+        return [MessagesStore];
+    }
+
+    static getPropsFromStores() {
+        return {
+            showErrorMessage: MessagesStore.getShowErrorMessage(),
+            errorMessage: MessagesStore.getErrorMessage()           
+        }
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        this.setState({ showErrorMessage: nextProps.showErrorMessage, errorMessage: nextProps.errorMessage });
+    }
    
     handleChange = name => event => {
         const { target: { value }} = event;     
@@ -89,9 +114,13 @@ class RegistrationContainer extends Component {
         AuthorizationActions.registerUser(this.state.localUser);
     }
 
+    handleClose = () => {
+        this.setState({ showErrorMessage: false });
+    }
+
  render() {
     const { classes } = this.props;
-    const { localUser, isValid } = this.state;
+    const { localUser, isValid, showErrorMessage, errorMessage } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -163,6 +192,13 @@ class RegistrationContainer extends Component {
                 margin="normal"
             />
             {!isValid['validConfirmPassword'] && <TextfieldValidationMessage message="Password doesn't match!" />}
+            <SnackbarContentWrapper
+                variant="error"
+                message={errorMessage}
+                onClose={this.handleClose}
+                open={showErrorMessage}
+                className={classes.snackBar}
+             />  
         </div>
         <div className={classes.container} >
             <Button 
@@ -191,4 +227,4 @@ RegistrationContainer.defaultProps = {
     users: Immutable.List(),
 };
 
-export default withStyles(styles)(RegistrationContainer);
+export default withStyles(styles)(connectToStores(RegistrationContainer));

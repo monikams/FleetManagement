@@ -11,12 +11,16 @@ class MessagesStore {
         });
     }
 
-    setShowErrorMessage() {
-        this.setState(this.state.set('showErrorMessage', true));
+    setShowErrorMessage(errorMessage) {
+        this.setState(this.state.set('showErrorMessage', true).set('errorMessage', errorMessage));
     }
 
     static getShowErrorMessage() {
         return this.getState().get('showErrorMessage');
+    }
+
+    static getErrorMessage() {
+        return this.getState().get('errorMessage');
     }
 
 }

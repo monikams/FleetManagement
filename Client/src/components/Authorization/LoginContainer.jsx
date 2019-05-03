@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../../styles/AuthorizationContainer.css';
 import isEmpty from 'lodash/isEmpty';
-import SnackbarContentWrapper from '../common/SnackbarContentWrapper.jsx'
+import SnackbarContentWrapper from '../common/SnackbarContentWrapper.jsx';
 
 const styles = theme => ({
   button: {
@@ -55,6 +55,7 @@ class LoginContainer extends Component {
                 'password': true,
             },
             showErrorMessage: false,
+            errorMessage: ''
 		}
 	}
    
@@ -64,11 +65,12 @@ class LoginContainer extends Component {
 
     static getPropsFromStores() {
         return {
-            showErrorMessage: MessagesStore.getShowErrorMessage(),           
+            showErrorMessage: MessagesStore.getShowErrorMessage(),  
+            errorMessage: MessagesStore.getErrorMessage()         
         }
     }
       componentWillReceiveProps(nextProps) {
-        this.setState({ showErrorMessage: nextProps.showErrorMessage });
+        this.setState({ showErrorMessage: nextProps.showErrorMessage, errorMessage: nextProps.errorMessage });
     }
 
     handleChange = name => event => {
@@ -84,7 +86,7 @@ class LoginContainer extends Component {
     };
 
     handleClose = () => {
-        this.setState({ showErrorMessage: false });
+        this.setState({ showErrorMessage: false, errorMessage: '' });
     }
 
     handleLoginButtonClick = () => {
@@ -95,8 +97,7 @@ class LoginContainer extends Component {
 
  render() {
     const { classes } = this.props;
-    const { localUser, isValid, showErrorMessage } = this.state;
-
+    const { localUser, isValid, showErrorMessage, errorMessage } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -135,7 +136,7 @@ class LoginContainer extends Component {
             />
            <SnackbarContentWrapper
             variant="error"
-            message="The username or password is incorrect!"
+            message={errorMessage}
             onClose={this.handleClose}
             open={showErrorMessage}
             className={classes.snackBar}
