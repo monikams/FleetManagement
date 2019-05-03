@@ -21,6 +21,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
 import { setSideBarItem } from '../../utils/authorized-requests.js';
 
 const styles = theme => ({
@@ -80,6 +81,8 @@ class CreateCompanyContainer extends Component {
                 'name': true,
                 'email': true,
                 'address': true,
+                'validEmail': true,
+                'validPhone': true,
             },
             isSaveButtonDisabled: false,
 		} 
@@ -109,6 +112,28 @@ class CreateCompanyContainer extends Component {
             localCompany: newCompany, 
             isValid: isValid
         });
+    };
+
+    handleBlur = name => event => {
+        const { target: { value }} = event;     
+        const { localUser, isValid } = this.state;
+        const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const phoneRegExpression = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+        let newUser;
+        if (name === 'validEmail') {
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else if (name === 'validPhone') {
+            isValid[name] = phoneRegExpression.test(String(value).toLowerCase());
+        }  
+
+         if (!isValid[name]) {
+            newUser = merge(localUser, { [name]: '' });    
+        } else {
+            newUser = merge(localUser, { [name]: value }); 
+        }
+
+        this.setState({ localUser: newUser });
     };
 
     handleSaveButtonClick = () => {
@@ -168,7 +193,7 @@ class CreateCompanyContainer extends Component {
                         <TextField
                             required
                             fullWidth
-                            error={!isFieldValid('email',isValid)}
+                            error={!isFieldValid('email',isValid) || !isFieldValid('validEmail',isValid)}
                             autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
@@ -178,8 +203,10 @@ class CreateCompanyContainer extends Component {
                             placeholder="Enter company`s email"
                             className={classes.textField}          
                             onChange={this.handleChange('email')}
+                            onBlur={this.handleBlur('validEmail')}
                             margin="normal"
                         />
+                        {!isValid['validEmail'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
                         <TextField
                             required
                             fullWidth
@@ -197,6 +224,7 @@ class CreateCompanyContainer extends Component {
                         />
                         <TextField
                             fullWidth
+                             error={!isFieldValid('validPhone',isValid)}
                             autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,
@@ -206,8 +234,10 @@ class CreateCompanyContainer extends Component {
                             placeholder="Enter company`s phone number"
                             className={classes.textField}         
                             onChange={this.handleChange('telephone')}
+                            onBlur={this.handleBlur('validPhone')}
                             margin="normal"
                         />
+                        {!isValid['validPhone'] && <TextfieldValidationMessage message="Please enter a valid phone number!" />}
                         <FormControl className={classes.formControl}>
                             <InputLabel shrink>Allow access to users</InputLabel>
                             <Select
@@ -242,7 +272,7 @@ class CreateCompanyContainer extends Component {
                             className={classes.button}
                             onClick={this.handleSaveButtonClick}
                             id='saveButton'
-                            disabled={isButtonDisabled(omit(localCompany, ['subscribers','telephone'])) || isSaveButtonDisabled}
+                            disabled={isButtonDisabled(omit(localCompany, ['subscribers','telephone'])) || !isValid['validPhone'] || isSaveButtonDisabled}
                         >
                             Save
                         </Button>

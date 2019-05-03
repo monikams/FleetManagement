@@ -44,6 +44,8 @@ class EditCompanyContainer extends Component {
                 'Name': true,
                 'Email': true,
                 'Address': true,
+                'ValidEmail': true,
+                'ValidPhone': true,
             },
 		} 
     }
@@ -107,6 +109,28 @@ class EditCompanyContainer extends Component {
         });
     };
 
+    handleBlur = (name, event) => {
+        const { target: { value }} = event;     
+        const { localCompany, isValid } = this.state;
+        const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const phoneRegExpression = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+        let updatedCompany;
+        if (name === 'ValidEmail') {
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else if (name === 'ValidPhone') {
+            isValid[name] = phoneRegExpression.test(String(value).toLowerCase());
+        }  
+
+         if (!isValid[name]) {
+            updatedCompany = localCompany.update(name, oldValue => '');
+        } else {
+            updatedCompany = localCompany.update(name, oldValue => value); 
+        }
+
+        this.setState({ localCompany: updatedCompany });
+    };
+
     handleUserDropdownChange = event => {
         const { users } = this.props;
         const { localCompany } = this.state;
@@ -151,6 +175,7 @@ class EditCompanyContainer extends Component {
                     onDropownChange={this.handleUserDropdownChange} 
                     onSaveButtonClick={this.handleSaveButtonClick}
                     onChange={this.handleChange}
+                    onBlur={this.handleBlur}
                     isValid={isValid}
                 />
             </div>    

@@ -16,6 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
 import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
 import omit from 'lodash/omit';
 
@@ -61,6 +62,10 @@ class EditCompany extends Component {
         this.props.onChange(name, event);
     }
 
+    handleBlur = name => event => { 
+        this.props.onBlur(name, event);
+    }
+
     render() {      
         const { users, classes, company, onDropownChange, onSaveButtonClick, isValid } = this.props;
 
@@ -86,7 +91,7 @@ class EditCompany extends Component {
                     <TextField
                         required
                         fullWidth
-                        error={!isFieldValid('Email',isValid)}
+                        error={!isFieldValid('Email',isValid) || !isFieldValid('ValidEmail',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -97,8 +102,10 @@ class EditCompany extends Component {
                         placeholder="Edit company`s email"
                         className={classes.textField}          
                         onChange={this.handleChange('Email')}
+                        onBlur={this.handleBlur('ValidEmail')}
                         margin="normal"
                     />
+                    {!isValid['ValidEmail'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
                     <TextField
                         required
                         fullWidth
@@ -117,6 +124,7 @@ class EditCompany extends Component {
                     />
                      <TextField
                         fullWidth
+                        error={!isFieldValid('ValidPhone',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -127,8 +135,10 @@ class EditCompany extends Component {
                         placeholder="Edit company`s phone number"
                         className={classes.textField}         
                         onChange={this.handleChange('Telephone')}
+                        onBlur={this.handleBlur('ValidPhone')}
                         margin="normal"
                     />
+                    {!isValid['ValidPhone'] && <TextfieldValidationMessage message="Please enter a valid phone number!" />}
                     {company.get("CreatorId") === localStorage.getItem('userId') &&
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="select-users">Allow access to users</InputLabel>
@@ -180,6 +190,7 @@ EditCompany.propTypes = {
     companyId: PropTypes.string.isRequired,
     onDropownChange: PropTypes.func.isRequired, 
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
     isValid: PropTypes.object.isRequired,
 };
