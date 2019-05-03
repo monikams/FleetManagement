@@ -224,7 +224,7 @@ class CreateCompanyContainer extends Component {
                         />
                         <TextField
                             fullWidth
-                             error={!isFieldValid('validPhone',isValid)}
+                            error={!isFieldValid('validPhone',isValid)}
                             autoComplete="off"
                             InputLabelProps={{
                                 shrink: true,

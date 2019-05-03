@@ -21,6 +21,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
 
 const styles = theme => ({
   button: {
@@ -87,6 +88,11 @@ class CreateServiceContainer extends Component {
                 'timeRuleEntity': true,
                 'timeReminder': true,
                 'timeReminderEntity': true,
+                'validRecipient': true,
+                'validTimeReminder': true,
+                'validTimeRule': true,
+                'validMileageReminder': true,
+                'validMileageRule': true,
             },
             isSaveButtonDisabled: false,
 		}
@@ -101,6 +107,27 @@ class CreateServiceContainer extends Component {
             localService: newService,
             isValid: isValid
         });
+    };
+
+     handleBlur = name => event => {
+        const { target: { value }} = event;     
+        const { localService, isValid } = this.state;
+        const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;   
+
+        let newService;
+        if (name === 'validRecipient') {
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else {
+             isValid[name] = value >= 0;
+        }
+
+        if (!isValid[name]) {
+            newService = merge(localService, { [name]: '' });    
+        } else {
+            newService = merge(localService, { [name]: value }); 
+        }
+
+        this.setState({ localService: newService });
     };
 
     handleRadioButtonChange = event => {
@@ -156,7 +183,7 @@ class CreateServiceContainer extends Component {
                      <TextField
                         required
                         fullWidth
-                        error={!isFieldValid('recipient',isValid)}
+                        error={!isFieldValid('recipient',isValid) || !isFieldValid('validRecipient',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -166,8 +193,10 @@ class CreateServiceContainer extends Component {
                         placeholder="Enter a valid email"
                         className={classes.textField}          
                         onChange={this.handleChange('recipient')}
+                        onBlur={this.handleBlur('validRecipient')}
                         margin="normal"
                     />
+                     {!isValid['validRecipient'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
                     <TextField
                         fullWidth
                         multiline
@@ -194,33 +223,37 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('mileageRule',isValid)}
+                                error={!isFieldValid('mileageRule',isValid) || !isFieldValid('validMileageRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 id="mileageRule"
                                 label="Mileage Rule"
-                                placeholder="Enter service`s mileage rule as an integer"
+                                placeholder="Enter service`s mileage rule as a positive integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('mileageRule')}
+                                onBlur={this.handleBlur('validMileageRule')}
                                 margin="normal"
                             />
+                            {!isValid['validMileageRule'] && <TextfieldValidationMessage message="Please enter a positive mileage rule!" />}
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('mileageReminder',isValid)}
+                                error={!isFieldValid('mileageReminder',isValid) || !isFieldValid('validMileageReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 id="mileageReminder"
                                 label="Mileage Reminder"
-                                placeholder="Enter service`s mileage reminder as an integer"
+                                placeholder="Enter service`s mileage reminder as a positive integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('mileageReminder')}
+                                onBlur={this.handleBlur('validMileageReminder')}
                                 margin="normal"
                             />
+                            {!isValid['validMileageReminder'] && <TextfieldValidationMessage message="Please enter a positive mileage reminder!" />}
                         </div>
                     }
                     {localService.basedOn === 0 &&
@@ -228,7 +261,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('timeRule',isValid)}
+                                error={!isFieldValid('timeRule',isValid) || !isFieldValid('validTimeRule',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -238,8 +271,10 @@ class CreateServiceContainer extends Component {
                                 placeholder="Enter service`s time rule as an integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('timeRule')}
+                                onBlur={this.handleBlur('validTimeRule')}
                                 margin="normal"
                             />
+                            {!isValid['validTimeRule'] && <TextfieldValidationMessage message="Please enter a positive time rule!" />}
                             <FormControl className={classes.formControl} >
                                 <InputLabel shrink>Time Rule Unit</InputLabel>
                                 <Select
@@ -255,7 +290,7 @@ class CreateServiceContainer extends Component {
                             <TextField
                                 required
                                 fullWidth
-                                error={!isFieldValid('timeReminder',isValid)}
+                                error={!isFieldValid('timeReminder',isValid) || !isFieldValid('validTimeReminder',isValid)}
                                 autoComplete="off"
                                 InputLabelProps={{
                                     shrink: true,
@@ -265,8 +300,10 @@ class CreateServiceContainer extends Component {
                                 placeholder="Enter service`s time reminder as an integer"
                                 className={classes.textField}         
                                 onChange={this.handleChange('timeReminder')}
+                                onBlur={this.handleBlur('validTimeReminder')}
                                 margin="normal"
                             />
+                            {!isValid['validTimeReminder'] && <TextfieldValidationMessage message="Please enter a positive time reminder!" />}
                             <FormControl className={classes.formControl} >
                                 <InputLabel shrink>Time Reminder Unit</InputLabel>
                                 <Select
