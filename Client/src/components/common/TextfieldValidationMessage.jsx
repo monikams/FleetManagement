@@ -30,7 +30,7 @@ function TextfieldValidationMessage(props) {
   const { classes, message } = props;
 
   return (
-    <p id="email-error-text" className={classes.emailValidationMessage} >Please enter a valid email!</p>
+    <p id="email-error-text" className={classes.emailValidationMessage} >{message}</p>
   );
 }
 

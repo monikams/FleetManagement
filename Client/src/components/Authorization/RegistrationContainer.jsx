@@ -51,6 +51,7 @@ class RegistrationContainer extends Component {
                 'validEmail': true,
                 'password': true,
                 'confirmPassword': true,
+                'validConfirmPassword': true,
             },
 		}
 	}
@@ -67,18 +68,21 @@ class RegistrationContainer extends Component {
         const { target: { value }} = event;     
         const { localUser, isValid } = this.state;
         const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+        
+        let newUser;
         if (name === 'validEmail') {
-            isValid[name] = emailRegExpression.test(String(value).toLowerCase());
-            let newUser;
-            if (!isValid[name]) {
-                 newUser = merge(localUser, { [name]: '' });    
-            } else {
-                 newUser = merge(localUser, { [name]: value }); 
-            }
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else if (name === 'validConfirmPassword') {
+            isValid[name] = localUser.password === value; 
+        }  
 
-             this.setState({ localUser: newUser });
-        }    
+         if (!isValid[name]) {
+            newUser = merge(localUser, { [name]: '' });    
+        } else {
+            newUser = merge(localUser, { [name]: value }); 
+        }
+
+        this.setState({ localUser: newUser });
     };
 
     handleRegisterButtonClick = () => {
@@ -144,7 +148,7 @@ class RegistrationContainer extends Component {
             <TextField
                 required
                 fullWidth
-                error={!isFieldValid('confirmPassword',isValid)}
+                error={!isFieldValid('confirmPassword',isValid) || !isFieldValid('validConfirmPassword',isValid)}
                 autoComplete="off"
                 InputLabelProps={{
                     shrink: true,
@@ -155,8 +159,10 @@ class RegistrationContainer extends Component {
                 className={classes.textField}
                 type="password"
                 onChange={this.handleChange('confirmPassword')}
+                onBlur={this.handleBlur('validConfirmPassword')}
                 margin="normal"
             />
+            {!isValid['validConfirmPassword'] && <TextfieldValidationMessage message="Password doesn't match!" />}
         </div>
         <div className={classes.container} >
             <Button 
