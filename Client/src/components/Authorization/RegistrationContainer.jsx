@@ -63,6 +63,7 @@ class RegistrationContainer extends Component {
             },
             showErrorMessage: false,
             errorMessage: '',
+            isRegisterButtonDisabled: false,
 		}
 	}
 
@@ -112,15 +113,16 @@ class RegistrationContainer extends Component {
 
     handleRegisterButtonClick = () => {
         AuthorizationActions.registerUser(this.state.localUser);
+        this.setState({ isRegisterButtonDisabled: true });
     }
 
     handleClose = () => {
-        this.setState({ showErrorMessage: false });
+        this.setState({ showErrorMessage: false, isRegisterButtonDisabled: false });
     }
 
  render() {
     const { classes } = this.props;
-    const { localUser, isValid, showErrorMessage, errorMessage } = this.state;
+    const { localUser, isValid, showErrorMessage, errorMessage, isRegisterButtonDisabled } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -208,7 +210,7 @@ class RegistrationContainer extends Component {
                 className={classes.button}
                 onClick={this.handleRegisterButtonClick}
                 id='registerButton'
-                disabled={isButtonDisabled(localUser)}
+                disabled={isButtonDisabled(localUser) || isRegisterButtonDisabled}
             >
                 Register
             </Button>
