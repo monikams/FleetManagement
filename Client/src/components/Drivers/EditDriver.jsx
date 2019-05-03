@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import merge from 'lodash/merge';
 import { isFieldValid, isButtonDisabled } from '../../utils/validation.js';
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
 import omit from 'lodash/omit';
 
 const styles = theme => ({
@@ -46,6 +47,10 @@ class EditDriver extends Component {
         this.props.onChange(name, event);
     }
 
+    handleBlur = name => event => { 
+        this.props.onBlur(name, event);
+    }
+
     render() {      
         const { classes, driver, onSaveButtonClick, isValid } = this.props;
            
@@ -71,7 +76,7 @@ class EditDriver extends Component {
                     <TextField
                         required
                         fullWidth
-                        error={!isFieldValid('Email',isValid)}
+                        error={!isFieldValid('Email',isValid) || !isFieldValid('ValidEmail',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -82,8 +87,10 @@ class EditDriver extends Component {
                         placeholder="Edit driver`s email"
                         className={classes.textField}          
                         onChange={this.handleChange('Email')}
+                        onBlur={this.handleBlur('ValidEmail')}
                         margin="normal"
                     />
+                    {!isValid['ValidEmail'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
                     <TextField
                         required
                         fullWidth
@@ -102,6 +109,7 @@ class EditDriver extends Component {
                     />
                      <TextField
                         fullWidth
+                        error={!isFieldValid('ValidPhone',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -112,8 +120,10 @@ class EditDriver extends Component {
                         placeholder="Edit driver`s phone number"
                         className={classes.textField}         
                         onChange={this.handleChange('Telephone')}
+                        onBlur={this.handleBlur('ValidPhone')}
                         margin="normal"
-                    />      
+                    />
+                     {!isValid['ValidPhone'] && <TextfieldValidationMessage message="Please enter a valid phone number!" />}      
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -138,6 +148,7 @@ EditDriver.propTypes = {
     driver: PropTypes.instanceOf(Immutable.Map),
     driverId: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     onSaveButtonClick: PropTypes.func.isRequired,
     isValid: PropTypes.object.isRequired,
 };

@@ -13,6 +13,7 @@ import Input from '@material-ui/core/Input';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import TextfieldValidationMessage from '../common/TextfieldValidationMessage.jsx';
 
 const styles = theme => ({
   button: {
@@ -55,6 +56,8 @@ class CreateDriverContainer extends Component {
                 'name': true,
                 'email': true,
                 'address': true,
+                'validEmail': true,
+                'validPhone': true,
             },
             isSaveButtonDisabled: false,
 		} 
@@ -69,6 +72,28 @@ class CreateDriverContainer extends Component {
             localDriver: newDriver,
             isValid: isValid
        });
+    };
+
+    handleBlur = name => event => {
+        const { target: { value }} = event;     
+        const { localDriver, isValid } = this.state;
+        const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const phoneRegExpression = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+        let newDriver;
+        if (name === 'validEmail') {
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else if (name === 'validPhone') {
+            isValid[name] = phoneRegExpression.test(String(value).toLowerCase());
+        }  
+
+         if (!isValid[name]) {
+            newDriver = merge(localDriver, { [name]: '' });    
+        } else {
+            newDriver = merge(localDriver, { [name]: value }); 
+        }
+
+        this.setState({ localDriver: newDriver });
     };
 
     handleSaveButtonClick = () => {
@@ -102,7 +127,7 @@ class CreateDriverContainer extends Component {
                     <TextField
                         required
                         fullWidth
-                        error={!isFieldValid('email',isValid)}
+                        error={!isFieldValid('email',isValid) || !isFieldValid('validEmail',isValid)}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -112,8 +137,10 @@ class CreateDriverContainer extends Component {
                         placeholder="Enter driver`s email"
                         className={classes.textField}          
                         onChange={this.handleChange('email')}
+                        onBlur={this.handleBlur('validEmail')}
                         margin="normal"
                     />
+                      {!isValid['validEmail'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
                     <TextField
                         required
                         fullWidth
@@ -131,6 +158,7 @@ class CreateDriverContainer extends Component {
                     />
                      <TextField
                         fullWidth
+                        error={!isValid['validPhone']}
                         autoComplete="off"
                         InputLabelProps={{
                             shrink: true,
@@ -140,8 +168,10 @@ class CreateDriverContainer extends Component {
                         placeholder="Enter driver`s phone number"
                         className={classes.textField}         
                         onChange={this.handleChange('telephone')}
+                        onBlur={this.handleBlur('validPhone')}
                         margin="normal"
                     />
+                    {!isValid['validPhone'] && <TextfieldValidationMessage message="Please enter a valid phone number!" />}
                 </div>
                 <div className={classes.container} >
                     <Button 
@@ -151,7 +181,7 @@ class CreateDriverContainer extends Component {
                         className={classes.button}
                         onClick={this.handleSaveButtonClick}
                         id='saveButton'
-                        disabled={isButtonDisabled(omit(localDriver, ['telephone'])) || isSaveButtonDisabled}
+                        disabled={isButtonDisabled(omit(localDriver, ['telephone'])) || !isValid['validPhone'] || isSaveButtonDisabled}
                     >
                         Save
                     </Button>

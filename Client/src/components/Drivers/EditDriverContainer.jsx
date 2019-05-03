@@ -28,6 +28,8 @@ class EditDriverContainer extends Component {
                     'Name': true,
                     'Email': true,
                     'Address': true,
+                    'ValidEmail': true,
+                    'ValidPhone': true,
                 },
 	  } 
     }
@@ -84,6 +86,28 @@ class EditDriverContainer extends Component {
             isValid: isValid 
         });
     };
+
+    handleBlur = (name, event) => {
+        const { target: { value }} = event;     
+        const { localDriver, isValid } = this.state;
+        const emailRegExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const phoneRegExpression = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+        let updatedDriver;
+        if (name === 'ValidEmail') {
+            isValid[name] = emailRegExpression.test(String(value).toLowerCase());           
+        } else if (name === 'ValidPhone') {
+            isValid[name] = phoneRegExpression.test(String(value).toLowerCase());
+        }  
+
+         if (!isValid[name]) {
+            updatedDriver = localDriver.update(name, oldValue => '');
+        } else {
+            updatedDriver = localDriver.update(name, oldValue => value); 
+        }
+
+        this.setState({ localDriver: updatedDriver });
+    };
     
     render() {      
         const { classes, params: { driverId  } } = this.props;
@@ -95,6 +119,7 @@ class EditDriverContainer extends Component {
                 driverId={driverId}
                 onSaveButtonClick={this.handleSaveButtonClick}
                 onChange={this.handleChange}
+                onBlur={this.handleBlur}
                 isValid={isValid}
             />
         );
