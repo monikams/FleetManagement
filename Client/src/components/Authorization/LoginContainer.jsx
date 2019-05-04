@@ -55,7 +55,8 @@ class LoginContainer extends Component {
                 'password': true,
             },
             showErrorMessage: false,
-            errorMessage: ''
+            errorMessage: '',
+            isLoginButtonDisabled: false,
 		}
 	}
    
@@ -86,18 +87,19 @@ class LoginContainer extends Component {
     };
 
     handleClose = () => {
-        this.setState({ showErrorMessage: false, errorMessage: '' });
+        this.setState({ showErrorMessage: false, errorMessage: '', isLoginButtonDisabled: false });
     }
 
     handleLoginButtonClick = () => {
         const { localUser } = this.state;
         const updatedUser = merge(localUser, { 'grant_type': 'password' });
         AuthorizationActions.loginUser(updatedUser);
+        this.setState({ isLoginButtonDisabled: true });
     }
 
  render() {
     const { classes } = this.props;
-    const { localUser, isValid, showErrorMessage, errorMessage } = this.state;
+    const { localUser, isValid, showErrorMessage, errorMessage, isLoginButtonDisabled } = this.state;
 
     return (
       <div className={classes.form} >  
@@ -150,7 +152,7 @@ class LoginContainer extends Component {
                 className={classes.button}
                 onClick={this.handleLoginButtonClick}
                 id='loginButton'
-                disabled={isButtonDisabled(localUser)}
+                disabled={isButtonDisabled(localUser) || isLoginButtonDisabled}
             >
                 Login
             </Button>
