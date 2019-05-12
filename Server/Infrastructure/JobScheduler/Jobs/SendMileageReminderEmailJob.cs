@@ -23,7 +23,7 @@ namespace Infrastructure.JobScheduler.Jobs
                     var vehicleTelematics = await dbContext.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicleVIN);
                     var vehicle = await dbContext.Vehicles.FirstOrDefaultAsync(v => v.VIN == vehicleVIN);
 
-                    var services = dbContext.Services.Where(s => s.BasedOn == 1 && s.NextServiceReminderMileage != null && s.NextServiceReminderMileage == vehicleTelematics.Mileage).ToList();
+                    var services = dbContext.Services.Where(s => s.BasedOn == 1 && s.NextServiceReminderMileage != null && s.NextServiceReminderMileage <= vehicleTelematics.Mileage + 50 && s.NextServiceReminderMileage >= vehicleTelematics.Mileage - 50).ToList();
 
                     foreach (var service in services.ToList())
                     {
