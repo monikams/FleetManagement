@@ -55,11 +55,5 @@ describe('<ServicesContainer />', () => {
     it('renders the Table component', () => {
       var servicesList = wrapper.find('Table'); 
       expect(servicesList.length).equals(1);
-    });
-
-    // it('r', () => {
-    //   var checkCircle = wrapper.find('CheckCircle'); 
-    //   var markAsDoneButton = checkCircle.find('#markAsDone-21b33d8f-d9d4-4e85-a563-146d7a31393b');
-    //   expect(markAsDoneButton.length).equals(1);
-    // });          
+    });  
 });
