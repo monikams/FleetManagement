@@ -9,6 +9,8 @@ import { withRouter } from 'react-router';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import VehiclesStore from '../../stores/VehiclesStore';
 import VehiclesActions from '../../actions/VehiclesActions.js';
+import TelematicsStore from '../../stores/TelematicsStore';
+import TelematicsActions from '../../actions/TelematicsActions.js';
 
 const styles = {
   children: {
@@ -26,7 +28,7 @@ const styles = {
 class PreviewService extends React.Component {
 
   static getStores() {
-      return [VehiclesStore];
+      return [VehiclesStore, TelematicsStore];
   }
 
   constructor(props) {
@@ -41,13 +43,19 @@ class PreviewService extends React.Component {
 
   static getPropsFromStores() {
       return {
-          vehicle: VehiclesStore.getVehicle(), 
+          vehicle: VehiclesStore.getVehicle(),
+          telematicsData: TelematicsStore.getTelematicsData(), 
       }
   }
 
   componentWillMount() {
       const { params: { vehicleId } } = this.props;
       VehiclesActions.loadVehicle(vehicleId);
+      TelematicsActions.loadTelematicsData(vehicleId);
+  }
+
+  componentWillUnmount() {
+        TelematicsActions.unloadTelematicsData();
   }
 
   handleChange = (event, value) => {
@@ -64,13 +72,14 @@ class PreviewService extends React.Component {
   
 
   render() {
-    const { children, vehicle, classes } = this.props;
+    const { telematicsData, children, vehicle, classes } = this.props;
     const { value } = this.state;
 
     return (
       <div>
          <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Brand: </span>{vehicle.get('Brand')}</p>
-         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate Number: </span>{vehicle.get('PlateNumber')}</p>
+         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate number: </span>{vehicle.get('PlateNumber')}</p>
+         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Current mileage: </span>{telematicsData.size !==0 && telematicsData.first().Mileage}km</p>
          <AppBar className={classes.root} position="static"> 
           <Tabs centered value={value} onChange={this.handleChange}>
             <Tab label="Services" />
@@ -87,6 +96,7 @@ class PreviewService extends React.Component {
 
 PreviewService.propTypes = {
   vehicle: PropTypes.instanceOf(Immutable.Map),
+  telematicsData: PropTypes.instanceOf(Immutable.List),
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   params: PropTypes.object.isRequired,
@@ -94,6 +104,7 @@ PreviewService.propTypes = {
 
 PreviewService.defaultProps = {
     vehicle: Immutable.Map(),
+    telematicsData: Immutable.List(),
     classes: {},
     children: null,
     params: {},

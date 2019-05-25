@@ -4,9 +4,11 @@ import Immutable from 'immutable';
 import ServicesStore from '../../stores/ServicesStore';
 import CompaniesStore from '../../stores/CompaniesStore';
 import VehiclesStore from '../../stores/VehiclesStore';
+import TelematicsStore from '../../stores/TelematicsStore';
 import ServicesActions from '../../actions/ServicesActions.js';
 import CompaniesActions from '../../actions/CompaniesActions.js';
 import VehiclesActions from '../../actions/VehiclesActions.js';
+import TelematicsActions from '../../actions/TelematicsActions.js';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import shallowEqual from 'shallowequal';
 import { withStyles } from '@material-ui/core/styles';
@@ -72,23 +74,26 @@ class ServicesContainer extends Component {
     }
 
     static getStores() {
-        return [ServicesStore];
+        return [ServicesStore, TelematicsStore];
     }
 
     static getPropsFromStores() {
         return {
             services: ServicesStore.getServices(),
+            telematicsData: TelematicsStore.getTelematicsData(),
         }
     }
 
     componentWillMount() {
         const { params: { vehicleId } } = this.props;
         ServicesActions.loadServices(vehicleId);
+        TelematicsActions.loadTelematicsData(vehicleId);
         setSideBarItem('vehicles');
     }
 
     componentWillUnmount() {
         ServicesActions.unloadServices();
+        TelematicsActions.unloadTelematicsData();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
@@ -189,7 +194,7 @@ class ServicesContainer extends Component {
     );
     
     render() {      
-        const { services, classes } = this.props;
+        const { services, telematicsData, classes } = this.props;
         const { overdueServicesSelected, markedAsDoneServiceId, deletedServiceId } = this.state;
 
         return (
