@@ -21,6 +21,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
+    marginRight: '50px',
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -28,7 +29,10 @@ const styles = theme => ({
   chart: {
     marginLeft: 'auto',
     marginRight: 'auto',
-  }
+  },
+  dropdowns: {
+    flex: 'row',
+  },
 });
 
 class TelematicsContainer extends React.Component {
@@ -77,21 +81,34 @@ class TelematicsContainer extends React.Component {
     };
 
     renderPeriodDropdown = () => (
-        <FormControl className={this.props.classes.formControl} >
-                <InputLabel htmlFor="period">Period</InputLabel>
-                <Select
-                    native
-                    value={this.state.period}
-                    onChange={this.handlePeriodChange}
-                >
-                    <option value="hour" >Hour</option>
-                    <option value="day" >Day</option>
-                    <option value="week" >Week</option>
-                    <option value="month" >Month</option>
-                    <option value="year" >Year</option>
-                    <option value="all" >All</option>                     
-                </Select>
-        </FormControl>
+        <div className={this.props.classes.dropdowns}>
+            <FormControl className={this.props.classes.formControl}>
+                    <InputLabel htmlFor="reports">Reports</InputLabel>
+                    <Select
+                        native
+                        value={this.state.report}
+                        onChange={this.handleReportsChange}
+                    >
+                        <option value="mileage" >Mileage</option>
+                        <option value="fuelLevel" >Fuel Level</option>               
+                    </Select>
+            </FormControl>
+            <FormControl className={this.props.classes.formControl} >
+                    <InputLabel htmlFor="period">Period</InputLabel>
+                    <Select
+                        native
+                        value={this.state.period}
+                        onChange={this.handlePeriodChange}
+                    >
+                        <option value="hour" >Hour</option>
+                        <option value="day" >Day</option>
+                        <option value="week" >Week</option>
+                        <option value="month" >Month</option>
+                        <option value="year" >Year</option>
+                        <option value="all" >All</option>                     
+                    </Select>
+            </FormControl>
+        </div>
     );
 
     render() {
@@ -101,17 +118,6 @@ class TelematicsContainer extends React.Component {
 
         return (
         <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="reports">Reports</InputLabel>
-                <Select
-                    native
-                    value={this.state.report}
-                    onChange={this.handleReportsChange}
-                >
-                    <option value="mileage" >Mileage</option>
-                    <option value="fuelLevel" >Fuel Level</option>               
-                </Select>
-            </FormControl>
             {report === "mileage" && 
             <div>
                 {this.renderPeriodDropdown()}

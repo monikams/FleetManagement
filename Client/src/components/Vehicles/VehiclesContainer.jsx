@@ -43,7 +43,7 @@ const styles = theme => ({
   button: {
       marginTop: '15px',
       height: '40px', 
-  }
+  },
 });
 
 class VehiclesContainer extends Component {
@@ -155,6 +155,7 @@ class VehiclesContainer extends Component {
                             <TableCell>Type</TableCell>
                             <TableCell>Brand</TableCell>
                             <TableCell>Model</TableCell>
+                            <TableCell>Production Year</TableCell>
                             <TableCell>Driver</TableCell>
                             <TableCell>Preview</TableCell>
                             <TableCell>Edit</TableCell>
@@ -165,15 +166,16 @@ class VehiclesContainer extends Component {
                         {vehicles.map(vehicle => {
                             return (
                             <TableRow key={vehicle.Id}>
-                                <TableCell>{vehicle.VIN}</TableCell>
-                                <TableCell>{vehicle.PlateNumber}</TableCell>
-                                <TableCell>{vehicle.Type}</TableCell>
-                                <TableCell>{vehicle.Brand}</TableCell>
-                                <TableCell>{vehicle.Model}</TableCell>
-                                <TableCell>{!isNull(vehicle.Driver) && vehicle.Driver.Name}</TableCell>
-                                <TableCell><Search color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
-                                <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
-                                <TableCell><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(vehicle.Id)} /></TableCell>
+                                <TableCell  padding="dense">{vehicle.VIN}</TableCell>
+                                <TableCell  padding="dense">{vehicle.PlateNumber}</TableCell>
+                                <TableCell  padding="dense">{vehicle.Type}</TableCell>
+                                <TableCell  padding="dense">{vehicle.Brand}</TableCell>
+                                <TableCell  padding="dense">{vehicle.Model}</TableCell>
+                                <TableCell  padding="dense">{vehicle.ProductionYear}</TableCell>
+                                <TableCell  padding="dense">{!isNull(vehicle.Driver) && vehicle.Driver.Name}</TableCell>
+                                <TableCell  padding="dense"><Search color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
+                                <TableCell  padding="dense"><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
+                                <TableCell  padding="dense"><DeleteIcon color="secondary" onClick={() => this.handleOpenDeleteModal(vehicle.Id)} /></TableCell>
                             </TableRow>
                             );
                         })}

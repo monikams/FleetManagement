@@ -68,6 +68,7 @@ namespace DataAccessService.Service
                                      PlateNumber = vehicle.PlateNumber,
                                      Type = vehicle.Type,
                                      Brand = vehicle.Brand,
+                                     ProductionYear = vehicle.ProductionYear,
                                      Model = vehicle.Model,
                                      Company = company,
                                      Driver = driver,
@@ -98,6 +99,7 @@ namespace DataAccessService.Service
             vehicle.Type = vehicleForEdit.Type;
             vehicle.Brand = vehicleForEdit.Brand;
             vehicle.Model = vehicleForEdit.Model;
+            vehicle.ProductionYear = vehicleForEdit.ProductionYear;
             vehicle.CompanyId = vehicleForEdit.CompanyId;
             vehicle.DriverId = string.IsNullOrWhiteSpace(vehicleForEdit.DriverId) ? null : vehicleForEdit.DriverId;
 
