@@ -9,6 +9,6 @@ namespace DataAccessService.Contracts
 {
     public interface ITelematicsHistoryDataAccessService
     {
-        Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN, string period);
+        Task<IEnumerable<TelematicsDataHistory>> GetTelematicsHistoryData(string vehicleVIN, string period);
     }
 }

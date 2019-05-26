@@ -39,7 +39,7 @@ namespace WebApiService.Controllers
                 return null;
             }
 
-            var telematicsDataHistories = await _telematicsHistoryBusinessService.GetByVehicleVIN(vehicle.VIN, period);
+            var telematicsDataHistories = await _telematicsHistoryBusinessService.GetTelematicsHistoryData(vehicle.VIN, period);
             var mappedTelematicsDataHistories = _mapper.Map<IEnumerable<BusinessService.Models.TelematicsDataHistory>, IEnumerable<TelematicsDataHistory>>(telematicsDataHistories);
             var telematicsDataHistory = mappedTelematicsDataHistories.ToList();
             telematicsDataHistory.ForEach(x => x.FormattedModifiedDate = x.Modified.ToString("dd/MM/yy H:mm"));

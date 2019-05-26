@@ -6,6 +6,6 @@ namespace BusinessService.Contracts
 {
     public interface ITelematicsHistoryBusinessService
     {
-        Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN, string period);
+        Task<IEnumerable<TelematicsDataHistory>> GetTelematicsHistoryData(string vehicleVIN, string period);
     }
 }

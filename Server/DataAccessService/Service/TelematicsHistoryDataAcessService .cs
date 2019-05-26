@@ -31,7 +31,7 @@ namespace DataAccessService.Service
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN, string period)
+        public async Task<IEnumerable<TelematicsDataHistory>> GetTelematicsHistoryData(string vehicleVIN, string period)
         {
             var telematicsDataHistory = new List<Data.Models.TelematicsDataHistory>();
             if (period == "hour")

@@ -33,9 +33,9 @@ namespace BusinessService.Service
             this._mapper = new Mapper(this._config);
         }
 
-        public async Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN, string period)
+        public async Task<IEnumerable<TelematicsDataHistory>> GetTelematicsHistoryData(string vehicleVIN, string period)
         {
-            var telematicsDataHistory = await this._telematicsHistoryDataAccessService.GetByVehicleVIN(vehicleVIN, period);
+            var telematicsDataHistory = await this._telematicsHistoryDataAccessService.GetTelematicsHistoryData(vehicleVIN, period);
             var mappedTelematicsDataHistory =
                 this._mapper.Map<IEnumerable<DataAccessService.Models.TelematicsDataHistory>, IEnumerable<TelematicsDataHistory>>(telematicsDataHistory);
             return mappedTelematicsDataHistory;         
