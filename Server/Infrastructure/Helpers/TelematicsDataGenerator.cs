@@ -40,9 +40,9 @@ namespace Infrastructure.Helpers
             var levelOne = random.Next(5, 20);
             var levelTwo = random.Next(20, 40);
             var levelThree = random.Next(40, 60);
+            var levelFour = random.Next(60, 100);
 
             int nextValue = 0;
-            currentSpeed = currentSpeed ?? levelOne;
             if (currentSpeed <= levelOne)
             {
                 nextValue = levelOne;
@@ -54,6 +54,14 @@ namespace Infrastructure.Helpers
             else if (currentSpeed <= levelThree && currentSpeed >= levelTwo)
             {
                 nextValue = levelThree;
+            }
+            else if (currentSpeed <= levelFour && currentSpeed >= levelThree)
+            {
+                nextValue = levelFour;
+            }
+            else if (InRange(currentSpeed, 60, 100))
+            {
+                nextValue = levelFour;
             }
             else if (InRange(currentSpeed, 40, 60))
             {
@@ -70,15 +78,19 @@ namespace Infrastructure.Helpers
 
             if (slowDownTheSpeed == 1)
             {
-                nextValue = SlowDownTheSpeed(currentSpeed, levelOne, levelTwo, levelThree, nextValue);
+                nextValue = SlowDownTheSpeed(currentSpeed, levelOne, levelTwo, levelThree, levelFour, nextValue, random);
             }
 
             return nextValue;
         }
 
-        private static int SlowDownTheSpeed(int? currentSpeed, int levelOne, int levelTwo, int levelThree, int nextValue)
+        private static int SlowDownTheSpeed(int? currentSpeed, int levelOne, int levelTwo, int levelThree, int levelFour, int nextValue, Random random)
         {
-            if (InRange(currentSpeed, 40, 60))
+            if (InRange(currentSpeed, 60, 100))
+            {
+                nextValue = levelFour - levelOne;
+            }
+            else if (InRange(currentSpeed, 40, 60))
             {
                 nextValue = levelThree - levelOne;
             }
@@ -87,6 +99,13 @@ namespace Infrastructure.Helpers
                 nextValue = levelTwo - levelOne;
             }
             else if (InRange(currentSpeed, 5, 20))
+            {
+                if (currentSpeed != null)
+                {
+                    nextValue = currentSpeed.Value - random.Next(5, currentSpeed.Value + 1);
+                }
+            }
+            else
             {
                 nextValue = 0;
             }
