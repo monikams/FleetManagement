@@ -19,6 +19,8 @@ const styles = {
   vehicleInfo: {
 	  fontSize: '15px',
 	  fontFamily: 'Arial',
+    marginTop: '8px',
+    marginBottom: '8px',
   },
   vehicleInfoLabel: {
 	  fontWeight: 'bold',
