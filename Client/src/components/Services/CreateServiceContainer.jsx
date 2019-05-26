@@ -133,7 +133,7 @@ class CreateServiceContainer extends Component {
     handleRadioButtonChange = event => {
         const { target: { value }} = event; 
         const { localService, isValid } = this.state;
-        const isValidRecipient = isValid['ValidRecipient'];
+       // const isValidRecipient = isValid['ValidRecipient'];
 
         const newService = merge({}, { 
             name: localService.name, 
@@ -159,7 +159,7 @@ class CreateServiceContainer extends Component {
                 'timeRuleEntity': true,
                 'timeReminder': true,
                 'timeReminderEntity': true,
-                'validRecipient': isValidRecipient,
+                'validRecipient': true,
                 'validTimeReminder': true,
                 'validTimeRule': true,
                 'validMileageReminder': true,
@@ -210,7 +210,6 @@ class CreateServiceContainer extends Component {
                         placeholder="Enter a valid email"
                         className={classes.textField}          
                         onChange={this.handleChange('recipient')}
-                        onBlur={this.handleBlur('validRecipient')}
                         margin="normal"
                     />
                      {!isValid['validRecipient'] && <TextfieldValidationMessage message="Please enter a valid email!" />}
