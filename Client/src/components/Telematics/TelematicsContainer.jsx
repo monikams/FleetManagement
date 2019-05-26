@@ -88,7 +88,7 @@ class TelematicsContainer extends React.Component {
         this.setState({ period: event.target.value });
     };
 
-    renderPeriodDropdown = () => (
+    renderDropdowns = () => (
         <div className={this.props.classes.dropdowns}>
             <FormControl className={this.props.classes.formControl}>
                     <InputLabel htmlFor="reports">Reports</InputLabel>
@@ -100,7 +100,8 @@ class TelematicsContainer extends React.Component {
                         <option value="mileage" >Mileage</option>
                         <option value="fuelLevel" >Fuel Level</option>
                         <option value="speed" >Speed</option>
-                        <option value="workingTime" >Working Time</option>               
+                        <option value="workingTime" >Working Time</option>
+                        <option value="idleTime" >Idle Time</option>                
                     </Select>
             </FormControl>
             <FormControl className={this.props.classes.formControl} >
@@ -128,6 +129,7 @@ class TelematicsContainer extends React.Component {
         const lastTelematicsHistoryElement = telematicsDataHistoryArray[telematicsDataHistoryArray.length - 1];
         const firstTelematicsHistoryElement = telematicsDataHistoryArray[0];
         let finalWorkingTime;
+        let finalIdleTime;
        
         if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
             !isNull(lastTelematicsHistoryElement.WorkingTime) && !isNull(firstTelematicsHistoryElement.WorkingTime)) {
@@ -137,11 +139,19 @@ class TelematicsContainer extends React.Component {
              finalWorkingTime = moment.utc(workTimeDuration.as('milliseconds')).format('HH:mm:ss');
         }
 
+        if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
+            !isNull(lastTelematicsHistoryElement.Idling) && !isNull(firstTelematicsHistoryElement.Idling)) {
+             const momentLastTelematicsHistoryElement = moment(lastTelematicsHistoryElement.Idling, 'HH:mm:ss');
+             const momentFirstTelematicsHistoryElement = moment(firstTelematicsHistoryElement.Idling, 'HH:mm:ss');
+             const idleTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);
+             finalIdleTime = moment.utc(idleTimeDuration.as('milliseconds')).format('HH:mm:ss');
+        }
+
         return (
         <div>
             {report === "mileage" && 
             <div>
-                {this.renderPeriodDropdown()}
+                {this.renderDropdowns()}
                 {telematicsData.size !== 0 && <h4>Current milege: <span>{telematicsData.first().Mileage}km</span></h4>}
                 <h4>Mileage report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
@@ -154,7 +164,7 @@ class TelematicsContainer extends React.Component {
             </div>}
             {report === "fuelLevel" && 
             <div>
-                {this.renderPeriodDropdown()}
+                {this.renderDropdowns()}
                 {telematicsData.size !== 0 && <h4>Current fuel level: <span>{telematicsData.first().FuelLevel}%</span></h4>}
                 <h4>Fuel level report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
@@ -167,7 +177,7 @@ class TelematicsContainer extends React.Component {
             </div>}
             {report === "speed" && 
             <div>
-                {this.renderPeriodDropdown()}
+                {this.renderDropdowns()}
                 {telematicsData.size !== 0 && <h4>Current speed: <span>{telematicsData.first().CurrentSpeed}km/h</span></h4>}
                 <h4>Average speed: <span>{averageSpeed.toFixed(2)}km/h</span></h4>
                 <h4>Current speed report:</h4>
@@ -181,8 +191,13 @@ class TelematicsContainer extends React.Component {
             </div>}
             {report === "workingTime" && 
             <div>
-                {this.renderPeriodDropdown()}
+                {this.renderDropdowns()}
                 {telematicsDataHistoryArray.length !== 0 && <h4>Working time: <span>{finalWorkingTime}</span></h4>}
+            </div>}
+            {report === "idleTime" && 
+            <div>
+                {this.renderDropdowns()}
+                {telematicsDataHistoryArray.length !== 0 && <h4>Idle time: <span>{finalIdleTime}</span></h4>}
             </div>}
         </div>
         );

@@ -18,6 +18,7 @@ namespace Infrastructure.Helpers
                     FuelLevel = telematicsData.FuelLevel,
                     CurrentSpeed = telematicsData.CurrentSpeed,
                     WorkingTime = telematicsData.WorkingTime,
+                    Idling = telematicsData.Idling,
                 };
                 dbContext.TelematicsDataHistories.Add(newTelematicsDataHistory);              
         }

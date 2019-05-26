@@ -24,9 +24,14 @@ namespace Infrastructure.JobScheduler.Jobs
                         Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
                         FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
                         CurrentSpeed = TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed),
-                        WorkingTime = telematicsData.WorkingTime.HasValue 
+                        WorkingTime = telematicsData.WorkingTime.HasValue
                             ? telematicsData.WorkingTime += TimeSpan.FromMinutes(1) : new TimeSpan(0, 0, 1, 0),
                     };
+
+                    newTelematicsData.Idling = newTelematicsData.Idling.HasValue
+                        ? telematicsData.CurrentSpeed == 0 
+                            ? telematicsData.Idling += TimeSpan.FromMinutes(1)
+                            : new TimeSpan(0, 0, 0, 0) : new TimeSpan(0, 0, 1, 0);
 
                     if (telematicsData == null)
                     {
@@ -38,6 +43,7 @@ namespace Infrastructure.JobScheduler.Jobs
                         telematicsData.FuelLevel = newTelematicsData.FuelLevel;
                         telematicsData.CurrentSpeed = newTelematicsData.CurrentSpeed;
                         telematicsData.WorkingTime = newTelematicsData.WorkingTime;
+                        telematicsData.Idling = newTelematicsData.Idling;
                     }
 
                     await SeedTelematicsHistory.UpdateTelematicsHistory(newTelematicsData, dbContext);

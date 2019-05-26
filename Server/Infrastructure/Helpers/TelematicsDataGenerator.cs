@@ -84,6 +84,15 @@ namespace Infrastructure.Helpers
             return nextValue;
         }
 
+        public static TimeSpan? GenerateNextIdlingValue(int? currentSpeed)
+        {
+            if (currentSpeed == 0)
+            {
+                
+            }
+            return null;
+        }
+
         private static int SlowDownTheSpeed(int? currentSpeed, int levelOne, int levelTwo, int levelThree, int levelFour, int nextValue, Random random)
         {
             if (InRange(currentSpeed, 60, 100))

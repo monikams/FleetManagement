@@ -1,3 +1,8 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Data.Models;
+
 namespace Data.Migrations
 {
     using System.Data.Entity.Migrations;
