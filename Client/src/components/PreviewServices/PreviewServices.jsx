@@ -13,14 +13,17 @@ import TelematicsStore from '../../stores/TelematicsStore';
 import TelematicsActions from '../../actions/TelematicsActions.js';
 
 const styles = {
+  root: {
+    marginTop: '10px',
+  },
   children: {
     flexGrow: 4
   },
   vehicleInfo: {
 	  fontSize: '15px',
 	  fontFamily: 'Arial',
-    marginTop: '8px',
-    marginBottom: '8px',
+    marginTop: '5px',
+    marginBottom: '5px',
   },
   vehicleInfoLabel: {
 	  fontWeight: 'bold',

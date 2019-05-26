@@ -21,8 +21,8 @@ const styles = {
   companyName: {
 	  fontSize: '15px',
 	  fontFamily: 'Arial',
-    marginTop: '8px',
-    marginBottom: '8px',
+    marginTop: '5px',
+    marginBottom: '5px',
   },
   companyNameSpan: {
 	  fontWeight: 'bold',
