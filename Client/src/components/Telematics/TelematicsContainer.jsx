@@ -90,7 +90,8 @@ class TelematicsContainer extends React.Component {
                         onChange={this.handleReportsChange}
                     >
                         <option value="mileage" >Mileage</option>
-                        <option value="fuelLevel" >Fuel Level</option>               
+                        <option value="fuelLevel" >Fuel Level</option>
+                        <option value="speed" >Speed</option>               
                     </Select>
             </FormControl>
             <FormControl className={this.props.classes.formControl} >
@@ -121,7 +122,7 @@ class TelematicsContainer extends React.Component {
             {report === "mileage" && 
             <div>
                 {this.renderPeriodDropdown()}
-                <h4>Current milege: <span>{telematicsData.size !==0 && telematicsData.first().Mileage}km</span></h4>
+                {telematicsData.size !== 0 && <h4>Current milege: <span>{telematicsData.first().Mileage}km</span></h4>}
                 <h4>Mileage report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -134,7 +135,7 @@ class TelematicsContainer extends React.Component {
             {report === "fuelLevel" && 
             <div>
                 {this.renderPeriodDropdown()}
-                <h4>Current fuel level: <span>{telematicsData.size !==0 && telematicsData.first().FuelLevel}%</span></h4>
+                {telematicsData.size !== 0 && <h4>Current fuel level: <span>{telematicsData.first().FuelLevel}%</span></h4>}
                 <h4>Fuel level report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -142,6 +143,19 @@ class TelematicsContainer extends React.Component {
                     <YAxis unit="%" />
                     <Tooltip/>
                     <Area type='monotone' dataKey='FuelLevel' stroke='#8884d8' fill='#8884d8' />
+                </AreaChart>
+            </div>}
+            {report === "speed" && 
+            <div>
+                {this.renderPeriodDropdown()}
+                {telematicsData.size !== 0 && <h4>Current speed: <span>{telematicsData.first().CurrentSpeed}km</span></h4>}
+                <h4>Current speed report:</h4>
+                <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey='FormattedModifiedDate' angle={-10} />
+                    <YAxis unit="%" />
+                    <Tooltip/>
+                    <Area type='monotone' dataKey='CurrentSpeed' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
             </div>}
         </div>
