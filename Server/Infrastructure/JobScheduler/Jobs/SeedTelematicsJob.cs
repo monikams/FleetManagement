@@ -22,6 +22,7 @@ namespace Infrastructure.JobScheduler.Jobs
                         VIN = vehicle.VIN,
                         Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
                         FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
+                        CurrentSpeed = TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed)
                     };
 
                     if (telematicsData == null)
