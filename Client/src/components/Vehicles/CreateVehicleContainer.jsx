@@ -65,6 +65,7 @@ class CreateVehicleContainer extends Component {
                 type: '',
                 brand: '',
                 model: '',
+                productionYear: true,
                 companyId: companyId,
                 driverId: '',
             },
@@ -73,6 +74,7 @@ class CreateVehicleContainer extends Component {
                 'plateNumber': true,
                 'type': true,
                 'brand': true,
+                'productionYear': true,
             },
             isSaveButtonDisabled: false,
 		} 
@@ -190,6 +192,21 @@ class CreateVehicleContainer extends Component {
                         placeholder="Enter vehicle`s model"
                         className={classes.textField}         
                         onChange={this.handleChange('model')}
+                        margin="normal"
+                    />
+                    <TextField
+                        required
+                        fullWidth
+                        error={!isFieldValid('productionYear',isValid)}
+                        autoComplete="off"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="productionYear"
+                        label="Production year"
+                        placeholder="Enter vehicle`s production year"
+                        className={classes.textField}         
+                        onChange={this.handleChange('productionYear')}
                         margin="normal"
                     />
                     <FormControl className={classes.formControl} >

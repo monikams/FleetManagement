@@ -29,6 +29,9 @@ namespace Data.Models
         public string Model { get; set; }
 
         [Required]
+        public string ProductionYear { get; set; }
+
+        [Required]
         public string CompanyId { get; set; }
 
         public virtual Company Company { get; set; }

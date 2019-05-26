@@ -135,6 +135,21 @@ class EditVehicle extends Component {
                         onChange={this.handleChange('Model')}
                         margin="normal"
                     />
+                    <TextField
+                        required
+                        fullWidth
+                        error={!isFieldValid('ProductionYear',isValid)}
+                        autoComplete="off"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        id="productionYear"
+                        label="ProductionYear"
+                        value={vehicle.get("ProductionYear")}
+                        className={classes.textField}         
+                        onChange={this.handleChange('ProductionYear')}
+                        margin="normal"
+                    />
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink>Select Driver</InputLabel>
                         <Select
@@ -186,6 +201,7 @@ EditVehicle.defaultProps = {
         Type: '',
         Brand: '',
         Model: '',
+        ProductionYear: '',
         DriverId: '',
         CompanyId: '',
     }),

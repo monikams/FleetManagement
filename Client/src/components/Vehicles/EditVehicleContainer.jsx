@@ -24,6 +24,7 @@ class EditVehicleContainer extends Component {
                 PlateNumber: '',
                 Type: '',
                 Brand: '',
+                ProductionYear: true,
                 Model: '',
                 DriverId: '',
                 CompanyId: '',
@@ -33,6 +34,8 @@ class EditVehicleContainer extends Component {
                 'PlateNumber': true,
                 'Type': true,
                 'Brand': true,
+                'ProductionYear': true,
+                'Production Year': true,
            },
 	  } 
     }
@@ -69,6 +72,7 @@ class EditVehicleContainer extends Component {
                 PlateNumber: vehicle.get('PlateNumber'),
                 Type: vehicle.get('Type'),
                 Brand: vehicle.get('Brand'),
+                ProductionYear: vehicle.get('ProductionYear'),
                 Model: vehicle.get('Model'),
                 DriverId: vehicle.get('DriverId'),
                 CompanyId: vehicle.get('CompanyId'),
@@ -132,6 +136,7 @@ EditVehicleContainer.defaultProps = {
         Type: '',
         Brand: '',
         Model: '',
+        ProductionYear: '',
         DriverId: '',
         CompanyId: '',
     }),

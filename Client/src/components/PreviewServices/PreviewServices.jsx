@@ -79,7 +79,8 @@ class PreviewService extends React.Component {
       <div>
          <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Brand: </span>{vehicle.get('Brand')}</p>
          <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Plate number: </span>{vehicle.get('PlateNumber')}</p>
-         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Current mileage: </span>{telematicsData.size !==0 && telematicsData.first().Mileage}km</p>
+         <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Production year: </span>{vehicle.get('ProductionYear')}</p>
+         {telematicsData.size !==0 && <p className={classes.vehicleInfo} ><span className={classes.vehicleInfoLabel} >Current mileage: </span>{telematicsData.first().Mileage}km</p>}
          <AppBar className={classes.root} position="static"> 
           <Tabs centered value={value} onChange={this.handleChange}>
             <Tab label="Services" />

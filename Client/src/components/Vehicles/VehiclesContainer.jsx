@@ -155,6 +155,7 @@ class VehiclesContainer extends Component {
                             <TableCell>Type</TableCell>
                             <TableCell>Brand</TableCell>
                             <TableCell>Model</TableCell>
+                            <TableCell>Production Year</TableCell>
                             <TableCell>Driver</TableCell>
                             <TableCell>Preview</TableCell>
                             <TableCell>Edit</TableCell>
@@ -170,6 +171,7 @@ class VehiclesContainer extends Component {
                                 <TableCell>{vehicle.Type}</TableCell>
                                 <TableCell>{vehicle.Brand}</TableCell>
                                 <TableCell>{vehicle.Model}</TableCell>
+                                <TableCell>{vehicle.ProductionYear}</TableCell>
                                 <TableCell>{!isNull(vehicle.Driver) && vehicle.Driver.Name}</TableCell>
                                 <TableCell><Search color="primary" onClick={() => this.handlePreviewServicesClick(vehicle.Id)} /></TableCell>
                                 <TableCell><EditIcon onClick={() => this.handleEditClick(vehicle.Id)} /></TableCell>
