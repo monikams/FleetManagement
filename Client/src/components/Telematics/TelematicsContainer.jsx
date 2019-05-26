@@ -37,6 +37,7 @@ class TelematicsContainer extends React.Component {
     super(props);
     this.state = {
         report: 'mileage',
+        period: 'week',
     }   
   }
 
@@ -64,13 +65,35 @@ class TelematicsContainer extends React.Component {
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
-    handleChange = event => {
+    handleReportsChange = event => {
         this.setState({ report: event.target.value });
     };
 
+    handlePeriodChange = event => {
+        this.setState({ period: event.target.value });
+    };
+
+    renderPeriodDropdown = () => (
+        <FormControl className={this.props.classes.formControl} >
+                <InputLabel htmlFor="period">Period</InputLabel>
+                <Select
+                    native
+                    value={this.state.period}
+                    onChange={this.handlePeriodChange}
+                >
+                    <option value="hour" >Hour</option>
+                    <option value="day" >Day</option>
+                    <option value="week" >Week</option>
+                    <option value="month" >Month</option>
+                    <option value="year" >Year</option>
+                    <option value="all" >All</option>                     
+                </Select>
+        </FormControl>
+    );
+
     render() {
         const { telematicsData, telematicsDataHistory, classes } = this.props;
-        const { report } = this.state;
+        const { report, period } = this.state;
         const telematicsDataHistoryArray = telematicsDataHistory.toJS();
 
         return (
@@ -80,7 +103,7 @@ class TelematicsContainer extends React.Component {
                 <Select
                     native
                     value={this.state.report}
-                    onChange={this.handleChange}
+                    onChange={this.handleReportsChange}
                 >
                     <option value="mileage" >Mileage</option>
                     <option value="fuelLevel" >Fuel Level</option>               
@@ -88,8 +111,9 @@ class TelematicsContainer extends React.Component {
             </FormControl>
             {report === "mileage" && 
             <div>
+                {this.renderPeriodDropdown()}
                 <h4>Current milege: <span>{telematicsData.size !==0 && telematicsData.first().Mileage}km</span></h4>
-                <h4>Weekly mileage report:</h4>
+                <h4>Mileage report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='FormattedModifiedDate' angle={-10} />                    
@@ -100,8 +124,9 @@ class TelematicsContainer extends React.Component {
             </div>}
             {report === "fuelLevel" && 
             <div>
+                {this.renderPeriodDropdown()}
                 <h4>Current fuel level: <span>{telematicsData.size !==0 && telematicsData.first().FuelLevel}%</span></h4>
-                <h4>Weekly fuel level report:</h4>
+                <h4>Fuel level report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='FormattedModifiedDate' angle={-10} />
