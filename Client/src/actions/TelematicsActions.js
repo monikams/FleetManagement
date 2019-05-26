@@ -31,6 +31,18 @@ class TelematicsActions {
             });
         }
     }
+
+    loadAverageSpeed(vehicleId, period) {
+        return (dispatch) => {
+             TelematicsService.getAverageSpeed(vehicleId, period)
+            .then((response) => {
+                dispatch(response.data);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
+        }
+    }
 }
 
 export default alt.createActions(TelematicsActions);
