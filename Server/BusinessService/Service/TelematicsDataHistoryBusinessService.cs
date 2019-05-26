@@ -40,5 +40,11 @@ namespace BusinessService.Service
                 this._mapper.Map<IEnumerable<DataAccessService.Models.TelematicsDataHistory>, IEnumerable<TelematicsDataHistory>>(telematicsDataHistory);
             return mappedTelematicsDataHistory;         
         }
+
+        public async Task<double> GetTelematicsDataHistoryAverageSpeed(string vehicleVIN, string period)
+        {
+            var telematicsDataHistoryAverageSpeed = await this._telematicsHistoryDataAccessService.GetTelematicsDataHistoryAverageSpeed(vehicleVIN, period);
+            return telematicsDataHistoryAverageSpeed;
+        }
     }
 }

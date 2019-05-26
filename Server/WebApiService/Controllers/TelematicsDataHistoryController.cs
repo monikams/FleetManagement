@@ -45,5 +45,19 @@ namespace WebApiService.Controllers
             telematicsDataHistory.ForEach(x => x.FormattedModifiedDate = x.Modified.ToString("dd/MM/yy H:mm"));
             return telematicsDataHistory;
         }
+
+        [Route("vehicles/{vehicleId}/telematicsDataHistory/averageSpeed/{period}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetTelematicsDataHistoryAverageSpeed([FromUri] string vehicleId, string period)
+        {
+            var vehicle = await _vehicleBusinessService.GetVehicleById(vehicleId);
+            if (vehicle == null || string.IsNullOrWhiteSpace(period))
+            {
+                return null;
+            }
+
+            var telematicsDataHistoryAverageSpeed = await _telematicsHistoryBusinessService.GetTelematicsDataHistoryAverageSpeed(vehicle.VIN, period);
+            return this.Ok(telematicsDataHistoryAverageSpeed);
+        }
     }
 }

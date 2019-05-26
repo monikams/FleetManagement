@@ -33,6 +33,20 @@ namespace DataAccessService.Service
 
         public async Task<IEnumerable<TelematicsDataHistory>> GetTelematicsHistoryData(string vehicleVIN, string period)
         {
+            var telematicsDataHistory = GetTelematicsHistoryDataForPeriod(vehicleVIN, period);
+
+            var mappedTelematicsDataHistory = _mapper.Map<IEnumerable<Data.Models.TelematicsDataHistory>, IEnumerable<Models.TelematicsDataHistory>>(telematicsDataHistory);
+            return await Task.Run(() => mappedTelematicsDataHistory);
+        }
+
+        public async Task<double> GetTelematicsDataHistoryAverageSpeed(string vehicleVIN, string period)
+        {
+            var telematicsDataHistoryCurrentSpeed = GetTelematicsHistoryDataForPeriod(vehicleVIN, period).Select(x => x.CurrentSpeed).ToList();
+            return await Task.Run(() => telematicsDataHistoryCurrentSpeed.Average().GetValueOrDefault());
+        }
+
+        private List<Data.Models.TelematicsDataHistory> GetTelematicsHistoryDataForPeriod(string vehicleVIN, string period)
+        {
             var telematicsDataHistory = new List<Data.Models.TelematicsDataHistory>();
             if (period == "hour")
             {
@@ -83,8 +97,7 @@ namespace DataAccessService.Service
                     .ToList();
             }
 
-            var mappedTelematicsDataHistory = _mapper.Map<IEnumerable<Data.Models.TelematicsDataHistory>, IEnumerable<Models.TelematicsDataHistory>>(telematicsDataHistory);
-            return await Task.Run(() => mappedTelematicsDataHistory);
+            return telematicsDataHistory;
         }
     }
 }
