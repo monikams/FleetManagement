@@ -153,7 +153,7 @@ class TelematicsContainer extends React.Component {
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey='FormattedModifiedDate' angle={-10} />
-                    <YAxis unit="%" />
+                    <YAxis unit="km/h" />
                     <Tooltip/>
                     <Area type='monotone' dataKey='CurrentSpeed' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
