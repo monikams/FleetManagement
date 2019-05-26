@@ -42,6 +42,7 @@ namespace Infrastructure.Helpers
             var levelThree = random.Next(40, 60);
 
             int nextValue = 0;
+            currentSpeed = currentSpeed ?? levelOne;
             if (currentSpeed <= levelOne)
             {
                 nextValue = levelOne;
