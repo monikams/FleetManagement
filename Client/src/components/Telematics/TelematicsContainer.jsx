@@ -62,7 +62,6 @@ class TelematicsContainer extends React.Component {
         const { period } = this.state;
         TelematicsActions.loadTelematicsData(vehicleId);
         TelematicsActions.loadTelematicsDataHistory(vehicleId, period);
-     //   TelematicsActions.loadAverageSpeed(vehicleId, period);
     }
 
     componentWillUnmount() {

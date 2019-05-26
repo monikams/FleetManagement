@@ -6,6 +6,7 @@ class TelematicsActions {
   constructor() {
      this.generateActions('unloadTelematicsData');
      this.generateActions('unloadTelematicsDataHistory');
+     this.generateActions('unloadAverageSpeed');
   }
 
     loadTelematicsData(vehicleId) {
