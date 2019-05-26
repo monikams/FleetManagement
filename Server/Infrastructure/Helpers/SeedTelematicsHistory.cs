@@ -16,6 +16,7 @@ namespace Infrastructure.Helpers
                     VIN = telematicsData.VIN,
                     Mileage = telematicsData.Mileage,
                     FuelLevel = telematicsData.FuelLevel,
+                    CurrentSpeed = telematicsData.CurrentSpeed,
                 };
                 dbContext.TelematicsDataHistories.Add(newTelematicsDataHistory);              
         }

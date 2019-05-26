@@ -33,6 +33,7 @@ namespace Infrastructure.JobScheduler.Jobs
                     {
                         telematicsData.Mileage = newTelematicsData.Mileage;
                         telematicsData.FuelLevel = newTelematicsData.FuelLevel;
+                        telematicsData.CurrentSpeed = newTelematicsData.CurrentSpeed;
                     }
 
                     await SeedTelematicsHistory.UpdateTelematicsHistory(newTelematicsData, dbContext);
