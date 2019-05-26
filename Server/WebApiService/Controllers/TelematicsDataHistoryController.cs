@@ -29,17 +29,17 @@ namespace WebApiService.Controllers
             _mapper = new Mapper(_config);
         }
 
-        [Route("vehicles/{vehicleId}/telematicsDataHistory")]
+        [Route("vehicles/{vehicleId}/telematicsDataHistory/{period}")]
         [HttpGet]
-        public async Task<IEnumerable<TelematicsDataHistory>> GetTelematicsDataHistory([FromUri] string vehicleId)
+        public async Task<IEnumerable<TelematicsDataHistory>> GetTelematicsDataHistory([FromUri] string vehicleId, string period)
         {
             var vehicle = await _vehicleBusinessService.GetVehicleById(vehicleId);
-            if (vehicle == null)
+            if (vehicle == null || string.IsNullOrWhiteSpace(period))
             {
                 return null;
             }
 
-            var telematicsDataHistories = await _telematicsHistoryBusinessService.GetByVehicleVIN(vehicle.VIN);
+            var telematicsDataHistories = await _telematicsHistoryBusinessService.GetByVehicleVIN(vehicle.VIN, period);
             var mappedTelematicsDataHistories = _mapper.Map<IEnumerable<BusinessService.Models.TelematicsDataHistory>, IEnumerable<TelematicsDataHistory>>(telematicsDataHistories);
             var telematicsDataHistory = mappedTelematicsDataHistories.ToList();
             telematicsDataHistory.ForEach(x => x.FormattedModifiedDate = x.Modified.ToString("dd/MM/yy H:mm"));

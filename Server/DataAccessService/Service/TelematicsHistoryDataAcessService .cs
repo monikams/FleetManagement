@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using AutoMapper;
+﻿using AutoMapper;
 using Data;
 using DataAccessService.Contracts;
 using DataAccessService.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccessService.Service
 {
@@ -28,20 +26,52 @@ namespace DataAccessService.Service
             _context = context;
             _config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Models.TelematicsDataHistory, Data.Models.TelematicsDataHistory>().ReverseMap();         
+                cfg.CreateMap<Models.TelematicsDataHistory, Data.Models.TelematicsDataHistory>().ReverseMap();
             });
             _mapper = new Mapper(_config);
         }
 
-        public async Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN)
+        public async Task<IEnumerable<TelematicsDataHistory>> GetByVehicleVIN(string vehicleVIN, string period)
         {
-            var telematicsDataHistory = _context.TelematicsDataHistories
-                .ToList()
-                .Where(td => td.VIN == vehicleVIN && td.Modified > DateTimeOffset.Now.AddDays(-7))
-                .OrderBy(td => td.Modified).ToList();
+            var telematicsDataHistory = new List<Data.Models.TelematicsDataHistory>();
+            if (period == "hour")
+            {
+                telematicsDataHistory = _context.TelematicsDataHistories
+                        .Where(td => td.VIN == vehicleVIN && td.Modified > DateTimeOffset.Now.AddHours(-1))
+                        .OrderBy(td => td.Modified)
+                        .ToList();
+            }
+            else if (period == "day")
+            {
+                telematicsDataHistory = _context.TelematicsDataHistories
+                                                .Where(td => td.VIN == vehicleVIN && td.Modified > DateTimeOffset.Now.AddDays(-1))
+                                                .OrderBy(td => td.Modified)
+                                                .ToList();
+            }
+            else if (period == "week")
+            {
+                telematicsDataHistory = _context.TelematicsDataHistories
+                                                .Where(td => td.VIN == vehicleVIN && td.Modified > DateTimeOffset.Now.AddDays(-7))
+                                                .OrderBy(td => td.Modified)
+                                                .ToList();
+            }
+            else if (period == "year")
+            {
+                telematicsDataHistory = _context.TelematicsDataHistories
+                                                .Where(td => td.VIN == vehicleVIN && td.Modified > DateTimeOffset.Now.AddYears(-1))
+                                                .OrderBy(td => td.Modified)
+                                                .ToList();
+            }
+            else if (period == "all")
+            {
+                telematicsDataHistory = _context.TelematicsDataHistories
+                                                .Where(td => td.VIN == vehicleVIN)
+                                                .OrderBy(td => td.Modified)
+                                                .ToList();
+            }
+
             var mappedTelematicsDataHistory = _mapper.Map<IEnumerable<Data.Models.TelematicsDataHistory>, IEnumerable<Models.TelematicsDataHistory>>(telematicsDataHistory);
             return await Task.Run(() => mappedTelematicsDataHistory);
-
         }
     }
 }
