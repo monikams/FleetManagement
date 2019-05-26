@@ -54,8 +54,9 @@ class TelematicsContainer extends React.Component {
 
     componentWillMount() {
         const { params: { vehicleId } } = this.props;
+        const { period } = this.state;
         TelematicsActions.loadTelematicsData(vehicleId);
-        TelematicsActions.loadTelematicsDataHistory(vehicleId);
+        TelematicsActions.loadTelematicsDataHistory(vehicleId, period);
     }
 
     componentWillUnmount() {
@@ -70,6 +71,8 @@ class TelematicsContainer extends React.Component {
     };
 
     handlePeriodChange = event => {
+        const { params: { vehicleId } } = this.props;
+        TelematicsActions.loadTelematicsDataHistory(vehicleId, event.target.value);
         this.setState({ period: event.target.value });
     };
 
