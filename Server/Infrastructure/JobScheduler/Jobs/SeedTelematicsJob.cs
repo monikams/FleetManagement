@@ -1,4 +1,5 @@
-﻿using Infrastructure.Helpers;
+﻿using System;
+using Infrastructure.Helpers;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Data;
@@ -22,18 +23,21 @@ namespace Infrastructure.JobScheduler.Jobs
                         VIN = vehicle.VIN,
                         Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
                         FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
-                        CurrentSpeed = TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed)
+                        CurrentSpeed = TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed),
+                        WorkingTime = telematicsData.WorkingTime.HasValue 
+                            ? telematicsData.WorkingTime += TimeSpan.FromMinutes(1) : new TimeSpan(0, 0, 1, 0),
                     };
 
                     if (telematicsData == null)
-                    {            
-                        dbContext.TelematicsDatas.Add(newTelematicsData);                        
+                    {
+                        dbContext.TelematicsDatas.Add(newTelematicsData);
                     }
                     else
                     {
                         telematicsData.Mileage = newTelematicsData.Mileage;
                         telematicsData.FuelLevel = newTelematicsData.FuelLevel;
                         telematicsData.CurrentSpeed = newTelematicsData.CurrentSpeed;
+                        telematicsData.WorkingTime = newTelematicsData.WorkingTime;
                     }
 
                     await SeedTelematicsHistory.UpdateTelematicsHistory(newTelematicsData, dbContext);

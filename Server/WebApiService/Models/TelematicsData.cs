@@ -32,7 +32,7 @@ namespace WebApiService.Models
 
         public bool? IsDoorOpen { get; set; }
 
-        public TimeSpan? Idling { get; set; }
+        public TimeSpan? Idling { get; set; }    
 
         public bool? Ignition { get; set; }
 
@@ -45,5 +45,7 @@ namespace WebApiService.Models
         public bool? HarshCornering { get; set; }
 
         public bool? TailGating { get; set; }
+
+        public TimeSpan? WorkingTime { get; set; }
     }
 }

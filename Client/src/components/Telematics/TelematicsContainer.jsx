@@ -6,7 +6,7 @@ import TelematicsStore from '../../stores/TelematicsStore';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import TelematicsActions from '../../actions/TelematicsActions.js';
 import shallowEqual from 'shallowequal';
-import { isEmpty, merge } from 'lodash';
+import { isEmpty, isUndefined, isNull, merge } from 'lodash';
 import moment from 'moment';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Label } from 'recharts';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -76,7 +76,9 @@ class TelematicsContainer extends React.Component {
         const { params: { vehicleId } } = this.props;
         const { period } = this.state;
         this.setState({ report: event.target.value });
-        TelematicsActions.loadAverageSpeed(vehicleId, period);
+        if (event.target.value === 'speed') {
+            TelematicsActions.loadAverageSpeed(vehicleId, period);
+        }
     };
 
     handlePeriodChange = event => {
@@ -97,7 +99,8 @@ class TelematicsContainer extends React.Component {
                     >
                         <option value="mileage" >Mileage</option>
                         <option value="fuelLevel" >Fuel Level</option>
-                        <option value="speed" >Speed</option>               
+                        <option value="speed" >Speed</option>
+                        <option value="workingTime" >Working Time</option>               
                     </Select>
             </FormControl>
             <FormControl className={this.props.classes.formControl} >
@@ -122,6 +125,17 @@ class TelematicsContainer extends React.Component {
         const { telematicsData, telematicsDataHistory, classes, averageSpeed } = this.props;
         const { report, period } = this.state;
         const telematicsDataHistoryArray = telematicsDataHistory.toJS();
+        const lastTelematicsHistoryElement = telematicsDataHistoryArray[telematicsDataHistoryArray.length - 1];
+        const firstTelematicsHistoryElement = telematicsDataHistoryArray[0];
+        let finalWorkingTime;
+       
+        if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
+            !isNull(lastTelematicsHistoryElement.WorkingTime) && !isNull(firstTelematicsHistoryElement.WorkingTime)) {
+             const momentLastTelematicsHistoryElement = moment(lastTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
+             const momentFirstTelematicsHistoryElement = moment(firstTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
+             const workTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);
+             finalWorkingTime = moment.utc(workTimeDuration.as('milliseconds')).format('HH:mm:ss');
+        }
 
         return (
         <div>
@@ -164,6 +178,11 @@ class TelematicsContainer extends React.Component {
                     <Tooltip/>
                     <Area type='monotone' dataKey='CurrentSpeed' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
+            </div>}
+            {report === "workingTime" && 
+            <div>
+                {this.renderPeriodDropdown()}
+                {telematicsDataHistoryArray.length !== 0 && <h4>Working time: <span>{finalWorkingTime}</span></h4>}
             </div>}
         </div>
         );

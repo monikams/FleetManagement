@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessService.Models
 {
@@ -47,5 +43,7 @@ namespace DataAccessService.Models
         public bool? HarshCornering { get; set; }
 
         public bool? TailGating { get; set; }
+
+        public TimeSpan? WorkingTime { get; set; }
     }
 }

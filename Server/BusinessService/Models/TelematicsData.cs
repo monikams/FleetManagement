@@ -27,5 +27,6 @@ namespace BusinessService.Models
         public bool? HarshBraking { get; set; }
         public bool? HarshCornering { get; set; }
         public bool? TailGating { get; set; }
+        public TimeSpan? WorkingTime { get; set; }
     }
 }

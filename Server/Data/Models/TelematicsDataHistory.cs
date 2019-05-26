@@ -47,5 +47,7 @@
         public bool? HarshCornering { get; set; }
 
         public bool? TailGating { get; set; }
+
+        public TimeSpan? WorkingTime { get; set; }
     }
 }
