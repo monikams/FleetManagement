@@ -11,9 +11,9 @@ class TelematicsService {
         logout();
     }
 
-    static async getTelematicsDataHistory(vehicleId) {   
+    static async getTelematicsDataHistory(vehicleId, period) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/telematicsDataHistory`);
+            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/telematicsDataHistory/${period}`);
         }
 
         logout();

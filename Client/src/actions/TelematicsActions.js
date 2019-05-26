@@ -20,9 +20,9 @@ class TelematicsActions {
         }
     }
 
-    loadTelematicsDataHistory(vehicleId) {
+    loadTelematicsDataHistory(vehicleId, period) {
         return (dispatch) => {
-             TelematicsService.getTelematicsDataHistory(vehicleId)
+             TelematicsService.getTelematicsDataHistory(vehicleId, period)
             .then((response) => {
                 dispatch(response.data);
             })
