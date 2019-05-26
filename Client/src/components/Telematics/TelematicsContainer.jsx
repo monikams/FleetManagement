@@ -53,6 +53,7 @@ class TelematicsContainer extends React.Component {
         return {
             telematicsData: TelematicsStore.getTelematicsData(),
             telematicsDataHistory: TelematicsStore.getTelematicsDataHistory(),
+            averageSpeed: TelematicsStore.getAverageSpeed(),
         }
     }
 
@@ -66,17 +67,22 @@ class TelematicsContainer extends React.Component {
     componentWillUnmount() {
         TelematicsActions.unloadTelematicsData();
         TelematicsActions.unloadTelematicsDataHistory();
+        TelematicsActions.unloadAverageSpeed();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 
     handleReportsChange = event => {
+        const { params: { vehicleId } } = this.props;
+        const { period } = this.state;
         this.setState({ report: event.target.value });
+        TelematicsActions.loadAverageSpeed(vehicleId, period);
     };
 
     handlePeriodChange = event => {
         const { params: { vehicleId } } = this.props;
         TelematicsActions.loadTelematicsDataHistory(vehicleId, event.target.value);
+        TelematicsActions.loadAverageSpeed(vehicleId, event.target.value);
         this.setState({ period: event.target.value });
     };
 
@@ -113,7 +119,7 @@ class TelematicsContainer extends React.Component {
     );
 
     render() {
-        const { telematicsData, telematicsDataHistory, classes } = this.props;
+        const { telematicsData, telematicsDataHistory, classes, averageSpeed } = this.props;
         const { report, period } = this.state;
         const telematicsDataHistoryArray = telematicsDataHistory.toJS();
 
@@ -148,7 +154,8 @@ class TelematicsContainer extends React.Component {
             {report === "speed" && 
             <div>
                 {this.renderPeriodDropdown()}
-                {telematicsData.size !== 0 && <h4>Current speed: <span>{telematicsData.first().CurrentSpeed}km</span></h4>}
+                {telematicsData.size !== 0 && <h4>Current speed: <span>{telematicsData.first().CurrentSpeed}km/h</span></h4>}
+                <h4>Average speed: <span>{averageSpeed.toFixed(2)}km/h</span></h4>
                 <h4>Current speed report:</h4>
                 <AreaChart className={classes.chart} width={1000} height={280} data={telematicsDataHistoryArray} margin={{top: 20, right: 0, left: 30, bottom: 30}}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -166,12 +173,14 @@ class TelematicsContainer extends React.Component {
 TelematicsContainer.propTypes = {
     telematicsData: PropTypes.instanceOf(Immutable.List),
     telematicsDataHistory: PropTypes.instanceOf(Immutable.List),
+    averageSpeed: PropTypes.number,
     params: PropTypes.object.isRequired,
 };
 
 TelematicsContainer.defaultProps = {
     telematicsData: Immutable.List(),
     telematicsDataHistory: Immutable.List(),
+    averageSpeed: 0,
     params: {},
 };
 

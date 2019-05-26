@@ -18,6 +18,14 @@ class TelematicsService {
 
         logout();
     }
+
+    static async getAverageSpeed(vehicleId, period) {   
+        if (isLoggedIn()) { 
+            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/telematicsDataHistory/averageSpeed/${period}`);
+        }
+
+        logout();
+    }
 }
 
 export default TelematicsService;
