@@ -12,6 +12,8 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Label } from 're
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+// import TimeSpan from 'timespan';
+var timespan = require('timespan');
 
 const styles = theme => ({
   root: {
@@ -42,6 +44,7 @@ class TelematicsContainer extends React.Component {
     this.state = {
         report: 'mileage',
         period: 'week',
+        offTime: null,
     }   
   }
 
@@ -88,6 +91,36 @@ class TelematicsContainer extends React.Component {
         this.setState({ period: event.target.value });
     };
 
+    getFinalOffTime = finalWorkingTimeSpan => {
+        const { period } = this.state;
+        let offTime; 
+        let offTimeSpan;
+
+         if (period === 'hour') {
+            const hour = new timespan.TimeSpan(0,0,0,1);
+            offTimeSpan = new timespan.TimeSpan(hour.msecs - finalWorkingTimeSpan.msecs);
+            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+        } else if (period === 'day') {
+            const day = new timespan.TimeSpan(0,0,0,24);
+            offTimeSpan = new timespan.TimeSpan(day.msecs - finalWorkingTimeSpan.msecs);
+            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+        } else if (period === 'week') {
+            const week = new timespan.TimeSpan(0,0,0,168);
+            offTimeSpan = new timespan.TimeSpan(week.msecs - finalWorkingTimeSpan.msecs);
+            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+        } else if (period === 'month') {
+            const month = new timespan.TimeSpan(0,0,0,0,30);
+            offTimeSpan = new timespan.TimeSpan(month.msecs - finalWorkingTimeSpan.msecs);
+            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+        } else {
+            const year = new timespan.TimeSpan(0,0,0,0,365);
+            offTimeSpan = new timespan.TimeSpan(year.msecs - finalWorkingTimeSpan.msecs);
+            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+        } 
+
+        return offTime;
+    }
+
     renderDropdowns = () => (
         <div className={this.props.classes.dropdowns}>
             <FormControl className={this.props.classes.formControl}>
@@ -101,7 +134,8 @@ class TelematicsContainer extends React.Component {
                         <option value="fuelLevel" >Fuel Level</option>
                         <option value="speed" >Speed</option>
                         <option value="workingTime" >Working Time</option>
-                        <option value="idleTime" >Idle Time</option>                
+                        <option value="idleTime" >Idle Time</option>   
+                        <option value="offTime" >On Time</option>              
                     </Select>
             </FormControl>
             <FormControl className={this.props.classes.formControl} >
@@ -130,6 +164,7 @@ class TelematicsContainer extends React.Component {
         const firstTelematicsHistoryElement = telematicsDataHistoryArray[0];
         let finalWorkingTime;
         let finalIdleTime;
+        let finalWorkingTimeSpan;
        
         if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
             !isNull(lastTelematicsHistoryElement.WorkingTime) && !isNull(firstTelematicsHistoryElement.WorkingTime)) {
@@ -137,6 +172,7 @@ class TelematicsContainer extends React.Component {
              const momentFirstTelematicsHistoryElement = moment(firstTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
              const workTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);
              finalWorkingTime = moment.utc(workTimeDuration.as('milliseconds')).format('HH:mm:ss');
+             finalWorkingTimeSpan = new timespan.TimeSpan(workTimeDuration._milliseconds);
         }
 
         if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
@@ -192,12 +228,17 @@ class TelematicsContainer extends React.Component {
             {report === "workingTime" && 
             <div>
                 {this.renderDropdowns()}
-                {telematicsDataHistoryArray.length !== 0 && <h4>Working time: <span>{finalWorkingTime}</span></h4>}
+                {telematicsDataHistoryArray.length !== 0 && <h4>On time: <span>{finalWorkingTime}</span></h4>}
             </div>}
             {report === "idleTime" && 
             <div>
                 {this.renderDropdowns()}
                 {telematicsDataHistoryArray.length !== 0 && <h4>Idle time: <span>{finalIdleTime}</span></h4>}
+            </div>}
+            {report === "offTime" && 
+            <div>
+                {this.renderDropdowns()}
+                {telematicsDataHistoryArray.length !== 0 && <h4>Off time: <span>{this.getFinalOffTime(finalWorkingTimeSpan)}</span></h4>}
             </div>}
         </div>
         );
