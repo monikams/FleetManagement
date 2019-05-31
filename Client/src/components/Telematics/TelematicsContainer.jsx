@@ -99,23 +99,23 @@ class TelematicsContainer extends React.Component {
          if (period === 'hour') {
             const hour = new timespan.TimeSpan(0,0,0,1);
             offTimeSpan = new timespan.TimeSpan(hour.msecs - finalWorkingTimeSpan.msecs);
-            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+            offTime = `${offTimeSpan.days} days, ${offTimeSpan.hours} hours, ${offTimeSpan.minutes} minutes, ${offTimeSpan.seconds} seconds`;
         } else if (period === 'day') {
             const day = new timespan.TimeSpan(0,0,0,24);
             offTimeSpan = new timespan.TimeSpan(day.msecs - finalWorkingTimeSpan.msecs);
-            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+            offTime = `${offTimeSpan.days} days, ${offTimeSpan.hours} hours, ${offTimeSpan.minutes} minutes, ${offTimeSpan.seconds} seconds`;
         } else if (period === 'week') {
             const week = new timespan.TimeSpan(0,0,0,168);
             offTimeSpan = new timespan.TimeSpan(week.msecs - finalWorkingTimeSpan.msecs);
-            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+            offTime = `${offTimeSpan.days} days, ${offTimeSpan.hours} hours, ${offTimeSpan.minutes} minutes, ${offTimeSpan.seconds} seconds`;
         } else if (period === 'month') {
             const month = new timespan.TimeSpan(0,0,0,0,30);
             offTimeSpan = new timespan.TimeSpan(month.msecs - finalWorkingTimeSpan.msecs);
-            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+            offTime = `${offTimeSpan.days} days, ${offTimeSpan.hours} hours, ${offTimeSpan.minutes} minutes, ${offTimeSpan.seconds} seconds`;
         } else {
             const year = new timespan.TimeSpan(0,0,0,0,365);
             offTimeSpan = new timespan.TimeSpan(year.msecs - finalWorkingTimeSpan.msecs);
-            offTime = moment.utc(offTimeSpan.msecs).format('HH:mm:ss');
+            offTime = `${offTimeSpan.days} days, ${offTimeSpan.hours} hours, ${offTimeSpan.minutes} minutes, ${offTimeSpan.seconds} seconds`;
         } 
 
         return offTime;
@@ -162,17 +162,17 @@ class TelematicsContainer extends React.Component {
         const telematicsDataHistoryArray = telematicsDataHistory.toJS();
         const lastTelematicsHistoryElement = telematicsDataHistoryArray[telematicsDataHistoryArray.length - 1];
         const firstTelematicsHistoryElement = telematicsDataHistoryArray[0];
-        let finalWorkingTime;
+        let workingTimeSpan;
         let finalIdleTime;
-        let finalWorkingTimeSpan;
+        let finalWorkingTime;
        
         if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
             !isNull(lastTelematicsHistoryElement.WorkingTime) && !isNull(firstTelematicsHistoryElement.WorkingTime)) {
              const momentLastTelematicsHistoryElement = moment(lastTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
              const momentFirstTelematicsHistoryElement = moment(firstTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
-             const workTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);
-             finalWorkingTime = moment.utc(workTimeDuration.as('milliseconds')).format('HH:mm:ss');
-             finalWorkingTimeSpan = new timespan.TimeSpan(workTimeDuration._milliseconds);
+             const workTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);        
+             workingTimeSpan = new timespan.TimeSpan(workTimeDuration._milliseconds);
+             finalWorkingTime = `${workingTimeSpan.days} days, ${workingTimeSpan.hours} hours, ${workingTimeSpan.minutes} minutes, ${workingTimeSpan.seconds} seconds`;
         }
 
         if (!isUndefined(lastTelematicsHistoryElement) && !isUndefined(firstTelematicsHistoryElement) && 
@@ -238,7 +238,7 @@ class TelematicsContainer extends React.Component {
             {report === "offTime" && 
             <div>
                 {this.renderDropdowns()}
-                {telematicsDataHistoryArray.length !== 0 && <h4>Off time: <span>{this.getFinalOffTime(finalWorkingTimeSpan)}</span></h4>}
+                {telematicsDataHistoryArray.length !== 0 && <h4>Off time: <span>{this.getFinalOffTime(workingTimeSpan)}</span></h4>}
             </div>}
         </div>
         );
