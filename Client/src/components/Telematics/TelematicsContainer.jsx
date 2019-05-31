@@ -133,9 +133,9 @@ class TelematicsContainer extends React.Component {
                         <option value="mileage" >Mileage</option>
                         <option value="fuelLevel" >Fuel Level</option>
                         <option value="speed" >Speed</option>
-                        <option value="workingTime" >Working Time</option>
+                        <option value="workingTime" >On Time</option>
                         <option value="idleTime" >Idle Time</option>   
-                        <option value="offTime" >On Time</option>              
+                        <option value="offTime" >Off Time</option>              
                     </Select>
             </FormControl>
             <FormControl className={this.props.classes.formControl} >
