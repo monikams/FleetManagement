@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Data.Models
 {
     using System;
@@ -45,6 +47,12 @@ namespace Data.Models
 
         public bool? TailGating { get; set; }
 
-        public TimeSpan? WorkingTime { get; set; }
+        [NotMapped]
+        public TimeSpan? WorkingTime {
+            get { return TimeSpan.FromTicks(WorkingTimeTicks.GetValueOrDefault()); }
+            set { WorkingTimeTicks = value.GetValueOrDefault().Ticks; }
+        }
+
+        public long? WorkingTimeTicks { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -12,7 +14,7 @@
         public string VIN { get; set; }
 
         [Required]
-        public DateTimeOffset Modified { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset Modified { get; set; }
 
         public int? CurrentSpeed { get; set; }
 
@@ -48,6 +50,13 @@
 
         public bool? TailGating { get; set; }
 
-        public TimeSpan? WorkingTime { get; set; }
+        [NotMapped]
+        public TimeSpan? WorkingTime
+        {
+            get { return TimeSpan.FromTicks(WorkingTimeTicks.GetValueOrDefault()); }
+            set { WorkingTimeTicks = value.GetValueOrDefault().Ticks; }
+        }
+
+        public long? WorkingTimeTicks { get; set; }
     }
 }
