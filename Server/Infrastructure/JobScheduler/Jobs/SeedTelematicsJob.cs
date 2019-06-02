@@ -24,7 +24,7 @@ namespace Infrastructure.JobScheduler.Jobs
                         Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
                         FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
                         CurrentSpeed = TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed),
-                        WorkingTime = telematicsData.WorkingTime.HasValue
+                        WorkingTime = telematicsData != null && telematicsData.WorkingTime.HasValue
                             ? telematicsData.WorkingTime += TimeSpan.FromMinutes(1) : new TimeSpan(0, 0, 1, 0),
                     };
 
