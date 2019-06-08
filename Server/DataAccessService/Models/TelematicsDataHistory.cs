@@ -8,7 +8,7 @@ namespace DataAccessService.Models
 
         public string VIN { get; set; }
 
-        public DateTimeOffset Modified { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset Modified { get; set; }
 
         public int? CurrentSpeed { get; set; }
 

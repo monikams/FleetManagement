@@ -19,7 +19,8 @@ namespace Infrastructure.Helpers
                     CurrentSpeed = telematicsData.CurrentSpeed,
                     WorkingTime = telematicsData.WorkingTime,
                     Idling = telematicsData.Idling,
-                };
+                    Modified = DateTimeOffset.Now.LocalDateTime,
+        };
                 dbContext.TelematicsDataHistories.Add(newTelematicsDataHistory);              
         }
     }

@@ -14,7 +14,7 @@ namespace Data.Models
         public string VIN { get; set; }
 
         [Required]
-        public DateTimeOffset Modified { get; set; }
+        public DateTimeOffset Modified { get; set; } 
 
         public int? CurrentSpeed { get; set; }
 

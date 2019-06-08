@@ -163,6 +163,7 @@ class TelematicsContainer extends React.Component {
         const lastTelematicsHistoryElement = telematicsDataHistoryArray[telematicsDataHistoryArray.length - 1];
         const firstTelematicsHistoryElement = telematicsDataHistoryArray[0];
         let workingTimeSpan;
+        let idleTimeSpan;
         let finalIdleTime;
         let finalWorkingTime;
        
@@ -180,7 +181,8 @@ class TelematicsContainer extends React.Component {
              const momentLastTelematicsHistoryElement = moment(lastTelematicsHistoryElement.Idling, 'HH:mm:ss');
              const momentFirstTelematicsHistoryElement = moment(firstTelematicsHistoryElement.Idling, 'HH:mm:ss');
              const idleTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);
-             finalIdleTime = moment.utc(idleTimeDuration.as('milliseconds')).format('HH:mm:ss');
+             idleTimeSpan = new timespan.TimeSpan(idleTimeDuration._milliseconds);
+             finalIdleTime = `${idleTimeSpan.days} days, ${idleTimeSpan.hours} hours, ${idleTimeSpan.minutes} minutes, ${idleTimeSpan.seconds} seconds`;
         }
 
         return (
