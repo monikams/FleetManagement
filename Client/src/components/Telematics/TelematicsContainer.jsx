@@ -12,7 +12,6 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Label } from 're
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-// import TimeSpan from 'timespan';
 var timespan = require('timespan');
 
 const styles = theme => ({
@@ -124,7 +123,7 @@ class TelematicsContainer extends React.Component {
     renderDropdowns = () => (
         <div className={this.props.classes.dropdowns}>
             <FormControl className={this.props.classes.formControl}>
-                    <InputLabel htmlFor="reports">Reports</InputLabel>
+                    <InputLabel htmlFor="reports">Report</InputLabel>
                     <Select
                         native
                         value={this.state.report}
@@ -171,7 +170,7 @@ class TelematicsContainer extends React.Component {
             !isNull(lastTelematicsHistoryElement.WorkingTime) && !isNull(firstTelematicsHistoryElement.WorkingTime)) {
              const momentLastTelematicsHistoryElement = moment(lastTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
              const momentFirstTelematicsHistoryElement = moment(firstTelematicsHistoryElement.WorkingTime, 'HH:mm:ss');
-             const workTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);        
+             const workTimeDuration = moment.duration(momentLastTelematicsHistoryElement - momentFirstTelematicsHistoryElement);     
              workingTimeSpan = new timespan.TimeSpan(workTimeDuration._milliseconds);
              finalWorkingTime = `${workingTimeSpan.days} days, ${workingTimeSpan.hours} hours, ${workingTimeSpan.minutes} minutes, ${workingTimeSpan.seconds} seconds`;
         }
