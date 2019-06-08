@@ -1,10 +1,11 @@
-﻿using System;
-using Infrastructure.Helpers;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using Data;
+﻿using Data;
 using Data.Models;
+using Infrastructure.Helpers;
 using Quartz;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Infrastructure.JobScheduler.Jobs
 {
@@ -21,23 +22,29 @@ namespace Infrastructure.JobScheduler.Jobs
                     {
                         var telematicsData =
                             await dbContext.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicle.VIN);
+                        var lastTelematicsDataHistory = await dbContext
+                                                .TelematicsDataHistories.Where(x => x.VIN == telematicsData.VIN)
+                                                .OrderByDescending(x => x.Modified).FirstOrDefaultAsync();
+
                         TelematicsData newTelematicsData = new TelematicsData
                         {
                             VIN = vehicle.VIN,
                             Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
-                            FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
+                            FuelLevel = lastTelematicsDataHistory?.Modified < DateTimeOffset.Now.LocalDateTime.AddMinutes(-30)
+                                            ? TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel)
+                                            : telematicsData?.FuelLevel,
                             CurrentSpeed =
                                 TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed),
-                            WorkingTime = telematicsData != null && telematicsData.WorkingTime.HasValue
+                            WorkingTime = telematicsData?.WorkingTime != null
                                 ? telematicsData.WorkingTime += TimeSpan.FromMinutes(1)
                                 : new TimeSpan(0, 0, 1, 0),
                         };
 
                         newTelematicsData.Idling = newTelematicsData.Idling.HasValue
-                            ? telematicsData.CurrentSpeed == 0
-                                ? telematicsData.Idling += TimeSpan.FromMinutes(1)
+                            ? telematicsData?.CurrentSpeed == 0
+                                ? telematicsData.Idling += TimeSpan.FromMinutes(3)
                                 : new TimeSpan(0, 0, 0, 0)
-                            : new TimeSpan(0, 0, 1, 0);
+                            : new TimeSpan(0, 0, 3, 0);
 
                         if (telematicsData == null)
                         {
