@@ -18,7 +18,7 @@ namespace Infrastructure.Helpers
         public static int? GenerateNextFuelLevelValue(int? currentFuelLevel)
         {
             Random random = new Random();
-            var difference = 5;
+            var difference = random.Next(3);
 
             var criticalFuelLevel = random.Next(10, 30);
             var normalFuelLevel = random.Next(50, 80);

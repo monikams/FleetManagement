@@ -30,9 +30,7 @@ namespace Infrastructure.JobScheduler.Jobs
                         {
                             VIN = vehicle.VIN,
                             Mileage = TelematicsDataGenerator.GenerateNextMileageValue(telematicsData?.Mileage),
-                            FuelLevel = lastTelematicsDataHistory?.Modified < DateTimeOffset.Now.LocalDateTime.AddMinutes(-30)
-                                            ? TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel)
-                                            : telematicsData?.FuelLevel,
+                            FuelLevel = TelematicsDataGenerator.GenerateNextFuelLevelValue(telematicsData?.FuelLevel),
                             CurrentSpeed =
                                 TelematicsDataGenerator.GenerateNextCurrentSpeedValue(telematicsData?.CurrentSpeed),
                             WorkingTime = telematicsData?.WorkingTime != null
