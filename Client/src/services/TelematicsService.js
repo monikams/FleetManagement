@@ -1,11 +1,12 @@
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
+import { apiURL } from '../Constants.js';
 
 class TelematicsService {
 
     static async getTelematicsData(vehicleId) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/telematicsData`);
+            return await axios.get(`${apiURL}/api/vehicles/${vehicleId}/telematicsData`);
         }
 
         logout();
@@ -13,7 +14,7 @@ class TelematicsService {
 
     static async getTelematicsDataHistory(vehicleId, period) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/telematicsDataHistory/${period}`);
+            return await axios.get(`${apiURL}/api/vehicles/${vehicleId}/telematicsDataHistory/${period}`);
         }
 
         logout();
@@ -21,7 +22,7 @@ class TelematicsService {
 
     static async getAverageSpeed(vehicleId, period) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/telematicsDataHistory/averageSpeed/${period}`);
+            return await axios.get(`${apiURL}/api/vehicles/${vehicleId}/telematicsDataHistory/averageSpeed/${period}`);
         }
 
         logout();

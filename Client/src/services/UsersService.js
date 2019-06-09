@@ -1,11 +1,12 @@
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
+import { apiURL } from '../Constants.js';
 
 class UsersService {
     
     static async getUsers() {   
         if (isLoggedIn()) { 
-            return await axios.get('http://localhost:19631/api/users');
+            return await axios.get(`${apiURL}/api/users`);
         }
 
         logout();
@@ -13,7 +14,7 @@ class UsersService {
 
      static async getUser(userId) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/users/${userId}`);
+            return await axios.get(`${apiURL}/api/users/${userId}`);
         }
 
         logout();

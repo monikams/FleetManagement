@@ -1,2 +1,4 @@
 const baseURL = 'http://localhost:3000';
-export { baseURL };
+const apiURL = 'http://localhost:19631';
+
+export { baseURL, apiURL };

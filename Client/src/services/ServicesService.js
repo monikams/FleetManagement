@@ -1,12 +1,13 @@
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
 import "babel-polyfill";
+import { apiURL } from '../Constants.js';
 
 class ServicesService {
 
     static async getServices(vehicleId, filterByOverdue) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}/services/${filterByOverdue}`);
+            return await axios.get(`${apiURL}/api/vehicles/${vehicleId}/services/${filterByOverdue}`);
         }
 
         logout();
@@ -14,7 +15,7 @@ class ServicesService {
 
     static async getService(serviceId) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/services/${serviceId}`);
+            return await axios.get(`${apiURL}/api/services/${serviceId}`);
         }
 
         logout();
@@ -22,7 +23,7 @@ class ServicesService {
 
     static async createService(service) {
         if(isLoggedIn()){
-            return await axios.post('http://localhost:19631/api/services', service);
+            return await axios.post(`${apiURL}/api/services`, service);
         }
 
          logout();
@@ -30,7 +31,7 @@ class ServicesService {
 
     static async editService(service) {
         if(isLoggedIn()) {
-            return await axios.put(`http://localhost:19631/api/services/${service.get('Id')}`, service.toJS());
+            return await axios.put(`${apiURL}/api/services/${service.get('Id')}`, service.toJS());
         }
 
          logout();
@@ -38,7 +39,7 @@ class ServicesService {
 
     static async deleteService(serviceId) {
         if(isLoggedIn()){
-            return await axios.delete(`http://localhost:19631/api/deleteService/${serviceId}`);
+            return await axios.delete(`${apiURL}/api/deleteService/${serviceId}`);
         }
 
          logout();
@@ -46,7 +47,7 @@ class ServicesService {
 
     static async markServiceAsDone(serviceId) {
         if(isLoggedIn()) {
-            return await axios.put(`http://localhost:19631/api/services/markAsDone/${serviceId}`);
+            return await axios.put(`${apiURL}/api/services/markAsDone/${serviceId}`);
         }
 
          logout();

@@ -1,9 +1,10 @@
 import * as axios from 'axios';
+import { apiURL } from '../Constants.js';
 
 class AuthorizationService {
     
     static registerUser(newUser) {
-        return axios.post('http://localhost:19631/api/account/register', newUser);
+        return axios.post(`${apiURL}/api/account/register`, newUser);
     }
 
     static loginUser(user) {
@@ -16,7 +17,7 @@ class AuthorizationService {
             return encodeURIComponent(key) + '=' + encodeURIComponent(user[key])
         }).join('&');
 
-      return axios.post('http://localhost:19631/token', parsedData);       
+      return axios.post(`${apiURL}/token`, parsedData);       
     }
 }
 

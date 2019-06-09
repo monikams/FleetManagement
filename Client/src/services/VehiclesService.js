@@ -1,12 +1,13 @@
 import { isLoggedIn, logout } from '../utils/authorized-requests.js';
 import * as axios from 'axios';
+import { apiURL } from '../Constants.js';
 
 class VehiclesService {
 
     static async getVehicles(companyId) {   
         if (isLoggedIn()) { 
             const userId = localStorage.getItem('userId');
-            return await axios.get(`http://localhost:19631/api/companies/${companyId}/vehicles`);
+            return await axios.get(`${apiURL}/api/companies/${companyId}/vehicles`);
         }
 
         logout();
@@ -14,7 +15,7 @@ class VehiclesService {
 
     static async getVehicle(vehicleId) {   
         if (isLoggedIn()) { 
-            return await axios.get(`http://localhost:19631/api/vehicles/${vehicleId}`);
+            return await axios.get(`${apiURL}/api/vehicles/${vehicleId}`);
         }
 
         logout();
@@ -22,7 +23,7 @@ class VehiclesService {
 
     static async createVehicle(vehicle){
         if(isLoggedIn()){
-            return await axios.post('http://localhost:19631/api/vehicles', vehicle);
+            return await axios.post(`${apiURL}/api/vehicles`, vehicle);
         }
 
          logout();
@@ -30,7 +31,7 @@ class VehiclesService {
 
      static async editVehicle(vehicle){
         if(isLoggedIn()){
-            return await axios.put(`http://localhost:19631/api/vehicles/${vehicle.get('Id')}`, vehicle.toJS());
+            return await axios.put(`${apiURL}/api/vehicles/${vehicle.get('Id')}`, vehicle.toJS());
         }
 
          logout();
@@ -38,7 +39,7 @@ class VehiclesService {
 
     static async deleteVehicle(vehicleId){
         if(isLoggedIn()){
-            return await axios.delete(`http://localhost:19631/api/deleteVehicle/${vehicleId}`);
+            return await axios.delete(`${apiURL}/api/deleteVehicle/${vehicleId}`);
         }
 
          logout();
