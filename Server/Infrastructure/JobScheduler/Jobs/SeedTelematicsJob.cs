@@ -4,7 +4,6 @@ using Infrastructure.Helpers;
 using Quartz;
 using System;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.JobScheduler.Jobs
@@ -22,9 +21,6 @@ namespace Infrastructure.JobScheduler.Jobs
                     {
                         var telematicsData =
                             await dbContext.TelematicsDatas.FirstOrDefaultAsync(t => t.VIN == vehicle.VIN);
-                        var lastTelematicsDataHistory = await dbContext
-                                                .TelematicsDataHistories.Where(x => x.VIN == telematicsData.VIN)
-                                                .OrderByDescending(x => x.Modified).FirstOrDefaultAsync();
 
                         TelematicsData newTelematicsData = new TelematicsData
                         {
